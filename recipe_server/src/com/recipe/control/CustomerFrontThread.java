@@ -2,23 +2,25 @@ package com.recipe.control;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.EOFException;
 import java.io.IOException;
 import java.net.Socket;
 
 import com.recipe.exception.FindException;
 import com.recipe.io.DataIO;
 import com.recipe.io.Menu;
-import com.recipe.share.CustomerShare;
+import com.recipe.vo.Customer;
 
-public class CustomerFrontThread implements Runnable{
+public class CustomerFrontThread implements Runnable {
 	private Socket client;
 	private DataIO dio;
 	private RecipeMarketControl control;
-	
+
 	public CustomerFrontThread(Socket s) {
 		client = s;
 		try {
-			dio = new DataIO(new DataOutputStream(client.getOutputStream()), new DataInputStream(client.getInputStream()));
+			dio = new DataIO(new DataOutputStream(client.getOutputStream()),
+					new DataInputStream(client.getInputStream()));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -31,39 +33,53 @@ public class CustomerFrontThread implements Runnable{
 		try {
 			do {
 				menu = dio.receiveMenu();
-				switch(menu) {
-				case Menu.CUSTOMER_LOGIN: //로그인
+				switch (menu) {
+				case Menu.CUSTOMER_INFO: // 내 정보 보기
+					String id = dio.receiveId();
+					try {
+						Customer c1 = control.viewMyAccount(id);
+						System.out.println(c1);
+						dio.sendSuccess();
+						dio.send(c1);
+					} catch (FindException e) {
+						e.printStackTrace();
+						dio.sendFail(e.getMessage());
+					}
+					break;
+				case Menu.CUSTOMER_LOGIN: // 로그인
 					loginFront();
 					break;
-				case Menu.CUSTOMER_REGISTER: //회원가입
-					//TO DO
+				case Menu.CUSTOMER_REGISTER: // 회원가입
+					// TO DO
 					break;
-				case Menu.RECOMMENDED_RECIPE: //추천 레시피
-					//TO DO
+				case Menu.RECOMMENDED_RECIPE: // 추천 레시피
+					// TO DO
 					break;
-				case Menu.SEARCH_RECIPE_CODE: //레시피 코드 검색
-					//TO DO
+				case Menu.SEARCH_RECIPE_CODE: // 레시피 코드 검색
+					// TO DO
 					break;
-				case Menu.SEARCH_RECIPE_NAME: //레시피 제목 검색
-					//TO DO
+				case Menu.SEARCH_RECIPE_NAME: // 레시피 제목 검색
+					// TO DO
 					break;
-				case Menu.SEARCH_RECIPE_INGREDIENTS: //레시피 재료 검색 
-					//TO DO
+				case Menu.SEARCH_RECIPE_INGREDIENTS: // 레시피 재료 검색
+					// TO DO
 					break;
-				case Menu.PURCHASE_LIST: //구매 내역
-					//TO DO
+				case Menu.PURCHASE_LIST: // 구매 내역
+					// TO DO
 					break;
 				default:
 					break;
 				}
 			} while (menu != -1);
+		} catch (EOFException e) {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * 로그인에 필요한 ID, 패스워드를 Client로부터 전달받아 로그인 절차를 수행한다
+	 * 
 	 * @throws IOException
 	 */
 	public void loginFront() throws IOException {
