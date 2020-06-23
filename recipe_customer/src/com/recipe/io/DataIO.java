@@ -434,6 +434,19 @@ public class DataIO {
 		
 		return new Review(customerId, reviewComment, reviewDate, recipeInfo);
 	}
+	
+	/**
+	 * Review List를 전달받는다
+	 * @return 전달받은 Review들의 List
+	 * @throws IOException, ParseException
+	 */
+	public List<Review> receiveReviews() throws IOException, ParseException {
+		int size = dis.readInt();
+		List<Review> list = new ArrayList<>();
+		for(int i=0; i<size; i++) list.add(receiveReview());
+		
+		return list;
+	}
 
 	/**
 	 * VO 객체 Favorite의 내용들을 전달받는다
@@ -446,4 +459,18 @@ public class DataIO {
 		
 		return new Favorite (customerId, recipeInfo);
 	}
+	
+	/**
+	 * Favorite List를 전달받는다
+	 * @return 전달받은 Favorite들의 List
+	 * @throws IOException
+	 */
+	public List<Favorite> receiveFavorites() throws IOException {
+		int size = dis.readInt();
+		List<Favorite> list = new ArrayList<>();
+		for(int i=0; i<size; i++) list.add(receiveFavorite());
+		
+		return list;
+	}
+	
 }
