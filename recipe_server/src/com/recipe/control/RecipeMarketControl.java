@@ -235,6 +235,7 @@ public class RecipeMarketControl {
 	 * @author 영민
 	 */
 	public void removeMyAccount(Customer c) throws RemoveException{
+		accountService.remove(c);
 	}
 
 }
