@@ -47,8 +47,21 @@ public class AdminMainView {
 		}
 	}
 	
+	/**
+	 * 현재 로그인중인 아이디를 서버로 전송하고 로그아웃 절차를 수행한다
+	 * @throws IOException
+	 */
 	public void logout() throws IOException {
 		dio.sendMenu(Menu.ADMIN_LOGOUT);
 		dio.sendId(AdminShare.loginedId);
+		
+		if(dio.receiveStatus().equals("success")) {
+			AdminShare.loginedId = "";
+			SuccessView success = new SuccessView();
+			success.logoutAdminView();
+		} else {
+			FailView fail = new FailView();
+			fail.logoutAdminView();
+		}
 	}
 }

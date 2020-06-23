@@ -2,6 +2,7 @@ package com.recipe.control;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.EOFException;
 import java.io.IOException;
 import java.net.Socket;
 
@@ -25,14 +26,17 @@ public class AdminFrontThread implements Runnable{
 		control = RecipeMarketControl.getInstance();
 	}
 	
+	/**
+	 * 전달받은 메뉴 번호에 해당하는 절차를 수행한다.
+	 */
 	@Override
 	public void run() {
 		int menu = -1;
 		try {
 			do {
 				menu = dio.receiveMenu();
-				switch(menu) {
-				case Menu.ADMIN_LOGIN: //로그인
+				switch (menu) {
+				case Menu.ADMIN_LOGIN: // 로그인
 					loginFront();
 					break;
 				case Menu.ADMIN_LOGOUT:
@@ -42,6 +46,8 @@ public class AdminFrontThread implements Runnable{
 					break;
 				}
 			} while (menu != -1);
+		} catch (EOFException e) {
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -71,5 +77,7 @@ public class AdminFrontThread implements Runnable{
 	private void logoutFront() throws IOException {
 		String adminId = dio.receiveId();
 		AdminShare.removeSession(adminId);
+		
+		dio.sendSuccess();
 	}
 }
