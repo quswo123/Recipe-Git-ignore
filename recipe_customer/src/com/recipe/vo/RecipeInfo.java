@@ -83,9 +83,14 @@ public class RecipeInfo {
 
 	@Override
 	public String toString() {
-		return "RecipeInfo [recipeCode=" + recipeCode + ", recipeName=" + recipeName + ", recipeSumm=" + recipeSumm
-				+ ", recipePrice=" + recipePrice + ", recipeProcess=" + recipeProcess + ", point=" + point
-				+ ", ingredients=" + ingredients + "]";
+		String result = "";
+		result += "레시피 제목 : " + recipeName + "\n";
+		result += "레시피 요약 : " + recipeSumm + "\n";
+		result += "가격 : " + recipePrice + "\n";
+		result += point;
+		result += "과정\n";
+		
+		return result;
 	}
 	
 }

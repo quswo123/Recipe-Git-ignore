@@ -250,4 +250,12 @@ public class RecipeMarketControl {
 		accountService.remove(c);
 	}
 
+	/**
+	 * 추천 레시피 탐색 절차를 위한 메소드
+	 * @return 추천 레시피 정보를 가진 RecipeInfo
+	 * @throws FindException
+	 */
+	public RecipeInfo searchRecommended() throws FindException {
+		return recipeService.findRecommended();
+	}
 }

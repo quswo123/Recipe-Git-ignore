@@ -2,6 +2,7 @@ package com.recipe.io;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -116,6 +117,7 @@ public class DataIO {
 	 * @throws IOException
 	 */
 	public void send(Postal p) throws IOException {
+		if(p == null) p = new Postal();
 		dos.writeUTF(strNullCheck(p.getBuildingno()));
 		dos.writeUTF(strNullCheck(p.getZipcode()));
 		dos.writeUTF(strNullCheck(p.getCity()));
@@ -169,7 +171,6 @@ public class DataIO {
 		send(r.getPoint());
 		sendRecipeIngredients(r.getIngredients());
 	}
-		
 	/**
 	 * VO 객체 RecipeInfo의 내용들을 전송한다
 	 * @param ri
@@ -202,6 +203,10 @@ public class DataIO {
 	 * @throws IOException
 	 */
 	public void sendRecipeIngredients(List<RecipeIngredient> list) throws IOException {
+		if(list == null) { //RecipeIngredient 리스트가 null이면 size로 0을 보내 receiveReceipeInfo에서 list의 receive를 수행하지 않도록 한다.
+			dos.writeInt(0);
+			return;
+		}
 		dos.writeInt(list.size());
 		for(RecipeIngredient i : list) send(i);
 	}
@@ -256,7 +261,6 @@ public class DataIO {
 		dos.writeInt(list.size());
 		for(Review r: list) send(r);
 	}
-	
 	
 	public String receiveStatus() throws IOException {
 		return dis.readUTF();
@@ -375,7 +379,6 @@ public class DataIO {
 		return new PurchaseDetail(purchaseCode, purchaseDetailQuantity, recipeInfo);
 	}
 	
-
 	/**
 	 * Purchase객체를 전달받는다
 	 * @return
@@ -390,7 +393,6 @@ public class DataIO {
 		return list;
 	}
 	
-	
 	/**
 	 * RecipeInfo List를 전달받는다
 	 * @return 전달받은 RecipeIngredient들의 List
@@ -403,6 +405,8 @@ public class DataIO {
 		
 		return list;
 	}
+	
+	
 	/**
 	 * VO 객체 RecipeInfo의 내용들을 전달받는다
 	 * @return 전달받은 내용들로 구성한 RecipeInfo
@@ -488,6 +492,7 @@ public class DataIO {
 		}
 	}
 	
+	
 	/**
 	 * VO 객체 Review의 내용들을 전달받는다
 	 * @return 전달받은 내용들로 구성한 Review
@@ -539,5 +544,5 @@ public class DataIO {
 		
 		return list;
 	}
-	
+
 }
