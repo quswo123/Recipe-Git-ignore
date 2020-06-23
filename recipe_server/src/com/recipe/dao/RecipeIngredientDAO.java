@@ -15,7 +15,7 @@ import com.recipe.vo.RecipeInfo;
 import com.recipe.vo.RecipeIngredient;
 
 public class RecipeIngredientDAO {
-	List<RecipeInfo> selectByIngName(List<String> ingName) throws FindException{
+	public List<RecipeInfo> selectByIngName(List<String> ingName) throws FindException{
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -106,8 +106,8 @@ public class RecipeIngredientDAO {
 //		}
 //		
 		List<String> ingrList = new ArrayList<>();
-		ingrList.add("��ġ");
-		ingrList.add("������");	
+		ingrList.add("김치");
+		ingrList.add("바지락");	
 		try {
 			List<RecipeInfo> list2 = dao.selectByIngName(ingrList);
 			for(RecipeInfo ri : list2) {
