@@ -1,5 +1,5 @@
 package com.recipe.view;
 
-public class RecipeInfoVIew {
+public class RecipeInfoView {
 
 }
