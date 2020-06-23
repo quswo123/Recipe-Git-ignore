@@ -37,4 +37,8 @@ public class RecipeMarketControl {
 	public void loginToAccount(String customerId, String customerPwd) throws FindException{
 		accountService.login(customerId, customerPwd);
 	}
+	
+	public void loginToRd(String rdId, String rdPwd) throws FindException {
+		rdAccountService.login(rdId, rdPwd);
+	}
 }

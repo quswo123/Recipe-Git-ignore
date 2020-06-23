@@ -18,7 +18,7 @@ public class CustomerFrontThread implements Runnable{
 	public CustomerFrontThread(Socket s) {
 		client = s;
 		try {
-			dio = new DataIO(new DataOutputStream(s.getOutputStream()), new DataInputStream(s.getInputStream()));
+			dio = new DataIO(new DataOutputStream(client.getOutputStream()), new DataInputStream(client.getInputStream()));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
