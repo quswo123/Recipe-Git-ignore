@@ -133,14 +133,17 @@ public class CustomerFrontThread implements Runnable {
 			dio.sendFail(e.getMessage());
 		}
 	}
-	
+	/**
+	 * 레시피이름에 해당하는 레시피목록을 클라이언트부터 전달받음
+	 * @throws IOException
+	 */
 	public void selectByNameFront() throws IOException {
 		List<RecipeInfo> recipeInfo = null;
 		String recipeName = dio.receive();
 		try {
 			recipeInfo = control.searchByName(recipeName);
 			dio.send(recipeInfo);
-			dio.sendSuccess();
+			//dio.sendSuccess();
 		} catch (FindException e) {
 			dio.sendFail(e.getMessage());
 		}

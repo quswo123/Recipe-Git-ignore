@@ -14,7 +14,7 @@ import com.recipe.vo.RecipeIngredient;
 
 public class RecipeSearchView {
 	private Scanner sc;		
-	private DataIO dio;
+	private DataIO dio;	
 	public RecipeSearchView(DataIO dio) {
 		this.dio = dio;
 	}
@@ -52,56 +52,15 @@ public class RecipeSearchView {
 		try {
 			dio.sendMenu(Menu.SEARCH_RECIPE_NAME);
 			dio.send(recipeName);			
-			recipeInfo = dio.receiveRecipeInfos();			
-			searchedRecipeList(recipeInfo);
+			recipeInfo = dio.receiveRecipeInfos();	
+			RecipeListView listView = new RecipeListView(dio);
+			listView.searchedRecipeList(recipeInfo);
 		} catch (IOException e) {		
 			e.printStackTrace();
 		}
 		
 	}
-	private void searchedRecipeList(List<RecipeInfo> recipeInfo) {
-		Scanner sc = new Scanner(System.in);
-		List<RecipeInfo> list = recipeInfo;
-		System.out.println("[" + list.size() + "개의 건이 조회되었습니다]");
-		int i =0;
-		if (list.size() > 5) {
-			viewList(list,i, 0);
-		}
-		else {
-			for(RecipeInfo ri : list) {
-				System.out.println(i+1 + list.get(i).getRecipeCode() + "  " + i+1 + list.get(i).getRecipeName());
-				i++;
-			}
-			System.out.println("0:다시검색 | *:메인메뉴");
-			System.out.println("상세레시피를 보시려면 번호를 입력하세요");
-		}
-		String value = sc.nextLine();
-		if (value.equals("*")) {
-			
-		} else if(value.equals("0")) {
-			showRecipeInfoView();
-		}
-	}
-	private void viewList(List<RecipeInfo> recipeInfo, int i, int j) {
-		Scanner sc = new Scanner(System.in);
-			
-		for (; i < j+5; i++) {
-			System.out.println(i+1 + " "+ recipeInfo.get(i).getRecipeName());
-		}
-		System.out.println("-:이전페이지 | +:다음페이지 | 0:다시검색 | *:메인메뉴");
-		System.out.println("상세레시피를 보시려면 번호를 입력하세요");
-		String value = sc.nextLine();
-		if (value.equals("+")) {
-			viewList(recipeInfo, i, j+5);
-		} else if(value.equals("-")) {
-			viewList(recipeInfo, i-10, j-5);
-		} else if(value.equals("0")) {
-			showRecipeInfoView();
-		}
-	}
-	public static void main(String[] args) {		
-		
-		
-	}
+	
+	
 	
 }

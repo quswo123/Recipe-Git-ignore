@@ -24,6 +24,8 @@ public class CustomerMainView {
 				menu = Integer.parseInt(sc.nextLine());
 				switch (menu) {
 				case 1:
+					RecipeSearchView searchView = new RecipeSearchView(dio);
+					searchView.showRecipeInfoView();
 					break;
 				case 2:
 					break;
