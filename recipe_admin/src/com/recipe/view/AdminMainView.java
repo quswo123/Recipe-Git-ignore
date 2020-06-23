@@ -50,5 +50,14 @@ public class AdminMainView {
 	public void logout() throws IOException {
 		dio.sendMenu(Menu.ADMIN_LOGOUT);
 		dio.sendId(AdminShare.loginedId);
+		
+		if(dio.receiveStatus().equals("success")) {
+			AdminShare.loginedId = "";
+			SuccessView success = new SuccessView();
+			success.logoutAdminView();
+		} else {
+			FailView fail = new FailView();
+			fail.logoutAdminView();
+		}
 	}
 }

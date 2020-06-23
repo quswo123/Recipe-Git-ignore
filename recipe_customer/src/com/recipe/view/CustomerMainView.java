@@ -52,5 +52,14 @@ public class CustomerMainView {
 	private void logout() throws IOException {
 		dio.sendMenu(Menu.CUSTOMER_LOGOUT);
 		dio.sendId(CustomerShare.loginedId);
+		
+		if(dio.receiveStatus().equals("success")) {
+			CustomerShare.loginedId = "";
+			SuccessView success = new SuccessView();
+			success.logoutCustomerView();
+		} else {
+			FailView fail = new FailView();
+			fail.logoutCustomerView();
+		}
 	}
 }

@@ -45,7 +45,7 @@ public class LoginView {
 			//로그인 성공 여부를 전달받는다
 			if(dio.receiveStatus().equals("success")) { //로그인에 성공했다면
 				SuccessView success = new SuccessView();
-				success.loginCustomerView(id); //로그인 성공화면 출력
+				success.loginRdView(id); //로그인 성공화면 출력
 				RDShare.loginedId = id;
 				
 				RdMainView rdMainView = new RdMainView(dio);
@@ -53,7 +53,7 @@ public class LoginView {
 			} else { //로그인에 실패했다면
 				String msg = dio.receive();
 				FailView fail = new FailView();
-				fail.loginCustomerView(msg);
+				fail.loginRdView(msg);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

@@ -71,5 +71,7 @@ public class AdminFrontThread implements Runnable{
 	private void logoutFront() throws IOException {
 		String adminId = dio.receiveId();
 		AdminShare.removeSession(adminId);
+		
+		dio.sendSuccess();
 	}
 }
