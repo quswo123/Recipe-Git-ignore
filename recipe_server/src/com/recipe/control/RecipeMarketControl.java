@@ -103,9 +103,7 @@ public class RecipeMarketControl {
 	 * @author 변재원
 	 */
 	public List<Purchase> viewMyPurchase(String customerId) throws FindException{
-		List<Purchase> list = new ArrayList<>();
-		list = purchaseService.findById(customerId);
-		return list; 
+		return purchaseService.findById(customerId); 
 	}
 	
 	/**
