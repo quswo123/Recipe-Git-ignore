@@ -18,10 +18,9 @@ public class CustomerDAO {
 
 	/*
 	 * 회원가입
-	 * 
 	 * @param Customer c
-	 * 
 	 * @throws AddException, DuplicatedException
+	 * @author 영민
 	 */
 
 	public void insert(Customer c) throws AddException, DuplicatedException {
@@ -59,12 +58,10 @@ public class CustomerDAO {
 
 	/*
 	 * 내 정보 보기 (아이디에 해당하는 고객정보를 반환한다)
-	 * 
-	 * @param id
-	 * 
+	 *@param id
 	 * @return customer(고객정보)
-	 * 
 	 * @throws FindException 아이디에 해당하는 고객이 없을때 오류발생, 처리 오류 발생
+	 * @author 영민
 	 */
 
 	public Customer selectById(String id) throws FindException {
@@ -76,10 +73,11 @@ public class CustomerDAO {
 		} catch (ClassNotFoundException | SQLException e) {
 			throw new FindException("selectById:" + e.getMessage());
 		}
-		String selectByIdSQL = "SELECT zipcode\r\n" + "      ,buildingno\r\n"
-				+ "      ,sido ||' ' || NVL(sigungu, ' ') ||' ' || NVL(eupmyun, ' ')  city    \r\n"
-				+ "      ,doro || ' ' || DECODE(building2, '0' , building1, building1 ||'-' || building2) doro\r\n"
-				+ "      ,building      \r\n"
+		String selectByIdSQL = "SELECT c.customer_id, c.customer_pwd, c.customer_email, c.customer_name, c.customer_phone, c.customer_addr"
+				+ " , p.zipcode\r\n" + "      , p.buildingno\r\n"
+				+ "      ,sido ||' ' || NVL(p.sigungu, ' ') ||' ' || NVL(p.eupmyun, ' ')  city    \r\n"
+				+ "      ,doro || ' ' || DECODE(p.building2, '0' , p.building1, p.building1 ||'-' || p.building2) doro\r\n"
+				+ "      ,p.building      \r\n"
 				+ "FROM customer c LEFT JOIN postal p ON (c.buildingno = p.buildingno)\r\n" + "WHERE id=?";
 		try {
 			pstmt = con.prepareStatement(selectByIdSQL);
@@ -108,10 +106,9 @@ public class CustomerDAO {
 	}
 	/*
 	 * 내 정보 수정
-	 * 
 	 * @param customer c
-	 * 
 	 * @throws ModifyException
+	 * @author 영민
 	 */
 
 	public void update(Customer c) throws ModifyException {
@@ -220,10 +217,9 @@ public class CustomerDAO {
 
 	/*
 	 * 회원탈퇴
-	 * 
 	 * @param customer c
-	 * 
-	 * @throws
+	 * @throws RemoveException
+	 * @author 영민
 	 */
 
 	public void update1(Customer c) throws RemoveException {
