@@ -101,6 +101,14 @@ public class DataIO {
 		dos.writeUTF(c.getCustomerEmail() != null ? c.getCustomerEmail() : "");
 		dos.writeUTF(c.getCustomerPhone() != null ? c.getCustomerPhone() : "");
 		send(c.getPostal());
+/*
+ * postal에서 null값일 때 처리하는 코드 필요
+ * @영민
+ */
+//		if(c.getPostal() != null && c.getPostal().getBuilding() != null ) {
+//			send(c.getPostal());
+//		}
+		
 		dos.writeUTF(c.getCustomerAddr() != null ? c.getCustomerAddr() : "");
 	}
 	/**

@@ -78,7 +78,7 @@ public class CustomerDAO {
 				+ "      ,sido ||' ' || NVL(p.sigungu, ' ') ||' ' || NVL(p.eupmyun, ' ')  city    \r\n"
 				+ "      ,doro || ' ' || DECODE(p.building2, '0' , p.building1, p.building1 ||'-' || p.building2) doro\r\n"
 				+ "      ,p.building      \r\n"
-				+ "FROM customer c LEFT JOIN postal p ON (c.buildingno = p.buildingno)\r\n" + "WHERE id=?";
+				+ "FROM customer c LEFT JOIN postal p ON (c.buildingno = p.buildingno)\r\n" + "WHERE customer_id=?";
 		try {
 			pstmt = con.prepareStatement(selectByIdSQL);
 			pstmt.setString(1, id);
@@ -93,8 +93,11 @@ public class CustomerDAO {
 				Postal p = new Postal();
 				p.setZipcode(rs.getString("zipcode"));
 				p.setBuildingno(rs.getString("buildingno"));
+				p.setCity(rs.getString("city"));
+				p.setDoro(rs.getString("doro"));
+				p.setBuilding(rs.getString("building"));
 				c.setPostal(p);
-				c.setCustomerAddr(rs.getString("addr"));
+				c.setCustomerAddr(rs.getString("customer_addr"));
 				return c;
 			}
 			throw new FindException("selectById: 아이디에 해당하는 고객없습니다");

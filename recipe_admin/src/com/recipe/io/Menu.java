@@ -17,4 +17,5 @@ public class Menu {
 	public static final int ADMIN_LOGOUT = 70; //Admin 로그아웃
 	public static final int RD_LOGOUT = 71; //R&D 로그아웃
 	public static final int CUSTOMER_LOGOUT = 72; //Customer 로그아웃
+	public static final int CUSTOMER_INFO = 14; //Customer 내 정보 보기
 }
