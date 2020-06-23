@@ -172,18 +172,17 @@ public class DataIO {
 		send(r.getPoint());
 		sendRecipeIngredients(r.getIngredients());
 	}
+	
 	/**
-	 * RecipeInfo List를 전달받는다
-	 * @return 전달받은 RecipeIngredient들의 List
+	 * VO 객체 RecipeInfo의 내용들을 전송한다
+	 * @param ri
 	 * @throws IOException
 	 */
-	public List<RecipeInfo> receiveRecipeInfos() throws IOException {
-		int size = dis.readInt();
-		List<RecipeInfo> list = new ArrayList<RecipeInfo>();
-		for(int i = 0; i < size; i++) list.add(receiveRecipeInfo());
-		
-		return list;
+	public void send(List<RecipeInfo> list) throws IOException {
+		dos.writeInt(list.size());
+		for(RecipeInfo i : list) send(i);
 	}
+	
 	/**
 	 * VO 객체 RecipeIngredient의 내용들을 전송한다
 	 * @param ri
@@ -353,6 +352,19 @@ public class DataIO {
 		int size = dis.readInt();
 		List<Purchase> list = new ArrayList<>();
 		for(int i=0; i<size; i++) list.add(receivePurchase());
+		
+		return list;
+	}
+	
+	/**
+	 * RecipeInfo List를 전달받는다
+	 * @return 전달받은 RecipeIngredient들의 List
+	 * @throws IOException
+	 */
+	public List<RecipeInfo> receiveRecipeInfos() throws IOException {
+		int size = dis.readInt();
+		List<RecipeInfo> list = new ArrayList<RecipeInfo>();
+		for(int i = 0; i < size; i++) list.add(receiveRecipeInfo());
 		
 		return list;
 	}

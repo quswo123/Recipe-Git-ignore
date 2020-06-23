@@ -376,6 +376,18 @@ public class DataIO {
 		return list;
 	}
 	
+	/**
+	 * RecipeInfo List를 전달받는다
+	 * @return 전달받은 RecipeIngredient들의 List
+	 * @throws IOException
+	 */
+	public List<RecipeInfo> receiveRecipeInfos() throws IOException {
+		int size = dis.readInt();
+		List<RecipeInfo> list = new ArrayList<RecipeInfo>();
+		for(int i = 0; i < size; i++) list.add(receiveRecipeInfo());
+		
+		return list;
+	}
 	
 	
 	/**
