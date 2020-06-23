@@ -40,7 +40,7 @@ public class PurchaseListVIew {
 				System.out.print(p.getPurchaseDate() + "/");
 			}
 			
-			System.out.println("-이전페이지 | + 다음페이지 | * 메인메뉴");
+			System.out.println("-이전페이지 | + 다음페이지 | *메인메뉴");
 			System.out.println("원하시는 번호를 입력하세요");
 			
 		} catch (IOException | ParseException e) {

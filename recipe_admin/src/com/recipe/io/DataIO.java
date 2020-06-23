@@ -329,6 +329,21 @@ public class DataIO {
 		
 		return new PurchaseDetail(purchaseCode, purchaseDetailQuantity, recipeInfo);
 	}
+	
+	/**
+	 * Purchase객체를 전달받는다
+	 * @return
+	 * @throws IOException
+	 * @throws ParseException
+	 */
+	public List<Purchase> receivePurchaseList() throws IOException, ParseException{
+		int size = dis.readInt();
+		List<Purchase> list = new ArrayList<>();
+		for(int i=0; i<size; i++) list.add(receivePurchase());
+		
+		return list;
+	}
+	
 	/**
 	 * VO 객체 RecipeInfo의 내용들을 전달받는다
 	 * @return 전달받은 내용들로 구성한 RecipeInfo
