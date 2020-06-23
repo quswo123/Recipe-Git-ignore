@@ -1,6 +1,5 @@
 package com.recipe.control;
 
-import com.recipe.exception.FindException;
 import com.recipe.service.AccountService;
 import com.recipe.service.FavoriteService;
 import com.recipe.service.PostService;
@@ -9,9 +8,7 @@ import com.recipe.service.RDAccountService;
 import com.recipe.service.RecipeService;
 import com.recipe.service.ReviewService;
 
-public class RecipeMarketControl {
-	private static RecipeMarketControl control = new RecipeMarketControl();
-	
+public class Control {
 	AccountService accountService;
 	FavoriteService favoriteService;
 	PostService postService;
@@ -20,7 +17,7 @@ public class RecipeMarketControl {
 	RecipeService recipeService;
 	ReviewService reviewService;
 	
-	private RecipeMarketControl() {
+	public Control() {
 		accountService = new AccountService();
 		favoriteService = new FavoriteService();
 		postService = new PostService();
@@ -30,11 +27,5 @@ public class RecipeMarketControl {
 		reviewService = new ReviewService();
 	}
 	
-	public static RecipeMarketControl getInstance() {
-		return control;
-	}
 	
-	public void loginToAccount(String customerId, String customerPwd) throws FindException{
-		accountService.login(customerId, customerPwd);
-	}
 }
