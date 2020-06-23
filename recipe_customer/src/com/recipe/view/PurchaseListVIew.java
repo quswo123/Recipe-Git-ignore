@@ -18,50 +18,26 @@ import com.recipe.vo.Review;
 public class PurchaseListVIew {
 	private DataIO dio;
 	
-	public PurchaseListVIew(Socket s) {
-		try {
-			dio = new DataIO(new DataOutputStream(s.getOutputStream()), new DataInputStream(s.getInputStream()));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	public PurchaseListVIew(DataIO dio) {
+		this.dio = dio;
 	}
 	
-	public void purchaseView(List<Purchase> list, List<Review> rlist,int i, int j) {
+	public void purchaseView() {
 		Scanner sc = new Scanner(System.in);
+		List<Purchase> list = new ArrayList<>();
 		try {
 			dio.sendMenu(Menu.PURCHASE_LIST);
-			
+			dio.sendPurchase(list);
 			list = dio.receivePurchaseList();
-			rlist = dio.receiveReviews();
-	
-			System.out.println("구매내역");
-			System.out.println("레시피상품명/구매일자/후기등록여부");
-			System.out.println(list.size() + "건의 내역이 출력되었습니다");
 			
+			System.out.println("나의 구매내역");
+			System.out.println("["+list.size()+"건의 구매내역이 조회되었습니다 ]");
+			System.out.println("레시피상품명/구매일자/후기등록여부");
 			for(Purchase p : list) {
-				for (; i < j+5; i++) {
-					System.out.print(i+1 + " "+ p.getPurchaseDetail().getRecipeInfo().getRecipeName());
-					System.out.print(p.getPurchaseDate() + "/ ");
-				}
-			}	
-			for(Review r : rlist) {
-				if(r.getReviewComment()!=null) {
-					System.out.print("Yes");
-				}else {
-					System.out.print("No");
-				}
+				System.out.print(p.getPurchaseDetail().getRecipeInfo().getRecipeName());
+				System.out.print(p.getPurchaseDate());
 			}
-		
-			System.out.println("-이전페이지 | + 다음페이지 | *메인메뉴");
-			System.out.println("원하시는 번호를 입력하세요 : ");
-			String line = sc.nextLine();
-			if (line.equals("+")) {
-				purchaseView(list, rlist, i, j+5);
-			} else if(line.equals("-")) {
-				purchaseView(list, rlist, i-10, j-5);
-			} else if(line.equals("*")) {
-				
-			}
+			
 		} catch (IOException | ParseException e) {
 			e.printStackTrace();
 		}	
