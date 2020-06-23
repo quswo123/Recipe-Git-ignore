@@ -120,26 +120,9 @@ public class DataIO {
 	public void send(Postal p) throws IOException {
 		dos.writeUTF(p.getBuildingno());
 		dos.writeUTF(p.getZipcode());
-		dos.writeUTF(p.getSido());
-		dos.writeUTF(p.getSigungu());
-		dos.writeUTF(p.getEupmyun());
-		dos.writeUTF(p.getDorocode());
+		dos.writeUTF(p.getCity());
 		dos.writeUTF(p.getDoro());
-		dos.writeUTF(p.getJiha());
-		dos.writeUTF(p.getBuilding1());
-		dos.writeUTF(p.getBuilding2());
-		dos.writeUTF(p.getDaryang());
 		dos.writeUTF(p.getBuilding());
-		dos.writeUTF(p.getDongcode());
-		dos.writeUTF(p.getDong());
-		dos.writeUTF(p.getRi());
-		dos.writeUTF(p.getDongadmin());
-		dos.writeUTF(p.getSan());
-		dos.writeUTF(p.getZibun1());
-		dos.writeUTF(p.getZibunserical());
-		dos.writeUTF(p.getZibun2());
-		dos.writeUTF(p.getZipIdcode());
-		dos.writeUTF(p.getZipcodeserial());
 	}
 	/**
 	 * VO 객체 RD의 내용들을 전송한다
@@ -317,28 +300,11 @@ public class DataIO {
 	public Postal receivePostal() throws IOException {
 		String buildingno = dis.readUTF();
 		String zipcode = dis.readUTF();
-		String sido = dis.readUTF();
-		String sigungu = dis.readUTF();
-		String eupmyun = dis.readUTF();
-		String dorocode = dis.readUTF();
+		String city = dis.readUTF();
 		String doro = dis.readUTF();
-		String jiha = dis.readUTF();
-		String building1 = dis.readUTF();
-		String building2 = dis.readUTF();
-		String daryang = dis.readUTF();
 		String building = dis.readUTF();
-		String dongcode = dis.readUTF();
-		String dong = dis.readUTF();
-		String ri = dis.readUTF();
-		String dongadmin = dis.readUTF();
-		String san = dis.readUTF();
-		String zibun1 = dis.readUTF();
-		String zibunserical = dis.readUTF();
-		String zibun2 = dis.readUTF();
-		String zipIdcode = dis.readUTF();
-		String zipcodeserial = dis.readUTF();
 		
-		return new Postal(buildingno, zipcode, sido, sigungu, eupmyun, dorocode, doro, jiha, building1, building2, daryang, building, dongcode, dong, ri, dongadmin, san, zibun1, zibunserical, zibun2, zipIdcode, zipcodeserial);
+		return new Postal(buildingno, zipcode, city, doro, building);
 	}
 	/**
 	 * VO 객체 RD의 내용들을 전달받는다

@@ -12,4 +12,6 @@ public class Menu {
 	public static final int ADD_REVIEW = 9; //후기 등록
 	public static final int ADD_FAVORITE = 10; //즐겨찾기 등록
 	public static final int RD_LOGIN = 11; //R&D 로그인
+	public static final int ADMIN_LOGIN = 12; //Admin 로그인
+	public static final int ADD_RECIPE = 13; //레시피 등록
 }
