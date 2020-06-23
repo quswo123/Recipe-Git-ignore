@@ -44,23 +44,12 @@ public class CustomerInfoView {
 		}
 	}
 
-	public static void main(String[] args) {
-		CustomerInfoView view = null;
-		try {
-			view = new CustomerInfoView();
-			view.viewMyAccount();
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			if (view != null)
-				try {
-					view.s.close();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-		}
-	}
+	/*
+	 * public static void main(String[] args) { CustomerInfoView view = null; try {
+	 * view = new CustomerInfoView(); view.viewMyAccount(); } catch
+	 * (UnknownHostException e) { e.printStackTrace(); } catch (IOException e) {
+	 * e.printStackTrace(); } finally { if (view != null) try { view.s.close(); }
+	 * catch (IOException e) { // TODO Auto-generated catch block
+	 * e.printStackTrace(); } } }
+	 */
 }
