@@ -12,6 +12,8 @@ import java.util.Scanner;
 import com.recipe.io.DataIO;
 import com.recipe.io.Menu;
 import com.recipe.vo.Purchase;
+import com.recipe.vo.RecipeInfo;
+import com.recipe.vo.Review;
 
 public class PurchaseListVIew {
 	private DataIO dio;
@@ -30,19 +32,27 @@ public class PurchaseListVIew {
 			dio.sendMenu(Menu.PURCHASE_LIST);
 			
 			List<Purchase> list = dio.receivePurchaseList();
+			List<Review> rlist = dio.receiveReviews();
 			
 			System.out.println("구매내역");
 			System.out.println("레시피상품명/구매일자/후기등록여부");
 			System.out.println(list.size() + "건의 내역이 출력되었습니다");
 			
 			for(Purchase p : list) {
-				System.out.print(p.getPurchaseCode() + "/");
-				System.out.print(p.getPurchaseDate() + "/");
+				System.out.print(p.getPurchaseDetail().getRecipeInfo().getRecipeName() + "/ ");
+				System.out.print(p.getPurchaseDate() + "/ ");
 			}
 			
+			for(Review r : rlist) {
+				if(r.getReviewComment()!=null) {
+					System.out.print("Yes");
+				}else {
+					System.out.print("No");
+				}
+			}
+		
 			System.out.println("-이전페이지 | + 다음페이지 | *메인메뉴");
-			System.out.println("원하시는 번호를 입력하세요");
-			
+			System.out.println("원하시는 번호를 입력하세요 : ");	
 		} catch (IOException | ParseException e) {
 			e.printStackTrace();
 		}

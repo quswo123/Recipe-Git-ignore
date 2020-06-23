@@ -4,11 +4,13 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.List;
 
 import com.recipe.exception.FindException;
 import com.recipe.io.DataIO;
 import com.recipe.io.Menu;
 import com.recipe.share.CustomerShare;
+import com.recipe.vo.Purchase;
 
 public class CustomerFrontThread implements Runnable{
 	private Socket client;
@@ -90,4 +92,19 @@ public class CustomerFrontThread implements Runnable{
 		String customerId = dio.receiveId();
 		CustomerShare.removeSession(customerId);
 	}
+	
+	
+	
+	public void purchaseList() throws IOException{
+		try {
+			String customerId = dio.receiveId();
+			List<Purchase> list = control.viewMyPurchase(customerId);
+			dio.sendSuccess();
+		} catch (FindException e) {
+			e.printStackTrace();
+			dio.sendFail(e.getMessage());
+		}
+	}
+	
+	
 }
