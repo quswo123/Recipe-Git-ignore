@@ -9,12 +9,17 @@ public class Menu {
 	public static final int CUSTOMER_REGISTER = 6; //회원가입
 	public static final int EXIT_PROGRAM = 7; //프로그램 종료
 	public static final int PURCHASE_LIST = 8; //구매내역
-	public static final int ADD_REVIEW = 9; //후기 등록
-	public static final int ADD_FAVORITE = 10; //즐겨찾기 등록
 	public static final int RD_LOGIN = 11; //R&D 로그인
 	public static final int ADMIN_LOGIN = 12; //Admin 로그인
 	public static final int ADD_RECIPE = 13; //레시피 등록
 	public static final int ADMIN_LOGOUT = 70; //Admin 로그아웃
 	public static final int RD_LOGOUT = 71; //R&D 로그아웃
 	public static final int CUSTOMER_LOGOUT = 72; //Customer 로그아웃
+	public static final int SEARCH_FAVORITE_BY_CUSTOMERID = 30; //Favorite customerID로 목록 조회
+	public static final int SEARCH_FAVORITE_BY_RECIPECODE = 31; //Favorite recipeCode로 조회
+	public static final int REMOVE_FAVORITE = 32; //Favorite 즐겨찾기해제
+	public static final int ADD_FAVORITE = 33; //즐겨찾기 등록
+	public static final int SEARCH_REVIEW_BY_CUSTOMERID = 40; //REVIEW customerID로 목록 조회
+	public static final int SEARCH_REVIEW_BY_RECIPECODE = 41; //REVIEW recipeCode로 조회
+	public static final int ADD_REVIEW = 42; //후기 등록
 }
