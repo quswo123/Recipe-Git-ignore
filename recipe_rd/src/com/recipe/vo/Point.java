@@ -40,7 +40,7 @@ public class Point {
 
 	@Override
 	public String toString() {
-		return "Point [recipeCode=" + recipeCode + ", likeCount=" + likeCount + ", disLikeCount=" + disLikeCount + "]";
+		return "좋아요 : " + likeCount + ", " + "싫어요 : " + disLikeCount + "\n";
 	}
 	
 }

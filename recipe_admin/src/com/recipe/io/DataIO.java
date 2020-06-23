@@ -1,5 +1,4 @@
 package com.recipe.io;
-
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -118,6 +117,7 @@ public class DataIO {
 	 * @throws IOException
 	 */
 	public void send(Postal p) throws IOException {
+		if(p == null) p = new Postal();
 		dos.writeUTF(strNullCheck(p.getBuildingno()));
 		dos.writeUTF(strNullCheck(p.getZipcode()));
 		dos.writeUTF(strNullCheck(p.getCity()));
@@ -177,7 +177,6 @@ public class DataIO {
 		send(r.getPoint());
 		sendRecipeIngredients(r.getIngredients());
 	}
-	
 	/**
 	 * VO 객체 RecipeInfo의 내용들을 전송한다
 	 * @param ri
@@ -187,7 +186,6 @@ public class DataIO {
 		dos.writeInt(list.size());
 		for(RecipeInfo i : list) send(i);
 	}
-	
 	/**
 	 * VO 객체 RecipeIngredient의 내용들을 전송한다
 	 * @param ri
@@ -211,6 +209,10 @@ public class DataIO {
 	 * @throws IOException
 	 */
 	public void sendRecipeIngredients(List<RecipeIngredient> list) throws IOException {
+		if(list == null) { //RecipeIngredient 리스트가 null이면 size로 0을 보내 receiveReceipeInfo에서 list의 receive를 수행하지 않도록 한다.
+			dos.writeInt(0);
+			return;
+		}
 		dos.writeInt(list.size());
 		for(RecipeIngredient i : list) send(i);
 	}
@@ -410,6 +412,7 @@ public class DataIO {
 		return list;
 	}
 	
+	
 	/**
 	 * VO 객체 RecipeInfo의 내용들을 전달받는다
 	 * @return 전달받은 내용들로 구성한 RecipeInfo
@@ -494,7 +497,6 @@ public class DataIO {
 			e.printStackTrace();
 		}
 	}
-
 	
 	
 	/**
@@ -548,4 +550,5 @@ public class DataIO {
 		
 		return list;
 	}
+
 }

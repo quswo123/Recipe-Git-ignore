@@ -23,7 +23,7 @@ public class RecipeSearchView {
 		System.out.println("레시피 검색");
 		System.out.println("1. 재료로 레시피 검색");
 		System.out.println("2. 이름으로 레시피 검색");
-		int num = sc.nextInt();
+		int num = Integer.parseInt(sc.nextLine());
 		if (num == 1) {
 			showFindbyIngNameView();
 		} else if (num == 2) {
@@ -51,10 +51,13 @@ public class RecipeSearchView {
 		List<RecipeInfo> recipeInfo = null;
 		try {
 			dio.sendMenu(Menu.SEARCH_RECIPE_NAME);
-			dio.send(recipeName);			
-			recipeInfo = dio.receiveRecipeInfos();	
+
+			dio.send(recipeName);		
+			recipeInfo = dio.receiveRecipeInfos();		
+			dio.receiveStatus();
 			RecipeListView listView = new RecipeListView(dio);
 			listView.searchedRecipeList(recipeInfo);
+
 		} catch (IOException e) {		
 			e.printStackTrace();
 		}

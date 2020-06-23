@@ -1,9 +1,13 @@
 package com.recipe.control;
 
+import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.EOFException;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.Socket;
 import java.util.List;
 
@@ -61,7 +65,7 @@ public class CustomerFrontThread implements Runnable {
 					// TO DO
 					break;
 				case Menu.RECOMMENDED_RECIPE: // 추천 레시피
-					// TO DO
+					recommendRecipeFront();
 					break;
 				case Menu.SEARCH_RECIPE_CODE: // 레시피 코드 검색
 					// TO DO
@@ -71,6 +75,9 @@ public class CustomerFrontThread implements Runnable {
 					break;
 				case Menu.SEARCH_RECIPE_INGREDIENTS: // 레시피 재료 검색
 					// TO DO
+					break;
+				case Menu.RECIPE_PROCESS: //레시피 과정 정보
+					recipeProcessFront();
 					break;
 				case Menu.PURCHASE_LIST: // 구매 내역
 					purchaseList();
@@ -147,5 +154,52 @@ public class CustomerFrontThread implements Runnable {
 		} catch (FindException e) {
 			dio.sendFail(e.getMessage());
 		}
+	}
+	
+	/**
+	 * 클라이언트에게 추천 레시피를 탐색하여 전송한다
+	 * @throws IOException
+	 * @author 최종국
+	 */
+	public void recommendRecipeFront() throws IOException {
+		RecipeInfo info = null;
+		try {
+			info = control.searchRecommended();
+			dio.sendSuccess();
+			dio.send(info);
+		} catch (FindException e) {
+			e.printStackTrace();
+			dio.sendFail(e.getMessage());
+		}
+	}
+	
+	/**
+	 * 레시피 과정 정보를 클라이언트에 전송한다
+	 * @throws IOException
+	 * @author 최종국
+	 */
+	public void recipeProcessFront() throws IOException {
+		String filePath = dio.receive();
+		String result = "";
+		String process = "";
+		BufferedReader br = null;
+		try {
+			br = new BufferedReader(new InputStreamReader(new FileInputStream(filePath)));
+			while((process = br.readLine()) != null) result += process + "\n";
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if(br != null) {
+				try {
+					br.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		dio.send(result);
 	}
 }
