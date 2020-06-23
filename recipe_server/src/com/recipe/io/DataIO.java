@@ -216,6 +216,17 @@ public class DataIO {
 		dos.writeUTF(f.getCustomerId());
 		send(f.getRecipeInfo());
 	}
+	
+	/**
+	 * Favorite List를 전송한다
+	 * @param list 보낼 Favorite들을 가진 List
+	 * @throws IOException
+	 */
+	public void sendFavorites(List<Favorite> list) throws IOException {
+		dos.writeInt(list.size());
+		for(Favorite f: list) send(f);
+	}
+	
 	/**
 	 * VO 객체 Review의 내용들을 전송한다
 	 * @param r 정보를 전송할 Review
@@ -228,6 +239,15 @@ public class DataIO {
 		send(r.getRecipeInfo());
 	}
 	
+	/**
+	 * Review List를 전송한다
+	 * @param list 보낼 Review들을 가진 List
+	 * @throws IOException
+	 */
+	public void sendReviews(List<Review> list) throws IOException {
+		dos.writeInt(list.size());
+		for(Review r: list) send(r);
+	}
 	
 	public String receiveStatus() throws IOException {
 		return dis.readUTF();
