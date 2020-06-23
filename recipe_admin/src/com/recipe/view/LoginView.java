@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 import com.recipe.io.DataIO;
 import com.recipe.io.Menu;
-import com.recipe.share.RDShare;
+import com.recipe.share.AdminShare;
 
 public class LoginView {
 	private String id;
@@ -45,7 +45,7 @@ public class LoginView {
 	public void login(String id, String pwd) {
 		try {
 			//로그인 절차 수행을 위한 로그인 번호와 아이디, 패스워드를 전송
-			dio.sendMenu(Menu.RD_LOGIN);
+			dio.sendMenu(Menu.ADMIN_LOGIN);
 			dio.sendId(id);
 			dio.sendPwd(pwd);
 			
@@ -53,10 +53,10 @@ public class LoginView {
 			if(dio.receiveStatus().equals("success")) { //로그인에 성공했다면
 				SuccessView success = new SuccessView();
 				success.loginCustomerView(id); //로그인 성공화면 출력
-				RDShare.loginedId = id;
+				AdminShare.loginedId = id;
 				
-				RdMainView rdMainView = new RdMainView();
-				rdMainView.mainMenu();
+				AdminMainView adminMainView = new AdminMainView();
+//				adminMainView.mainMenu();
 			} else { //로그인에 실패했다면
 				String msg = dio.receive();
 				FailView fail = new FailView();
