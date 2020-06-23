@@ -1,4 +1,5 @@
 package com.recipe.io;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -170,6 +171,17 @@ public class DataIO {
 		send(r.getPoint());
 		sendRecipeIngredients(r.getIngredients());
 	}
+	
+	/**
+	 * VO 객체 RecipeInfo의 내용들을 전송한다
+	 * @param ri
+	 * @throws IOException
+	 */
+	public void send(List<RecipeInfo> list) throws IOException {
+		dos.writeInt(list.size());
+		for(RecipeInfo i : list) send(i);
+	}
+	
 	/**
 	 * VO 객체 RecipeIngredient의 내용들을 전송한다
 	 * @param ri
@@ -215,6 +227,17 @@ public class DataIO {
 		dos.writeUTF(strNullCheck(f.getCustomerId()));
 		send(f.getRecipeInfo());
 	}
+	
+	/**
+	 * Favorite List를 전송한다
+	 * @param list 보낼 Favorite들을 가진 List
+	 * @throws IOException
+	 */
+	public void sendFavorites(List<Favorite> list) throws IOException {
+		dos.writeInt(list.size());
+		for(Favorite f: list) send(f);
+	}
+	
 	/**
 	 * VO 객체 Review의 내용들을 전송한다
 	 * @param r 정보를 전송할 Review
@@ -227,6 +250,15 @@ public class DataIO {
 		send(r.getRecipeInfo());
 	}
 	
+	/**
+	 * Review List를 전송한다
+	 * @param list 보낼 Review들을 가진 List
+	 * @throws IOException
+	 */
+	public void sendReviews(List<Review> list) throws IOException {
+		dos.writeInt(list.size());
+		for(Review r: list) send(r);
+	}
 	
 	public String receiveStatus() throws IOException {
 		return dis.readUTF();
@@ -344,6 +376,34 @@ public class DataIO {
 		
 		return new PurchaseDetail(purchaseCode, purchaseDetailQuantity, recipeInfo);
 	}
+	
+	/**
+	 * Purchase객체를 전달받는다
+	 * @return
+	 * @throws IOException
+	 * @throws ParseException
+	 */
+	public List<Purchase> receivePurchaseList() throws IOException, ParseException{
+		int size = dis.readInt();
+		List<Purchase> list = new ArrayList<>();
+		for(int i=0; i<size; i++) list.add(receivePurchase());
+		
+		return list;
+	}
+	
+	/**
+	 * RecipeInfo List를 전달받는다
+	 * @return 전달받은 RecipeIngredient들의 List
+	 * @throws IOException
+	 */
+	public List<RecipeInfo> receiveRecipeInfos() throws IOException {
+		int size = dis.readInt();
+		List<RecipeInfo> list = new ArrayList<RecipeInfo>();
+		for(int i = 0; i < size; i++) list.add(receiveRecipeInfo());
+		
+		return list;
+	}
+	
 	/**
 	 * VO 객체 RecipeInfo의 내용들을 전달받는다
 	 * @return 전달받은 내용들로 구성한 RecipeInfo
@@ -429,4 +489,57 @@ public class DataIO {
 		}
 	}
 
+	
+	
+	/**
+	 * VO 객체 Review의 내용들을 전달받는다
+	 * @return 전달받은 내용들로 구성한 Review
+	 * @throws IOException, ParseException
+	 */
+	public Review receiveReview() throws IOException, ParseException {
+		String customerId = dis.readUTF();
+		String reviewComment = dis.readUTF();
+		Date reviewDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(dis.readUTF());
+		RecipeInfo recipeInfo = receiveRecipeInfo();
+		
+		return new Review(customerId, reviewComment, reviewDate, recipeInfo);
+	}
+	
+	/**
+	 * Review List를 전달받는다
+	 * @return 전달받은 Review들의 List
+	 * @throws IOException, ParseException
+	 */
+	public List<Review> receiveReviews() throws IOException, ParseException {
+		int size = dis.readInt();
+		List<Review> list = new ArrayList<>();
+		for(int i=0; i<size; i++) list.add(receiveReview());
+		
+		return list;
+	}
+
+	/**
+	 * VO 객체 Favorite의 내용들을 전달받는다
+	 * @return 전달받은 내용들로 구성한 Favorite
+	 * @throws IOException, ParseException
+	 */
+	public Favorite receiveFavorite() throws IOException {
+		String customerId = dis.readUTF();
+		RecipeInfo recipeInfo = receiveRecipeInfo();
+		
+		return new Favorite (customerId, recipeInfo);
+	}
+	
+	/**
+	 * Favorite List를 전달받는다
+	 * @return 전달받은 Favorite들의 List
+	 * @throws IOException
+	 */
+	public List<Favorite> receiveFavorites() throws IOException {
+		int size = dis.readInt();
+		List<Favorite> list = new ArrayList<>();
+		for(int i=0; i<size; i++) list.add(receiveFavorite());
+		
+		return list;
+	}
 }
