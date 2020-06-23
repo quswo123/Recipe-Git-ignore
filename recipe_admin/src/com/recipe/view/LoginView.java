@@ -1,9 +1,6 @@
 package com.recipe.view;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.net.Socket;
 import java.util.Scanner;
 
 import com.recipe.io.DataIO;
@@ -15,12 +12,8 @@ public class LoginView {
 	private String pwd;
 	private DataIO dio;
 	
-	public LoginView(Socket s) {
-		try {
-			dio = new DataIO(new DataOutputStream(s.getOutputStream()), new DataInputStream(s.getInputStream()));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	public LoginView(DataIO dio) {
+		this.dio = dio;
 	}
 	
 	/**
@@ -55,8 +48,8 @@ public class LoginView {
 				success.loginCustomerView(id); //로그인 성공화면 출력
 				AdminShare.loginedId = id;
 				
-				AdminMainView adminMainView = new AdminMainView();
-//				adminMainView.mainMenu();
+				AdminMainView adminMainView = new AdminMainView(dio);
+				adminMainView.mainMenu();
 			} else { //로그인에 실패했다면
 				String msg = dio.receive();
 				FailView fail = new FailView();

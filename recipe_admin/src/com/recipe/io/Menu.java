@@ -14,4 +14,7 @@ public class Menu {
 	public static final int RD_LOGIN = 11; //R&D 로그인
 	public static final int ADMIN_LOGIN = 12; //Admin 로그인
 	public static final int ADD_RECIPE = 13; //레시피 등록
+	public static final int ADMIN_LOGOUT = 70; //Admin 로그아웃
+	public static final int RD_LOGOUT = 71; //R&D 로그아웃
+	public static final int CUSTOMER_LOGOUT = 72; //Customer 로그아웃
 }

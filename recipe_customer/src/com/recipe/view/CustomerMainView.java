@@ -2,13 +2,16 @@ package com.recipe.view;
 
 import java.util.Scanner;
 
+import com.recipe.io.DataIO;
 import com.recipe.io.Menu;
 
 public class CustomerMainView {
 	private Scanner sc;
+	private DataIO dio;
 	
-	public CustomerMainView() {
+	public CustomerMainView(DataIO dio) {
 		sc = new Scanner(System.in);
+		this.dio = dio;
 	}
 	
 	public void mainMenu() {
@@ -21,7 +24,19 @@ public class CustomerMainView {
 				break;
 			case 2:
 				break;
+			case 3:
+				break;
+			case 4:
+				break;
+			case 5:
+				break;
+			case 6:
+				break;
+			case 7:
+				menu = -1;
+				break;
 			case 8:
+				System.exit(0);
 				break;
 			}
 		}while(menu != -1);

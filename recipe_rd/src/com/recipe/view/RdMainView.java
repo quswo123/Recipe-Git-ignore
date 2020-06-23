@@ -2,11 +2,15 @@ package com.recipe.view;
 
 import java.util.Scanner;
 
+import com.recipe.io.DataIO;
+
 public class RdMainView {
 	private Scanner sc;
+	private DataIO dio;
 	
-	public RdMainView() {
+	public RdMainView(DataIO dio) {
 		sc = new Scanner(System.in);
+		this.dio = dio;
 	}
 	
 	public void mainMenu() {
