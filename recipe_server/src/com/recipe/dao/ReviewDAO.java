@@ -7,6 +7,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.recipe.exception.AddException;
+import com.recipe.exception.DuplicatedException;
+import com.recipe.exception.FindException;
 import com.recipe.jdbc.MyConnection;
 import com.recipe.vo.RecipeInfo;
 import com.recipe.vo.Review;
@@ -18,17 +21,16 @@ public class ReviewDAO {
 	
 	public static void main(String[] args) {
 		//test_review_selectByCode();
-		test_review_selectById();
-		//test_review_insert();
+		//test_review_selectById();
+		test_review_insert();
 	}//end method main();
-	
 	
 	/**
 	 * 레시피후기목록조회
 	 * @param int recipeCode
 	 * @return List<Review>
 	 */
-	public List<Review> selectByCode(int recipeCode) {
+	public List<Review> selectByCode(int recipeCode) throws FindException {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -66,7 +68,8 @@ public class ReviewDAO {
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
-			
+			throw new FindException ("Fail : 레시피에 등록된 후기가 없습니다.");
+		
 		} finally {
 			MyConnection.close(rs, pstmt, con);
 		}
@@ -79,7 +82,7 @@ public class ReviewDAO {
 	 * 나의 후기 등록
 	 * @param Review r
 	 */
-	public void insert(Review r) {
+	public void insert(Review r) throws AddException, DuplicatedException {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		
@@ -101,7 +104,12 @@ public class ReviewDAO {
 			pstmt.executeUpdate();
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			if ( e.getErrorCode() == 1 ) { // SQLException errorCode == 1 )  
+				throw new DuplicatedException("Fail : 이미 후기가 추가되어 있는 레시피 입니다.");
+			} else { 
+				throw new AddException("Fail : 후기 등록에 실패하였습니다.");
+			}
 			
 		} finally {
 			MyConnection.close(pstmt, con);
@@ -114,7 +122,7 @@ public class ReviewDAO {
 	 * @param String customerId
 	 * @return List<Review>
 	 */
-	public List<Review> selectById(String customerId) {
+	public List<Review> selectById(String customerId) throws FindException {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -153,6 +161,7 @@ public class ReviewDAO {
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new FindException ("Fail : 후기 목록 조회에ㄴ 실패하였습니다.");
 			
 		} finally {
 			MyConnection.close(rs, pstmt, con);
@@ -172,17 +181,18 @@ public class ReviewDAO {
 			reviewList = dao.selectByCode(recipeCode);
 			
 			if ( reviewList.size() == 0 ) {
-				System.out.println("후기 목록 조회 결과 : 등록된 후기 목록이 없습니다.");
+				System.out.println("Success : 등록된 후기 목록이 없습니다.");
 			} 
 			
+			System.out.println("Success : 후기 등록에 성공하였습니다.");
 			for ( Review r  : reviewList ) {
 				System.out.println("recipeCode: " + r.getRecipeInfo().getRecipeCode());
 				System.out.println("customer_ID : " + r.getCustomerId());
 				System.out.println("reviewComment : " + r.getReviewComment());
 				System.out.println("reviewDate : " + r.getReviewDate());
 			}
-		} catch ( Exception e ) {
-			e.getStackTrace();
+		} catch ( FindException e ) {
+			System.out.println(e.getMessage());
 		}
 	} //end test method 
 	
@@ -196,9 +206,10 @@ public class ReviewDAO {
 			reviewList = dao.selectById(customerId);
 
 			if ( reviewList.size() == 0 ) {
-				System.out.println("후기 목록 조회 결과 : 등록된 후기 목록이 없습니다.");
+				System.out.println("Success : 등록된 후기 목록이 없습니다.");
 			} 
 			
+			System.out.println("Success : 후기 목록 조회에 성공하였습니다.");
 			for ( Review r  : reviewList ) {
 				System.out.println("recipeCode: " + r.getRecipeInfo().getRecipeCode());
 				System.out.println("customer_ID : " + r.getCustomerId());
@@ -206,8 +217,8 @@ public class ReviewDAO {
 				System.out.println("reviewDate : " + r.getReviewDate());
 			}
 			
-		} catch (Exception e) { 
-			e.getStackTrace();
+		} catch (FindException e) { 
+			System.out.println(e.getMessage());
 		}
 	} //end test method 
 	
@@ -230,9 +241,10 @@ public class ReviewDAO {
 		try {
 			dao.insert(r);
 			System.out.println("Success : 후기 등록에 성공하였습니다.");
-		} catch (Exception e) { 
-			System.out.println("Fail : 후기 등록에 실패하였습니다.");
-			e.getStackTrace();
+		} catch (DuplicatedException e) { 
+			System.out.println(e.getMessage());
+		} catch (AddException e) { 
+			System.out.println(e.getMessage());
 		}
 	} //end test method 
 	
