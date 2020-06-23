@@ -1,5 +1,10 @@
 package com.recipe.dao;
 
-public class RDDAO {
+import com.recipe.exception.FindException;
+import com.recipe.vo.RD;
 
+public class RDDAO {
+	public RD selectById(String rdId) throws FindException {
+		return null;
+	}
 }

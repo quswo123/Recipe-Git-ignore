@@ -6,8 +6,8 @@ import java.util.Scanner;
 
 public class MainView {
 	private static final int CUSTOMER_PORT = 1025;
-	Scanner sc;
-	Socket s;
+	private Scanner sc;
+	private Socket s;
 	
 	public MainView() {
 		sc = new Scanner(System.in);
@@ -31,21 +31,23 @@ public class MainView {
 				break;
 			case 3:
 				LoginView loginView = new LoginView(s);
-				
+				loginView.showLoginView();
 				break;
 			case 4:
 				break;
 			case 5:
 				break;
+			case 0:
+				System.exit(0);
 			default:
-				menu = -1;
 				break;	
 			}
-		}while(menu != 0);
+		}while(menu != -1);
 	}
 	
 	public static void main(String[] args) {
-
+		MainView mainView = new MainView();
+		mainView.mainMenu();
 	}
 
 }

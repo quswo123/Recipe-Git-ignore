@@ -5,7 +5,7 @@ import java.util.Scanner;
 import com.recipe.io.Menu;
 
 public class CustomerMainView {
-	Scanner sc;
+	private Scanner sc;
 	
 	public CustomerMainView() {
 		sc = new Scanner(System.in);
