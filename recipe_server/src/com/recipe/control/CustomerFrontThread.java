@@ -4,11 +4,13 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.recipe.exception.FindException;
 import com.recipe.io.DataIO;
 import com.recipe.io.Menu;
-import com.recipe.share.CustomerShare;
+import com.recipe.vo.Favorite;
 
 public class CustomerFrontThread implements Runnable{
 	private Socket client;
@@ -53,6 +55,9 @@ public class CustomerFrontThread implements Runnable{
 				case Menu.PURCHASE_LIST: //구매 내역
 					//TO DO
 					break;
+				case Menu.SEARCH_FAVORITE_BY_CUSTOMERID: //로그인한 사용자 즐겨찾기 목록 보기
+					favoriteByCustomerIdFront();
+					break;
 				default:
 					break;
 				}
@@ -76,4 +81,21 @@ public class CustomerFrontThread implements Runnable{
 			dio.sendFail(e.getMessage());
 		}
 	}
+	
+	/**
+	 * customerId에 해당하는 즐겨찾기 목록을 조회한 후 반환한다.
+	 * @throws IOException
+	 */
+	public void favoriteByCustomerIdFront() throws IOException {
+		String customerId = dio.receive();
+		List<Favorite> list = new ArrayList<>();
+		try {
+			list = control.viewFavorite(customerId);
+			dio.sendFavorites(list);
+			
+		} catch (FindException e) {
+			dio.sendFail(e.getMessage());
+		}
+	}
+	
 }
