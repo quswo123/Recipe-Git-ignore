@@ -7,6 +7,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.recipe.exception.AddException;
+import com.recipe.exception.DuplicatedException;
+import com.recipe.exception.FindException;
+import com.recipe.exception.RemoveException;
 import com.recipe.jdbc.MyConnection;
 import com.recipe.vo.Favorite;
 import com.recipe.vo.RecipeInfo;
@@ -28,7 +32,7 @@ public class FavoriteDAO {
 	 * 즐겨찾기 추가 : insert()
 	 * @param Favorite f
 	 */
-	public void insert(Favorite f) {
+	public void insert(Favorite f) throws AddException, DuplicatedException {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		
@@ -54,13 +58,11 @@ public class FavoriteDAO {
 			pstmt.executeUpdate();
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
-			if ( e.getErrorCode() == 1 ) { // SQLException errorCode == 1 ) Duplication Exception 
-				System.out.println("FavoriteDAO : Duplication Exception 에러 입니다.");
-				e.getStackTrace();
-			
+			//e.printStackTrace();
+			if ( e.getErrorCode() == 1 ) { // SQLException errorCode == 1 )  
+				throw new DuplicatedException("Fail : 이미 즐겨찾기 추가되어 있는 레시피 입니다.");
 			} else { 
-				e.getStackTrace();
+				throw new AddException("Fail : 즐겨찾기 추가 실패했습니다.");
 			}
 			
 		} finally {
@@ -74,7 +76,7 @@ public class FavoriteDAO {
 	 * 즐겨찾기 목록 전체보기 : selectById()
 	 * @param String customerId
 	 */
-	public List<Favorite> selectById(String customerId) {
+	public List<Favorite> selectById(String customerId) throws FindException {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -124,6 +126,7 @@ public class FavoriteDAO {
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new FindException("Fail : 즐겨찾기 목록 조회에 실패하셨습니다.");
 			
 		} finally {
 			MyConnection.close(rs, pstmt, con);
@@ -136,7 +139,7 @@ public class FavoriteDAO {
 	 * 즐겨찾기 삭제 : deleteByIdnCode()
 	 * @param Favorite f
 	 */
-	public void deleteByIdnCode(Favorite f) {
+	public void deleteByIdnCode(Favorite f) throws RemoveException {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		try {
@@ -163,6 +166,7 @@ public class FavoriteDAO {
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new RemoveException("Fail : 즐겨찾기 목록에서 삭제되지 않았습니다.");
 			
 		} finally {
 			MyConnection.close(pstmt, con);
@@ -193,10 +197,10 @@ public class FavoriteDAO {
 				System.out.println("recipe_process : " + f.getRecipeInfo().getRecipeProcess());
 				System.out.println("recipe_summ : " + f.getRecipeInfo().getRecipeSumm());
 			}
-		} catch ( Exception e ) {
-			e.getStackTrace();
+		} catch ( FindException e ) {
+			System.out.println(e.getMessage());
 		}
-	}
+	}  //end test method 
 	
 	// test_favorite_insert 
 	private static void test_favorite_insert() {
@@ -210,11 +214,12 @@ public class FavoriteDAO {
 		try {
 			dao.insert(f);
 			System.out.println("Success : 즐겨찾기 목록에서 추가되었습니다.");
-		} catch (Exception e) { 
-			System.out.println("Fail : 즐겨찾기 목록에서 추가되었습니다.");
-			e.getStackTrace();
+		} catch (DuplicatedException e) {
+			System.out.println(e.getMessage());
+		} catch (AddException e) { 
+			System.out.println(e.getMessage());
 		}
-	}
+	} //end test method 
 	
 	// test_favorite_deleteByIdnCode
 	private static void test_favorite_deleteByIdnCode() {
@@ -229,10 +234,10 @@ public class FavoriteDAO {
 		f.setRecipeInfo(info);
 		try {
 			dao.deleteByIdnCode(f);
-		} catch ( Exception e ) {
-			System.out.println("Fail : 즐겨찾기 목록에서 삭제되지 않았습니다.");
+			System.out.println("Success : 즐겨찾기 목록에서 삭제되었습니다.");
+
+		} catch ( RemoveException e ) {
+			System.out.println(e.getMessage());
 		}
-		System.out.println("Success : 즐겨찾기 목록에서 삭제되었습니다.");
-	}
-	
+	} //end test method 
 } //end class FavoriteDAO
