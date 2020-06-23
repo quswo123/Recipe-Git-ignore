@@ -8,6 +8,7 @@ import java.net.Socket;
 import com.recipe.exception.FindException;
 import com.recipe.io.DataIO;
 import com.recipe.io.Menu;
+import com.recipe.share.AdminShare;
 
 public class AdminFrontThread implements Runnable{
 	private Socket client;
@@ -34,6 +35,9 @@ public class AdminFrontThread implements Runnable{
 				case Menu.ADMIN_LOGIN: //로그인
 					loginFront();
 					break;
+				case Menu.ADMIN_LOGOUT:
+					logoutFront();
+					break;
 				default:
 					break;
 				}
@@ -46,6 +50,7 @@ public class AdminFrontThread implements Runnable{
 	/**
 	 * 로그인에 필요한 ID, 패스워드를 Client로부터 전달받아 로그인 절차를 수행한다
 	 * @throws IOException
+	 * @author 최종국
 	 */
 	public void loginFront() throws IOException {
 		String id = dio.receiveId();
@@ -56,5 +61,15 @@ public class AdminFrontThread implements Runnable{
 		} catch (FindException e) {
 			dio.sendFail(e.getMessage());
 		}
+	}
+
+	/**
+	 * 로그아웃할 아이디를 전달받아 로그아웃 절차를 수행한다.
+	 * @throws IOException 
+	 * @author 최종국
+	 */
+	private void logoutFront() throws IOException {
+		String adminId = dio.receiveId();
+		AdminShare.removeSession(adminId);
 	}
 }

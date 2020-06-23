@@ -15,12 +15,8 @@ public class LoginView {
 	private String pwd;
 	private DataIO dio;
 	
-	public LoginView(Socket s) {
-		try {
-			dio = new DataIO(new DataOutputStream(s.getOutputStream()), new DataInputStream(s.getInputStream()));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	public LoginView(DataIO dio) {
+		this.dio = dio;
 	}
 	
 	/**
@@ -55,7 +51,7 @@ public class LoginView {
 				success.loginCustomerView(id); //로그인 성공화면 출력
 				CustomerShare.loginedId = id;
 				
-				CustomerMainView customerMainView = new CustomerMainView();
+				CustomerMainView customerMainView = new CustomerMainView(dio);
 				customerMainView.mainMenu();
 			} else { //로그인에 실패했다면
 				String msg = dio.receive();

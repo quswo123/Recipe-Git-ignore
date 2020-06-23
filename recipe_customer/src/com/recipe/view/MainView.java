@@ -1,22 +1,27 @@
 package com.recipe.view;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.Scanner;
+
+import com.recipe.io.DataIO;
 
 public class MainView {
 	private static final int CUSTOMER_PORT = 1025;
 	private Scanner sc;
 	private Socket s;
+	private DataIO dio;
 	
 	public MainView() {
 		sc = new Scanner(System.in);
 		try {
 			s = new Socket("127.0.0.1", CUSTOMER_PORT);
+			dio = new DataIO(new DataOutputStream(s.getOutputStream()), new DataInputStream(s.getInputStream()));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
 	}
 	
 	public void mainMenu() {
@@ -30,7 +35,7 @@ public class MainView {
 			case 2:
 				break;
 			case 3:
-				LoginView loginView = new LoginView(s);
+				LoginView loginView = new LoginView(dio);
 				loginView.showLoginView();
 				break;
 			case 4:
