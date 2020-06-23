@@ -4,16 +4,18 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.List;
 
 import com.recipe.exception.FindException;
 import com.recipe.io.DataIO;
 import com.recipe.io.Menu;
-import com.recipe.share.CustomerShare;
+import com.recipe.vo.RecipeInfo;
 
 public class CustomerFrontThread implements Runnable{
 	private Socket client;
 	private DataIO dio;
 	private RecipeMarketControl control;
+	
 	
 	public CustomerFrontThread(Socket s) {
 		client = s;
@@ -45,7 +47,7 @@ public class CustomerFrontThread implements Runnable{
 					//TO DO
 					break;
 				case Menu.SEARCH_RECIPE_NAME: //레시피 제목 검색
-					//TO DO
+					selectByNameFront();
 					break;
 				case Menu.SEARCH_RECIPE_INGREDIENTS: //레시피 재료 검색 
 					//TO DO
@@ -71,6 +73,17 @@ public class CustomerFrontThread implements Runnable{
 		String pwd = dio.receivePwd();
 		try {
 			control.loginToAccount(id, pwd);
+			dio.sendSuccess();
+		} catch (FindException e) {
+			dio.sendFail(e.getMessage());
+		}
+	}
+	public void selectByNameFront() throws IOException {
+		List<RecipeInfo> recipeInfo = null;
+		String recipeName = dio.receive();
+		try {
+			recipeInfo = control.searchByName(recipeName);
+			dio.send(recipeInfo);
 			dio.sendSuccess();
 		} catch (FindException e) {
 			dio.sendFail(e.getMessage());

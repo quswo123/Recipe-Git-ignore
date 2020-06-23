@@ -172,6 +172,15 @@ public class DataIO {
 		sendRecipeIngredients(r.getIngredients());
 	}
 	/**
+	 * VO 객체 RecipeInfo의 내용들을 전송한다
+	 * @param ri
+	 * @throws IOException
+	 */
+	public void send(List<RecipeInfo> list) throws IOException {
+		dos.writeInt(list.size());
+		for(RecipeInfo i : list) send(i);
+	}
+	/**
 	 * VO 객체 RecipeIngredient의 내용들을 전송한다
 	 * @param ri
 	 * @throws IOException
