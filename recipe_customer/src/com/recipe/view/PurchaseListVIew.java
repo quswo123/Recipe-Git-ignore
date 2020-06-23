@@ -26,23 +26,24 @@ public class PurchaseListVIew {
 		}
 	}
 	
-	public void purchaseView(List<Purchase> list, List<Review> rlist) {
+	public void purchaseView(List<Purchase> list, List<Review> rlist,int i, int j) {
 		Scanner sc = new Scanner(System.in);
 		try {
 			dio.sendMenu(Menu.PURCHASE_LIST);
 			
 			list = dio.receivePurchaseList();
 			rlist = dio.receiveReviews();
-			
+	
 			System.out.println("구매내역");
 			System.out.println("레시피상품명/구매일자/후기등록여부");
 			System.out.println(list.size() + "건의 내역이 출력되었습니다");
 			
 			for(Purchase p : list) {
-				System.out.print(p.getPurchaseDetail().getRecipeInfo().getRecipeName() + "/ ");
-				System.out.print(p.getPurchaseDate() + "/ ");
-			}
-			
+				for (; i < j+5; i++) {
+					System.out.print(i+1 + " "+ p.getPurchaseDetail().getRecipeInfo().getRecipeName());
+					System.out.print(p.getPurchaseDate() + "/ ");
+				}
+			}	
 			for(Review r : rlist) {
 				if(r.getReviewComment()!=null) {
 					System.out.print("Yes");
@@ -53,12 +54,19 @@ public class PurchaseListVIew {
 		
 			System.out.println("-이전페이지 | + 다음페이지 | *메인메뉴");
 			System.out.println("원하시는 번호를 입력하세요 : ");
+			String line = sc.nextLine();
+			if (line.equals("+")) {
+				purchaseView(list, rlist, i, j+5);
+			} else if(line.equals("-")) {
+				purchaseView(list, rlist, i-10, j-5);
+			} else if(line.equals("*")) {
+				
+			}
 		} catch (IOException | ParseException e) {
 			e.printStackTrace();
-		}
-		
-		
+		}	
 	}
+	
 	
 	
 }
