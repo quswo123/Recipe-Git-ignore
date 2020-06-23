@@ -25,10 +25,13 @@ public class RecipeInfoDAO {
 		} catch (ClassNotFoundException | SQLException e) {
 
 		}
-		String selectByCodeSQL = "SELECT RI.RECIPE_CODE, RIN.RECIPE_NAME, RIN.RECIPE_SUMM, RIN.RECIPE_PRICE, RI.ing_code, ING.ING_NAME, RIN.recipe_process,PT.LIKE_COUNT, PT.DISLIKE_COUNT\r\n"
-				+ "FROM RECIPE_INGREDIENT RI \r\n" + "LEFT JOIN RECIPE_INFO RIN ON RI.recipe_code = RIN.recipe_code\r\n"
-				+ "JOIN INGREDIENT ING ON RI.ing_code = ING.ing_code\r\n"
-				+ "JOIN POINT PT ON RI.RECIPE_CODE = PT.RECIPE_CODE\r\n" + "WHERE RI.recipe_code = ?";
+		String selectByCodeSQL = "SELECT RI.RECIPE_CODE, RIN.RECIPE_NAME, RIN.RECIPE_SUMM, RIN.RECIPE_PRICE, RI.ing_code, ING.ING_NAME, RIN.recipe_process, PT.LIKE_COUNT, PT.DISLIKE_COUNT\r\n" + 
+				"FROM RECIPE_INGREDIENT RI \r\n" + 
+				"LEFT JOIN RECIPE_INFO RIN ON RI.recipe_code = RIN.recipe_code\r\n" + 
+				"JOIN INGREDIENT ING ON RI.ing_code = ING.ing_code\r\n" + 
+				"left JOIN POINT PT ON RI.RECIPE_CODE = PT.RECIPE_CODE\r\n" + 
+				"WHERE RIN.recipe_Code IN\r\n" + 
+				"(select recipe_code FROM recipe_info WHERE recipe_code = ?)";
 		List<RecipeIngredient> ingList = new ArrayList<>();
 		RecipeInfo recipeInfo = new RecipeInfo();
 		int prevCode = 0; //
@@ -55,8 +58,11 @@ public class RecipeInfoDAO {
 					Point pt = new Point(rCode, rs.getInt("like_count"), rs.getInt("dislike_count"));
 					recipeInfo.setPoint(pt);
 				}
-
 			}
+			if (recipeInfo.getRecipeName() == null) {
+				throw new FindException("찾은 레시피가 없습니다");
+			}
+			
 		} catch (SQLException e) {
 
 			e.printStackTrace();
@@ -116,6 +122,9 @@ public class RecipeInfoDAO {
 				ingList.add(recipeIng);
 				
 			}
+			if (recipeInfo.size() == 0) {
+				throw new FindException("찾은 레시피가 없습니다");
+			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -128,7 +137,7 @@ public class RecipeInfoDAO {
 	
 	public static void main(String[] args) {
 		RecipeInfoDAO dao = new RecipeInfoDAO();
-//		int code = 134;
+//		int code = 195454;
 //		try {
 //			RecipeInfo list = dao.selectByCode(code);
 //			System.out.println("code:" + list.getRecipeCode() + "  name:" + list.getRecipeName() + "  summ:"+ list.getRecipeSumm() +"  price:"+ list.getRecipePrice());
@@ -143,8 +152,8 @@ public class RecipeInfoDAO {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
-//		
-		String name = "김치";
+		
+		String name = "단호박";
 	
 		try {
 			List<RecipeInfo> list2 = dao.selectByName(name);

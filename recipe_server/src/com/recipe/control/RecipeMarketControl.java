@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.recipe.exception.AddException;
 import com.recipe.exception.DuplicatedException;
+import java.util.List;
 import com.recipe.exception.FindException;
 import com.recipe.exception.RemoveException;
 import com.recipe.service.AccountService;
@@ -18,6 +19,7 @@ import com.recipe.service.ReviewService;
 import com.recipe.vo.Purchase;
 import com.recipe.vo.Favorite;
 import com.recipe.vo.Review;
+import com.recipe.vo.RecipeInfo;
 
 public class RecipeMarketControl {
 	private static RecipeMarketControl control = new RecipeMarketControl(); //singleton
@@ -66,6 +68,16 @@ public class RecipeMarketControl {
 		rdAccountService.login(rdId, rdPwd);
 	}
 	
+	/**
+	 * Admin 클라이언트의 로그인 절차를 위한 Control 메소드
+	 * @param adminId Admin 클라이언트에서 전달받은 아이디
+	 * @param adminPwd Admin 클라이언트에서 전달받은 패스워드
+	 * @throws FindException
+	 */
+	public void loginToAdmin(String adminId, String adminPwd) throws FindException{
+		adminAccountService.login(adminId, adminPwd);
+	}
+	
 	//구매하기control
 	public void buyRecipe(Purchase p) throws AddException{
 		purchaseService.buy(p);
@@ -101,13 +113,14 @@ public class RecipeMarketControl {
 	public void viewMyReview(String customerId) throws FindException {
 		reviewService.findById(customerId);
 	}
-	/**
-	 * Admin 클라이언트의 로그인 절차를 위한 Control 메소드
-	 * @param adminId Admin 클라이언트에서 전달받은 아이디
-	 * @param adminPwd Admin 클라이언트에서 전달받은 패스워드
-	 * @throws FindException
-	 */
-	public void loginToAdmin(String adminId, String adminPwd) throws FindException{
-		adminAccountService.login(adminId, adminPwd);
+	
+	public RecipeInfo searchByCode(int recipeCode) throws FindException{
+		return recipeService.findByCode(recipeCode);
+	}
+	public List<RecipeInfo> searchByName(String recipeName) throws FindException{
+		return recipeService.findByName(recipeName);
+	}
+	public List<RecipeInfo> searchByIngName(List<String> ingName) throws FindException{
+		return recipeService.findByIngName(ingName);
 	}
 }
