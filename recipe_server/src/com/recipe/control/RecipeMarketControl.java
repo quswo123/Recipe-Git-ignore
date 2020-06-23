@@ -1,6 +1,9 @@
 package com.recipe.control;
 
+import com.recipe.exception.AddException;
+import com.recipe.exception.DuplicatedException;
 import com.recipe.exception.FindException;
+import com.recipe.exception.RemoveException;
 import com.recipe.service.AccountService;
 import com.recipe.service.FavoriteService;
 import com.recipe.service.PostService;
@@ -8,6 +11,8 @@ import com.recipe.service.PurchaseService;
 import com.recipe.service.RDAccountService;
 import com.recipe.service.RecipeService;
 import com.recipe.service.ReviewService;
+import com.recipe.vo.Favorite;
+import com.recipe.vo.Review;
 
 public class RecipeMarketControl {
 	private static RecipeMarketControl control = new RecipeMarketControl();
@@ -37,4 +42,29 @@ public class RecipeMarketControl {
 	public void loginToAccount(String customerId, String customerPwd) throws FindException{
 		accountService.login(customerId, customerPwd);
 	}
+	
+	public void addFavorite(Favorite f) throws AddException, DuplicatedException {
+		favoriteService.add(f);
+	}
+	
+	public void viewFavorite(String customerId) throws FindException {
+		favoriteService.findById(customerId);
+	}
+	
+	public void removeFavorite(Favorite f) throws RemoveException {
+		favoriteService.remove(f);
+	}
+	
+	public void viewRecipeReview(int recipeCode) throws FindException{
+		reviewService.findByCode(recipeCode);
+	}
+	
+	public void addReview(Review r ) throws AddException, DuplicatedException {
+		reviewService.add(r);
+	}
+	
+	public void viewMyReview(String customerId) throws FindException {
+		reviewService.findById(customerId);
+	}
+
 }
