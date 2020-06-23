@@ -26,9 +26,9 @@ public class RecipeIngredientDAO {
 		} catch (ClassNotFoundException | SQLException e) {
 			throw new FindException(e.getMessage());
 		}
-		//º¸³»Áú Äõ¸®
+		//ë³´ë‚´ì§ˆ ì¿¼ë¦¬
 		String newSQL =""; 
-		//´õÇØÁú Äõ¸®
+		//ë”í•´ì§ˆ ì¿¼ë¦¬
 		String selectByIngNameSQL ="SELECT RI.RECIPE_CODE, RIN.RECIPE_NAME, RIN.RECIPE_SUMM, RIN.RECIPE_PRICE, RI.ing_code, ING.ING_NAME, RIN.recipe_process, PT.LIKE_COUNT, PT.DISLIKE_COUNT\r\n" + 
 				"FROM RECIPE_INGREDIENT RI \r\n" + 
 				"LEFT JOIN RECIPE_INFO RIN ON RI.recipe_code = RIN.recipe_code\r\n" + 
@@ -38,14 +38,14 @@ public class RecipeIngredientDAO {
 				"(select ring.recipe_code FROM Ingredient ig JOIN recipe_ingredient ring on ig.ing_code = ring.ing_code Where ig.ing_name LIKE ?) INTERSECT  ";
 		for (int i = 1; i < ingName.size(); i++ ) {
 			newSQL += selectByIngNameSQL;	
-			//¸¶Áö¸· i ´Â INTERSECT ¸¦ »ı·«ÇÏ°í ´õÇØÁü
+			//ë¦¬ìŠ¤íŠ¸ ì‚¬ì´ì¦ˆë§Œí¼ ëŒë©´ì„œ ì¿¼ë¦¬ê°€ ë”í•´ì§€ê³ , ë§ˆì§€ë§‰ì¤„ì€ INTERSECT ë¥¼ ì„œë¸ŒìŠ¤íŠ¸ë§í•´ ë”í•´ì§
 			if (i == ingName.size() -1) {
 				newSQL += selectByIngNameSQL.substring(0, selectByIngNameSQL.length() -11);
 			}			
 		}
 		try {
 			pstmt = con.prepareStatement(newSQL);
-			//¸®½ºÆ®°¹¼ö¸¸Å­ µ¹¸é¼­ °ª ¼¼ÆÃÇØÁÖ±â
+			//ë¦¬ìŠ¤íŠ¸ ì‚¬ì´ì¦ˆë§Œí¼ ëŒë©´ì„œ ê°’ì„¸íŒ…í•´ì¤Œ
 			for (int i = 1; i < ingName.size()+1; i++) {
 				pstmt.setString(i, "%" +ingName.get(i-1) + "%");
 			}
@@ -54,7 +54,7 @@ public class RecipeIngredientDAO {
 			List<RecipeIngredient> ingList = null;	
 			while(rs.next()) {				
 				int rCode = rs.getInt("recipe_code");
-				//·¹½ÃÇÇÄÚµå°¡ ´Ù¸¦¶§¸¸ RecipeInfo °´Ã¼ »ı¼ºÇØ¼­ °ª ³Ö¾îÁÖ°í Àç·á¸®½ºÆ® ÂüÁ¶½ÃÅ°±â				
+				//ì½”ë“œê°’ì´ ê°™ì§€ ì•Šì„ë•Œ RecipeInfo ê°ì²´ ìƒì„±í•´ì£¼ê³  ê°’ ë„£ì–´ì£¼ê¸°			
 				if (prevCode != rCode) {					
 					RecipeInfo recipeInfo2 = new RecipeInfo();
 					ingList = new ArrayList<>();
@@ -68,10 +68,10 @@ public class RecipeIngredientDAO {
 					Point pt = new Point(rCode, rs.getInt("like_count"), rs.getInt("dislike_count"));
 					recipeInfo2.setPoint(pt);
 					recipeInfo.add(recipeInfo2);
-					//»õ·Î °´Ã¼ »ı¼ºÇÒ¶§¸¶´Ù ÀüÄÚµå °ªÀ» »õ·Î¿î°ªÀ¸·Î ´ëÀÔÇØÁÖ±â
+					//prevCodeì— ìƒˆë¡œìš´ê°’ ëŒ€ì…í•´ì£¼ê¸°
 					prevCode = rCode;
 				}
-				//¿ÍÀÎ¹® µ¹¶§¸¶´Ù Àç·áÄÚµå, ÀÌ¸§ -> Ingredient ¿¡ ³Ö°í -> ¸®½ºÆ®¿¡ ³Ö¾îÁÖ±â
+				//ì™€ì¼ë¬¸ ëŒë©´ì„œ ê°’ë„£ì–´ì£¼ê³  ë¦¬ìŠ¤íŠ¸ì— ì• ë“œí•´ì¤Œ
 				int ingCode = rs.getInt("ing_code");
 				String name = rs.getString("ing_name");
 				Ingredient ingredient = new Ingredient(ingCode, name);
@@ -106,8 +106,8 @@ public class RecipeIngredientDAO {
 //		}
 //		
 		List<String> ingrList = new ArrayList<>();
-		ingrList.add("±èÄ¡");
-		ingrList.add("¹ÙÁö¶ô");	
+		ingrList.add("ï¿½ï¿½Ä¡");
+		ingrList.add("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");	
 		try {
 			List<RecipeInfo> list2 = dao.selectByIngName(ingrList);
 			for(RecipeInfo ri : list2) {
