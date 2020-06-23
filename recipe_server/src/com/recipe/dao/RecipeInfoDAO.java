@@ -144,7 +144,7 @@ public class RecipeInfoDAO {
 //			e.printStackTrace();
 //		}
 //		
-		String name = "��ġ";
+		String name = "김치";
 	
 		try {
 			List<RecipeInfo> list2 = dao.selectByName(name);
