@@ -79,6 +79,9 @@ public class RecipeIngredientDAO {
 				ingList.add(recipeIng);
 				
 			}
+			if (recipeInfo.size() == 0) {
+				throw new FindException("찾은 레시피가 없습니다");
+			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
