@@ -157,6 +157,12 @@ public class DataIO {
 		dos.writeInt(pd.getPurchaseDetailQuantity());
 		send(pd.getRecipeInfo());
 	}
+	
+	public void sendPurchase(List<Purchase> list) throws IOException{
+		dos.writeInt(list.size());
+		for(Purchase p : list) send(p);
+	}
+	
 	/**
 	 * VO 객체 RecipeInfo의 내용들을 전송한다
 	 * @param ri 정보를 전송할 RecipeInfo

@@ -17,7 +17,6 @@ import com.recipe.vo.Review;
 
 public class PurchaseListVIew {
 	private DataIO dio;
-	private Scanner sc = new Scanner(System.in);
 	
 	public PurchaseListVIew(Socket s) {
 		try {
@@ -27,12 +26,13 @@ public class PurchaseListVIew {
 		}
 	}
 	
-	public void purchaseView() {
+	public void purchaseView(List<Purchase> list, List<Review> rlist) {
+		Scanner sc = new Scanner(System.in);
 		try {
 			dio.sendMenu(Menu.PURCHASE_LIST);
 			
-			List<Purchase> list = dio.receivePurchaseList();
-			List<Review> rlist = dio.receiveReviews();
+			list = dio.receivePurchaseList();
+			rlist = dio.receiveReviews();
 			
 			System.out.println("구매내역");
 			System.out.println("레시피상품명/구매일자/후기등록여부");

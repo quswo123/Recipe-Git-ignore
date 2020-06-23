@@ -73,7 +73,7 @@ public class CustomerFrontThread implements Runnable {
 					// TO DO
 					break;
 				case Menu.PURCHASE_LIST: // 구매 내역
-					// TO DO
+					purchaseList();
 					break;
 				case Menu.CUSTOMER_LOGOUT:
 					logoutFront();
@@ -125,6 +125,8 @@ public class CustomerFrontThread implements Runnable {
 		try {
 			String customerId = dio.receiveId();
 			List<Purchase> list = control.viewMyPurchase(customerId);
+			
+			dio.sendPurchase(list);
 			dio.sendSuccess();
 		} catch (FindException e) {
 			e.printStackTrace();
