@@ -63,43 +63,43 @@ public class RecipeSearchView {
 		Scanner sc = new Scanner(System.in);
 		List<RecipeInfo> list = recipeInfo;
 		System.out.println("[" + list.size() + "개의 건이 조회되었습니다]");
-		int i = 0;
-		int j = 0;
+		int i =0;
 		if (list.size() > 5) {
-			for (; i < j+5; i++) {
-				System.out.println(i+1 + " "+ list.get(i).getRecipeName());
-			}
-			System.out.println("-:이전페이지 | +:다음페이지 | 0:다시검색 | *:메인메뉴");
-			System.out.println("상세레시피를 보시려면 번호를 입력하세요");
+			viewList(list,i, 0);
 		}
 		else {
 			for(RecipeInfo ri : list) {
 				System.out.println(i+1 + list.get(i).getRecipeCode() + "  " + i+1 + list.get(i).getRecipeName());
 				i++;
 			}
+			System.out.println("0:다시검색 | *:메인메뉴");
+			System.out.println("상세레시피를 보시려면 번호를 입력하세요");
 		}
 		String value = sc.nextLine();
-		if (value.equals("+")) {
-			for (; i < 10; i++) {
-				System.out.println(i+1 + " "+ list.get(i).getRecipeName());
-			}
+		if (value.equals("*")) {
+			
+		} else if(value.equals("0")) {
+			showRecipeInfoView();
 		}
-//		for(RecipeInfo ri : list) {
-//			System.out.println("1:" + ri.getRecipeCode() + ri.getRecipeName() + ri.getRecipePrice() + ri.getRecipeProcess() + ri.getRecipeSumm());
-//			
-//		}
 	}
-	public static void main(String[] args) {
-		Socket s;
-		try {
-			s = new Socket("127.0.0.1", 1025);
-			DataIO dio = new DataIO(new DataOutputStream(s.getOutputStream()), new DataInputStream(s.getInputStream()));
-			RecipeSearchView riv = new RecipeSearchView(dio);
-			riv.showRecipeInfoView();		
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+	private void viewList(List<RecipeInfo> recipeInfo, int i, int j) {
+		Scanner sc = new Scanner(System.in);
+			
+		for (; i < j+5; i++) {
+			System.out.println(i+1 + " "+ recipeInfo.get(i).getRecipeName());
 		}
+		System.out.println("-:이전페이지 | +:다음페이지 | 0:다시검색 | *:메인메뉴");
+		System.out.println("상세레시피를 보시려면 번호를 입력하세요");
+		String value = sc.nextLine();
+		if (value.equals("+")) {
+			viewList(recipeInfo, i, j+5);
+		} else if(value.equals("-")) {
+			viewList(recipeInfo, i-10, j-5);
+		} else if(value.equals("0")) {
+			showRecipeInfoView();
+		}
+	}
+	public static void main(String[] args) {		
 		
 		
 	}
