@@ -112,8 +112,10 @@ public class CustomerFrontThread implements Runnable {
 		dio.sendSuccess();
 	}
 	
-	
-	
+	/**
+	 * ID에 해당하는 구매목록을 클라이언트부터 전달받음
+	 * @throws IOException
+	 */
 	public void purchaseList() throws IOException{
 		try {
 			String customerId = dio.receiveId();
