@@ -53,6 +53,9 @@ public class CustomerFrontThread implements Runnable{
 				case Menu.PURCHASE_LIST: //구매 내역
 					//TO DO
 					break;
+				case Menu.CUSTOMER_LOGOUT:
+					logoutFront();
+					break;
 				default:
 					break;
 				}
@@ -65,6 +68,7 @@ public class CustomerFrontThread implements Runnable{
 	/**
 	 * 로그인에 필요한 ID, 패스워드를 Client로부터 전달받아 로그인 절차를 수행한다
 	 * @throws IOException
+	 * @author 최종국
 	 */
 	public void loginFront() throws IOException {
 		String id = dio.receiveId();
@@ -75,5 +79,15 @@ public class CustomerFrontThread implements Runnable{
 		} catch (FindException e) {
 			dio.sendFail(e.getMessage());
 		}
+	}
+	
+	/**
+	 * 로그아웃에 필요한 ID를 클라이언트로부터 전달받아 로그아웃 절차를 수행한다.
+	 * @throws IOException
+	 * @author 최종국
+	 */
+	public void logoutFront() throws IOException {
+		String customerId = dio.receiveId();
+		CustomerShare.removeSession(customerId);
 	}
 }
