@@ -28,12 +28,12 @@ public class CustomerInfoView {
 			dataio.sendMenu(Menu.CUSTOMER_INFO);
 			// id를 송신
 			dataio.sendId(customerId);
-			System.out.println("기다리는 중!");
+			//System.out.println("기다리는 중!");
 			// 응답
 			if ("success".equals(dataio.receiveStatus())) {
-				System.out.println("성공:");
+				//System.out.println("성공:");
 				Customer receiveCustomer = dataio.receiveCustomer();
-				System.out.println("내정보");
+				//System.out.println("내정보");
 				System.out.println(receiveCustomer.getCustomerName());
 			} else {
 				String failMsg = dataio.receive();

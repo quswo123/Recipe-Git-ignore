@@ -13,6 +13,8 @@ import com.recipe.io.Menu;
 import com.recipe.share.CustomerShare;
 import com.recipe.vo.Purchase;
 import com.recipe.vo.Customer;
+import com.recipe.vo.RecipeInfo;
+
 
 public class CustomerFrontThread implements Runnable {
 	private Socket client;
@@ -61,8 +63,8 @@ public class CustomerFrontThread implements Runnable {
 				case Menu.SEARCH_RECIPE_CODE: // 레시피 코드 검색
 					// TO DO
 					break;
-				case Menu.SEARCH_RECIPE_NAME: // 레시피 제목 검색
-					// TO DO
+				case Menu.SEARCH_RECIPE_NAME: //레시피 제목 검색
+					selectByNameFront();
 					break;
 				case Menu.SEARCH_RECIPE_INGREDIENTS: // 레시피 재료 검색
 					// TO DO
@@ -127,5 +129,15 @@ public class CustomerFrontThread implements Runnable {
 		}
 	}
 	
-	
+	public void selectByNameFront() throws IOException {
+		List<RecipeInfo> recipeInfo = null;
+		String recipeName = dio.receive();
+		try {
+			recipeInfo = control.searchByName(recipeName);
+			dio.send(recipeInfo);
+			dio.sendSuccess();
+		} catch (FindException e) {
+			dio.sendFail(e.getMessage());
+		}
+	}
 }

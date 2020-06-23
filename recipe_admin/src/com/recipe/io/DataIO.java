@@ -1,4 +1,5 @@
 package com.recipe.io;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -170,6 +171,18 @@ public class DataIO {
 		dos.writeUTF(r.getRecipeProcess());
 		send(r.getPoint());
 		sendRecipeIngredients(r.getIngredients());
+	}
+	/**
+	 * RecipeInfo List를 전달받는다
+	 * @return 전달받은 RecipeIngredient들의 List
+	 * @throws IOException
+	 */
+	public List<RecipeInfo> receiveRecipeInfos() throws IOException {
+		int size = dis.readInt();
+		List<RecipeInfo> list = new ArrayList<RecipeInfo>();
+		for(int i = 0; i < size; i++) list.add(receiveRecipeInfo());
+		
+		return list;
 	}
 	/**
 	 * VO 객체 RecipeIngredient의 내용들을 전송한다

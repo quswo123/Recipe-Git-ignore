@@ -31,7 +31,8 @@ public class MainView {
 			menu = Integer.parseInt(sc.nextLine());
 			switch(menu) {
 			case 1:
-				break;
+				RecipeSearchView recipeSearchView= new RecipeSearchView(dio);
+				recipeSearchView.showRecipeInfoView();
 			case 2:
 				break;
 			case 3:
@@ -49,6 +50,7 @@ public class MainView {
 			}
 		}while(menu != -1);
 	}
+	
 	
 	public static void main(String[] args) {
 		MainView mainView = new MainView();

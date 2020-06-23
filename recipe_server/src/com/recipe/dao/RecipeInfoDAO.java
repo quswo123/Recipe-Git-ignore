@@ -137,7 +137,7 @@ public class RecipeInfoDAO {
 	
 	public static void main(String[] args) {
 		RecipeInfoDAO dao = new RecipeInfoDAO();
-//		int code = 195454;
+//		int code = 195453;
 //		try {
 //			RecipeInfo list = dao.selectByCode(code);
 //			System.out.println("code:" + list.getRecipeCode() + "  name:" + list.getRecipeName() + "  summ:"+ list.getRecipeSumm() +"  price:"+ list.getRecipePrice());
@@ -152,7 +152,7 @@ public class RecipeInfoDAO {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
-		
+//		
 		String name = "단호박";
 	
 		try {
