@@ -94,7 +94,6 @@ public class DataIO {
 	 * @throws IOException
 	 */
 	public void send(Customer c) throws IOException {
-		
 		dos.writeUTF(c.getCustomerId() != null ? c.getCustomerId() : "");
 		dos.writeUTF(c.getCustomerPwd() != null ? c.getCustomerPwd() : "");
 		dos.writeUTF(c.getCustomerName() != null ? c.getCustomerName() : "");

@@ -89,5 +89,7 @@ public class CustomerFrontThread implements Runnable{
 	public void logoutFront() throws IOException {
 		String customerId = dio.receiveId();
 		CustomerShare.removeSession(customerId);
+		
+		dio.sendSuccess();
 	}
 }
