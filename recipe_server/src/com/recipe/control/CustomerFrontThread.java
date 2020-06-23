@@ -32,6 +32,9 @@ public class CustomerFrontThread implements Runnable {
 		control = RecipeMarketControl.getInstance();
 	}
 
+	/**
+	 * 전달받은 메뉴 번호에 해당하는 절차를 수행한다.
+	 */
 	@Override
 	public void run() {
 		int menu = -1;

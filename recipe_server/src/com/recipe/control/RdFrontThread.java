@@ -2,6 +2,7 @@ package com.recipe.control;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.EOFException;
 import java.io.IOException;
 import java.net.Socket;
 
@@ -34,21 +35,21 @@ public class RdFrontThread implements Runnable{
 		try {
 			do {
 				menu = dio.receiveMenu();
-				switch(menu) {
-				case Menu.RD_LOGIN: //로그인
+				switch (menu) {
+				case Menu.RD_LOGIN: // 로그인
 					loginFront();
 					break;
-				case Menu.RECOMMENDED_RECIPE: //추천 레시피
-					//TO DO
+				case Menu.RECOMMENDED_RECIPE: // 추천 레시피
+					// TO DO
 					break;
-				case Menu.SEARCH_RECIPE_CODE: //레시피 코드 검색
-					//TO DO
+				case Menu.SEARCH_RECIPE_CODE: // 레시피 코드 검색
+					// TO DO
 					break;
-				case Menu.SEARCH_RECIPE_NAME: //레시피 제목 검색
-					//TO DO
+				case Menu.SEARCH_RECIPE_NAME: // 레시피 제목 검색
+					// TO DO
 					break;
-				case Menu.SEARCH_RECIPE_INGREDIENTS: //레시피 재료 검색 
-					//TO DO
+				case Menu.SEARCH_RECIPE_INGREDIENTS: // 레시피 재료 검색
+					// TO DO
 					break;
 				case Menu.RD_LOGOUT:
 					logoutFront();
@@ -57,6 +58,8 @@ public class RdFrontThread implements Runnable{
 					break;
 				}
 			} while (menu != -1);
+		} catch (EOFException e) {
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

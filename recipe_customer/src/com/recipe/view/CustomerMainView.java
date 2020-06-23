@@ -49,6 +49,10 @@ public class CustomerMainView {
 		}
 	}
 
+	/**
+	 * 현재 로그인중인 아이디를 서버로 전송하고 로그아웃 절차를 수행한다
+	 * @throws IOException
+	 */
 	private void logout() throws IOException {
 		dio.sendMenu(Menu.CUSTOMER_LOGOUT);
 		dio.sendId(CustomerShare.loginedId);
