@@ -133,7 +133,7 @@ public class PurchaseDAO {
 			ps.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new AddException(e.getMessage());
+			throw new AddException("구매되지 않았습니다");
 		} finally {
 			MyConnection.close(ps, con);
 		}

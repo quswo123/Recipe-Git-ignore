@@ -25,9 +25,7 @@ public class PurchaseService {
 		list = purchasedao.selectById(customerId);
 		List<Review> reviewList = revidao.selectById(customerId);
 		if(reviewList.size()!=0) {
-			for(Review r : reviewList) {
-				r.getReviewComment();
-			}
+			throw new FindException("No");
 		}
 		
 		return list;
