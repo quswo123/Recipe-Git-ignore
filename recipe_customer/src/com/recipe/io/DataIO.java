@@ -2,7 +2,6 @@ package com.recipe.io;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -404,5 +403,30 @@ public class DataIO {
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * VO 객체 Review의 내용들을 전달받는다
+	 * @return 전달받은 내용들로 구성한 Review
+	 * @throws IOException, ParseException
+	 */
+	public Review receiveReview() throws IOException, ParseException {
+		String customerId = dis.readUTF();
+		String reviewComment = dis.readUTF();
+		Date reviewDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(dis.readUTF());
+		RecipeInfo recipeInfo = receiveRecipeInfo();
+		
+		return new Review(customerId, reviewComment, reviewDate, recipeInfo);
+	}
 
+	/**
+	 * VO 객체 Favorite의 내용들을 전달받는다
+	 * @return 전달받은 내용들로 구성한 Favorite
+	 * @throws IOException, ParseException
+	 */
+	public Favorite receiveFavorite() throws IOException {
+		String customerId = dis.readUTF();
+		RecipeInfo recipeInfo = receiveRecipeInfo();
+		
+		return new Favorite (customerId, recipeInfo);
+	}
 }
