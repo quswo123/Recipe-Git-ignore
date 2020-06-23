@@ -15,7 +15,7 @@ import com.recipe.vo.RecipeInfo;
 import com.recipe.vo.RecipeIngredient;
 
 public class RecipeInfoDAO {
-	RecipeInfo selectByCode(int recipeCode) throws FindException {
+	public RecipeInfo selectByCode(int recipeCode) throws FindException {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -42,9 +42,9 @@ public class RecipeInfoDAO {
 				String ingName = rs.getString("ing_name");
 				Ingredient ingredient = new Ingredient(ingCode, ingName);
 				RecipeIngredient recipeIng = new RecipeIngredient(ingredient);
-				//ì™€ì¸ë¬¸ ëŒë•Œë§ˆë‹¤ ì¬ë£Œì½”ë“œ, ì´ë¦„ -> Ingredient ì— ë„£ê³  -> ë¦¬ìŠ¤íŠ¸ì— ë„£ì–´ì£¼ê¸°
+				//¿ÍÀÎ¹® µ¹¶§¸¶´Ù Àç·áÄÚµå, ÀÌ¸§ -> Ingredient ¿¡ ³Ö°í -> ¸®½ºÆ®¿¡ ³Ö¾îÁÖ±â
 				ingList.add(recipeIng);
-				//ì²˜ìŒ ì™€ì¼ë¬¸ ëŒë•Œë§Œ RecipeInfoì— ê°’ ë„£ì–´ì£¼ê¸°
+				//Ã³À½ ¿ÍÀÏ¹® µ¹¶§¸¸ RecipeInfo¿¡ °ª ³Ö¾îÁÖ±â
 				if (prevCode != rCode) {
 					recipeInfo.setRecipeCode(rCode);
 					recipeInfo.setRecipeName(rs.getString("recipe_name"));
@@ -66,7 +66,7 @@ public class RecipeInfoDAO {
 
 		return recipeInfo;
 	}
-	List<RecipeInfo> selectByName(String recipeName) throws FindException{
+	public List<RecipeInfo> selectByName(String recipeName) throws FindException{
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -91,7 +91,7 @@ public class RecipeInfoDAO {
 			int prevCode = 0;
 			while(rs.next()) {				
 				int rCode = rs.getInt("recipe_code");
-				//ë ˆì‹œí”¼ì½”ë“œê°€ ë‹¤ë¥¼ë•Œë§Œ RecipeInfo ê°ì²´ ìƒì„±í•´ì„œ ê°’ ë„£ì–´ì£¼ê³  ì¬ë£Œë¦¬ìŠ¤íŠ¸ ì°¸ì¡°ì‹œí‚¤ê¸°				
+				//·¹½ÃÇÇÄÚµå°¡ ´Ù¸¦¶§¸¸ RecipeInfo °´Ã¼ »ı¼ºÇØ¼­ °ª ³Ö¾îÁÖ°í Àç·á¸®½ºÆ® ÂüÁ¶½ÃÅ°±â				
 				if (prevCode != rCode) {					
 					RecipeInfo recipeInfo2 = new RecipeInfo();
 					ingList = new ArrayList<>();
@@ -105,10 +105,10 @@ public class RecipeInfoDAO {
 					Point pt = new Point(rCode, rs.getInt("like_count"), rs.getInt("dislike_count"));
 					recipeInfo2.setPoint(pt);
 					recipeInfo.add(recipeInfo2);
-					//ìƒˆë¡œ ê°ì²´ ìƒì„±í• ë•Œë§ˆë‹¤ ì „ì½”ë“œ ê°’ì„ ìƒˆë¡œìš´ê°’ìœ¼ë¡œ ëŒ€ì…í•´ì£¼ê¸°
+					//»õ·Î °´Ã¼ »ı¼ºÇÒ¶§¸¶´Ù ÀüÄÚµå °ªÀ» »õ·Î¿î°ªÀ¸·Î ´ëÀÔÇØÁÖ±â
 					prevCode = rCode;
 				}
-				//ì™€ì¸ë¬¸ ëŒë•Œë§ˆë‹¤ ì¬ë£Œì½”ë“œ, ì´ë¦„ -> Ingredient ì— ë„£ê³  -> ë¦¬ìŠ¤íŠ¸ì— ë„£ì–´ì£¼ê¸°
+				//¿ÍÀÎ¹® µ¹¶§¸¶´Ù Àç·áÄÚµå, ÀÌ¸§ -> Ingredient ¿¡ ³Ö°í -> ¸®½ºÆ®¿¡ ³Ö¾îÁÖ±â
 				int ingCode = rs.getInt("ing_code");
 				String ingName = rs.getString("ing_name");
 				Ingredient ingredient = new Ingredient(ingCode, ingName);
@@ -144,7 +144,7 @@ public class RecipeInfoDAO {
 //			e.printStackTrace();
 //		}
 //		
-		String name = "ê¹€ì¹˜";
+		String name = "±èÄ¡";
 	
 		try {
 			List<RecipeInfo> list2 = dao.selectByName(name);
