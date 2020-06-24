@@ -58,6 +58,33 @@ public class PurchaseListVIew {
 			e.printStackTrace();
 		}	
 	}
+	private void viewList(List<Purchase> purchaseInfo, int i, int j) {
+		Scanner sc = new Scanner(System.in);
+			
+		for (; i < j+5; i++) {
+			if (i == purchaseInfo.size()) {
+				i = j - 5;
+				j -= 5;
+				break;
+		}
+			System.out.println(i+1 + " "+ purchaseInfo.get(i).getPurchaseDetail().getRecipeInfo().getRecipeName());
+			
+		}
+		System.out.println("-:이전페이지 | +:다음페이지 | *:메인메뉴");
+		System.out.println("상세레시피를 보시려면 번호를 입력하세요");
+		String value = sc.nextLine();
+		if (value.equals("+")) {
+			viewList(purchaseInfo, i, j+5);
+		} else if(value.equals("-")) {
+			if (i == 5 || i < 10) {
+				viewList(purchaseInfo, 0, 0);
+			}
+			viewList(purchaseInfo, i-10, j-5);
+		} else if(value.equals("*")) {
+			//showRecipeInfoView();
+		}
+	}
+	
 	
 	
 }
