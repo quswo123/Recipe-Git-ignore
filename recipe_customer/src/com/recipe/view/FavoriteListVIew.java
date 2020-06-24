@@ -12,18 +12,17 @@ import com.recipe.vo.Favorite;
  * @author Soojeong
  *
  */
-public class FavoriteListVIew {
-	private String customerId = "tester";
+public class FavoriteListView {
 	private DataIO dio;
 
-	public FavoriteListVIew(DataIO dio) {
+	public FavoriteListView(DataIO dio) {
 		this.dio = dio;
 	}
 
 	/**
 	 * 즐겨찾기 로그인 한 customerId로 목록조회
 	 */
-	public void showFavoriteListView() {
+	public void showFavoriteListView(String customerId) {
 		System.out.println("===== 즐겨찾기 목록 보기 =====");
 		searchFavoriteList(customerId);
 	}
@@ -40,18 +39,20 @@ public class FavoriteListVIew {
 			
 			List<Favorite> favoriteList = dio.receiveFavorites();
 
+			/*목록 출력*/
 			if ( favoriteList.size() == 0 ) {
 				FailView fail = new FailView();
-				String msg = "즐겨찾기 등록된 목록이 없습니다."; 
-				System.out.println(msg);
+				String msg = "즐겨찾기 추가 된 레시피가 없습니다.";
+				fail.favoriteListView(msg);
+			} else {
+				System.out.println("=="+favoriteList.size() +"건의 등록된 즐겨찾기 목록이 조회되었습니다==");
+				System.out.println("레시피코드 | 레시피이름");
+				for (Favorite f : favoriteList ) {
+					System.out.println(f.getRecipeInfo().getRecipeCode() + " | " + f.getRecipeInfo().getRecipeName());
+				}
 			}
 
-			System.out.println("=="+favoriteList.size() +"건의 등록된 즐겨찾기 목록이 조회되었습니다==");
-			
-			for (Favorite f : favoriteList ) {
-				System.out.println("레시피코드 | 레시피이름");
-				System.out.println(f.getRecipeInfo().getRecipeCode() + " | " + f.getRecipeInfo().getRecipeName());
-			}
+			/*목록 보기 하단 메뉴바*/
 			System.out.println("---------------------------------------------");
 			System.out.println("- 이전페이지 | + 다음페이지 | * 메인메뉴 | D 즐겨찾기 해제 ");
 			System.out.print("상세레시피를 보기원하시면 번호를 입력하세요 : ");
@@ -82,4 +83,4 @@ public class FavoriteListVIew {
 		}
 	}
 	
-}
+} // end class FavoriteListView

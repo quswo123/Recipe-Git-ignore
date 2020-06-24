@@ -121,6 +121,7 @@ public class CustomerFrontThread implements Runnable {
 	/**
 	 * customerId에 해당하는 즐겨찾기 목록을 조회한 후 반환한다.
 	 * @throws IOException
+	 * @author 고수정
 	 */
 	public void favoriteByCustomerIdFront() throws IOException {
 		String customerId = dio.receive();

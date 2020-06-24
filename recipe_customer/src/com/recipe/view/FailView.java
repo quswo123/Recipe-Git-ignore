@@ -16,4 +16,14 @@ public class FailView {
 	public void logoutCustomerView() {
 		System.out.println("로그아웃 실패");
 	}
+	
+	/**
+	 * 즐겨찾기 목록 조회 실패 메시지를 출력한다
+	 * @author 고수정
+	 */
+	public void favoriteListView(String msg) {
+		System.out.println(msg);
+	}
+	
+
 }

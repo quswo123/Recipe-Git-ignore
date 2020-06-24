@@ -13,6 +13,7 @@ import com.recipe.exception.FindException;
 import com.recipe.exception.RemoveException;
 import com.recipe.jdbc.MyConnection;
 import com.recipe.vo.Favorite;
+import com.recipe.vo.Point;
 import com.recipe.vo.RecipeInfo;
 
 /**
@@ -78,7 +79,6 @@ public class FavoriteDAO {
 	 */
 	public List<Favorite> selectById(String customerId) throws FindException {
 		
-		System.out.println("===CUSTOMERID3 :" + customerId);
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -91,9 +91,12 @@ public class FavoriteDAO {
 				+ ", recipe_process"
 				+ ", recipe_status"
 				+ ", rd_Id"
+				+ ", like_count"
+				+ ", dislike_count"
 				+ ", f.customer_id"
 				+" FROM RECIPE_INFO info "  
-				+" JOIN FAVORITE f  ON Info.recipe_code = f.recipe_code "
+				+" JOIN FAVORITE f  ON info.recipe_code = f.recipe_code "
+				+" LEFT JOIN POINT p  ON info.recipe_code = p.recipe_code "
 				+" WHERE CUSTOMER_ID = ? AND RECIPE_STATUS = '1'"
 				+" ORDER BY RECIPE_CODE";
 		
@@ -118,6 +121,12 @@ public class FavoriteDAO {
 				info.setRecipeProcess(rs.getString("recipe_process"));
 				info.setRecipeSumm(rs.getString("recipe_summ"));
 				info.setIngredients(null);
+				
+				Point p = new Point();
+				p.setRecipeCode(rs.getInt("recipe_code"));
+				p.setLikeCount(rs.getInt("like_count"));
+				p.setDisLikeCount(rs.getInt("dislike_count"));
+				info.setPoint(p);
 				
 				Favorite f = new Favorite();
 				f.setRecipeInfo(info);
