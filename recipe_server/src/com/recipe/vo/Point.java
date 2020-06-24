@@ -43,4 +43,11 @@ public class Point {
 		return "좋아요 : " + likeCount + ", " + "싫어요 : " + disLikeCount + "\n";
 	}
 	
+	public void like() {
+		this.likeCount++;
+	}
+	
+	public void disLike() {
+		this.disLikeCount++;
+	}
 }
