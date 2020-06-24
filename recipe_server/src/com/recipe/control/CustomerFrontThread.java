@@ -70,7 +70,7 @@ public class CustomerFrontThread implements Runnable {
 					selectByNameFront();
 					break;
 				case Menu.SEARCH_RECIPE_INGREDIENTS: // 레시피 재료 검색
-					// TO DO
+					selectByIngFront();
 					break;
 				case Menu.PURCHASE_LIST: // 구매 내역
 					// TO DO
@@ -141,6 +141,17 @@ public class CustomerFrontThread implements Runnable {
 		try {
 			recipeInfo = control.searchByName(recipeName);
 			dio.send(recipeInfo);
+			//dio.sendSuccess();
+		} catch (FindException e) {
+			dio.sendFail(e.getMessage());
+		}
+	}
+	public void selectByIngFront() throws IOException {
+		List<String> recipeInfo = dio.receiveListString();
+		List<RecipeInfo> searchedRecipeInfo = null;		
+		try {
+			searchedRecipeInfo = control.searchByIngName(recipeInfo);
+			dio.send(searchedRecipeInfo);
 			//dio.sendSuccess();
 		} catch (FindException e) {
 			dio.sendFail(e.getMessage());

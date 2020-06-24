@@ -40,16 +40,18 @@ public class RecipeSearchView {
 		for (String c : s) {
 			list.add(c);
 		}	
-		
+		findByIngName(list);
 		sc.close();
 		
 	}
 	public void findByIngName(List<String> ingName) {
-		RecipeInfo recipeInfo = null;
+		List<RecipeInfo> recipeInfo = null;
 		try {
 			dio.sendMenu(Menu.SEARCH_RECIPE_INGREDIENTS);
 			dio.sendListString(ingName);
-			recipeInfo = dio.receiveRecipeInfo();
+			recipeInfo = dio.receiveRecipeInfos();
+			RecipeListView listView = new RecipeListView(dio);
+			listView.searchedRecipeList(recipeInfo);
 			//레시피 상세뷰 들어올자리
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
