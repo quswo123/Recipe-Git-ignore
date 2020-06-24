@@ -37,15 +37,17 @@ public class RecipeSearchView {
 		Scanner sc = new Scanner(System.in);
 		List<String> list = new ArrayList<>();
 		System.out.println("재료로 검색");
-		System.out.println("재료를 입력하세요(하나 이상의 재료는  "+ "," + " 로 분리해주세요):");
-		
+		System.out.println("재료를 입력하세요(하나 이상의 재료는  " + "," + " 로 분리해주세요):");
+
 		String[] s = sc.nextLine().split(",");
 		for (String c : s) {
 			list.add(c);
-		}	
+		}
+
 		findByIngName(list);
-				
+
 	}
+
 	public void findByIngName(List<String> ingName) {
 		List<RecipeInfo> recipeInfo = null;
 		try {
