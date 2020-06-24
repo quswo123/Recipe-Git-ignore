@@ -374,7 +374,7 @@ public class DataIO {
    public Purchase receivePurchase() throws IOException, ParseException {
       int purchaseCode = dis.readInt();
       String customerId = dis.readUTF();
-      Date purchaseDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(dis.readUTF());
+      Date purchaseDate = new SimpleDateFormat("yyyy-MM-dd").parse(dis.readUTF());
       PurchaseDetail purchaseDetail = receivePurchaseDetail();
       
       return new Purchase(purchaseCode, customerId, purchaseDate, purchaseDetail);
@@ -514,7 +514,7 @@ public class DataIO {
    public Review receiveReview() throws IOException, ParseException {
       String customerId = dis.readUTF();
       String reviewComment = dis.readUTF();
-      Date reviewDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(dis.readUTF());
+      Date reviewDate = new SimpleDateFormat("yyyy-MM-dd").parse(dis.readUTF());
       RecipeInfo recipeInfo = receiveRecipeInfo();
       
       return new Review(customerId, reviewComment, reviewDate, recipeInfo);
