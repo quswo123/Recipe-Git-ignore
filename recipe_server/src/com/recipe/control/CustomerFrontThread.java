@@ -9,16 +9,19 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.recipe.exception.FindException;
 import com.recipe.io.DataIO;
 import com.recipe.io.Menu;
+import com.recipe.vo.Favorite;
 import com.recipe.share.CustomerShare;
 import com.recipe.vo.Purchase;
 import com.recipe.vo.Customer;
 import com.recipe.vo.RecipeInfo;
 import com.recipe.vo.Review;
+
 
 
 public class CustomerFrontThread implements Runnable {
@@ -86,6 +89,9 @@ public class CustomerFrontThread implements Runnable {
 				case Menu.CUSTOMER_LOGOUT:
 					logoutFront();
 					break;
+				case Menu.SEARCH_FAVORITE_BY_CUSTOMERID: //로그인한 사용자 즐겨찾기 목록 보기
+					favoriteByCustomerIdFront();
+					break;
 				default:
 					break;
 				}
@@ -114,7 +120,21 @@ public class CustomerFrontThread implements Runnable {
 	}
 	
 	/**
-	 * 로그아웃에 필요한 ID를 클라이언트로부터 전달받아 로그아웃 절차를 수행한다.
+	 * customerId에 해당하는 즐겨찾기 목록을 조회한 후 반환한다.
+	 * @throws IOException
+	 */
+	public void favoriteByCustomerIdFront() throws IOException {
+		String customerId = dio.receive();
+		List<Favorite> list = new ArrayList<>();
+		try {
+			list = control.viewFavorite(customerId);
+			dio.sendFavorites(list);
+			
+		} catch (FindException e) {
+		
+		}
+	}
+	 /* 로그아웃에 필요한 ID를 클라이언트로부터 전달받아 로그아웃 절차를 수행한다.
 	 * @throws IOException
 	 * @author 최종국
 	 */

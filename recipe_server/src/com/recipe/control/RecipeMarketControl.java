@@ -5,10 +5,6 @@ import java.util.List;
 
 import com.recipe.exception.AddException;
 import com.recipe.exception.DuplicatedException;
-import java.util.List;
-import com.recipe.exception.FindException;
-import com.recipe.exception.AddException;
-import com.recipe.exception.DuplicatedException;
 import com.recipe.exception.FindException;
 import com.recipe.exception.ModifyException;
 import com.recipe.exception.RemoveException;
@@ -20,11 +16,11 @@ import com.recipe.service.PurchaseService;
 import com.recipe.service.RDAccountService;
 import com.recipe.service.RecipeService;
 import com.recipe.service.ReviewService;
-import com.recipe.vo.Purchase;
-import com.recipe.vo.Favorite;
-import com.recipe.vo.Review;
-import com.recipe.vo.RecipeInfo;
 import com.recipe.vo.Customer;
+import com.recipe.vo.Favorite;
+import com.recipe.vo.Purchase;
+import com.recipe.vo.RecipeInfo;
+import com.recipe.vo.Review;
 
 public class RecipeMarketControl {
 	private static RecipeMarketControl control = new RecipeMarketControl();
@@ -128,8 +124,10 @@ public class RecipeMarketControl {
 	 * @throws FindException
 	 * @author 고수정
 	 */
-	public void viewFavorite(String customerId) throws FindException {
-		favoriteService.findById(customerId);
+	public List<Favorite> viewFavorite(String customerId) throws FindException {
+		List<Favorite> list = new ArrayList<>();
+		list = favoriteService.findById(customerId);
+		return list;
 	}
 
 	/**
@@ -148,8 +146,10 @@ public class RecipeMarketControl {
 	 * @throws FindException
 	 * @author 고수정
 	 */
-	public void viewRecipeReview(int recipeCode) throws FindException {
-		reviewService.findByCode(recipeCode);
+	public List<Review> viewRecipeReview(int recipeCode) throws FindException {
+		List<Review> list = new ArrayList<>();
+		list = reviewService.findByCode(recipeCode);
+		return list;
 	}
 
 	/**
@@ -169,8 +169,10 @@ public class RecipeMarketControl {
 	 * @throws FindException
 	 * @author 고수정
 	 */
-	public void viewMyReview(String customerId) throws FindException {
-		reviewService.findById(customerId);
+	public List<Review> viewMyReview(String customerId) throws FindException {
+		List<Review> list = new ArrayList<>();
+		list = reviewService.findById(customerId);
+		return list;
 	}
 
 	/**

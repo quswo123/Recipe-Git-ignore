@@ -77,6 +77,8 @@ public class FavoriteDAO {
 	 * @param String customerId
 	 */
 	public List<Favorite> selectById(String customerId) throws FindException {
+		
+		System.out.println("===CUSTOMERID3 :" + customerId);
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
