@@ -40,4 +40,11 @@ public class FailView {
 	public void likeRecipe(String msg) {
 		System.out.println("좋아요 실패 : " + msg);
 	}
+	
+	 /* 추천 레시피 실패 메시지를 출력한다
+	 * @author 최종국
+	 */
+	public void reviewListView(String msg) {
+		System.out.println(msg);
+	}
 }

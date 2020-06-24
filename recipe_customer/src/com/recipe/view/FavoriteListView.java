@@ -15,7 +15,8 @@ import com.recipe.vo.Favorite;
 public class FavoriteListView {
 	private DataIO dio;
 	private Scanner sc;
-	private String customerId = "tester";
+	private String customerId;
+	//private String customerId = "tester";
 
 	public FavoriteListView(DataIO dio) {
 		this.dio = dio;
