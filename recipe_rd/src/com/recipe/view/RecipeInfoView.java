@@ -15,8 +15,7 @@ public class RecipeInfoView {
 	public RecipeInfoView(DataIO dio) {
 		sc = new Scanner(System.in);
 		this.dio = dio;
-	}
-	
+	}	
 	/**
 	 * 레시피 정보를 화면에 출력하는 메소드. 이때 레시피 과정 정보를 서버에서 전달받아 화면에 출력한다.
 	 * @param info 화면에 보여줄 레시피 정보
