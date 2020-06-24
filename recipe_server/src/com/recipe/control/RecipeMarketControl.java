@@ -19,6 +19,9 @@ import com.recipe.service.ReviewService;
 import com.recipe.vo.Customer;
 import com.recipe.vo.Favorite;
 import com.recipe.vo.Purchase;
+import com.recipe.vo.Postal;
+import com.recipe.vo.Point;
+import com.recipe.vo.Review;
 import com.recipe.vo.RecipeInfo;
 import com.recipe.vo.Review;
 
@@ -242,7 +245,7 @@ public class RecipeMarketControl {
 	}
 
 	/*
-	 * Control에서 accountService의 removeMyAccount
+	 * Control에서 accountService의 removeMyAccount 호출
 	 * 
 	 * @param Cusotomer c
 	 * 
@@ -251,13 +254,33 @@ public class RecipeMarketControl {
 	public void removeMyAccount(Customer c) throws RemoveException {
 		accountService.remove(c);
 	}
+	/*
+	 * control에서 PostService의 findMyDoro 호출
+	 * @param String doro
+	 * @author 영민
+	 */
+	public List<Postal> searchByDoro(String doro) throws FindException{
+		PostService service = new PostService();
+		return service.findByDoro(doro);
+	}
 
 	/**
 	 * 추천 레시피 탐색 절차를 위한 메소드
 	 * @return 추천 레시피 정보를 가진 RecipeInfo
 	 * @throws FindException
+	 * @author 최종국
 	 */
 	public RecipeInfo searchRecommended() throws FindException {
 		return recipeService.findRecommended();
+	}
+	
+	/**
+	 * 포인트 수정 절차를 위한 메소드
+	 * @param p 수정할 레시피 코드와 좋아요, 싫어요 개수를 포함한 Point 객체
+	 * @throws ModifyException
+	 * @author 최종국
+	 */
+	public void modifyPoint(Point p) throws ModifyException{
+		recipeService.modifyPoint(p);
 	}
 }

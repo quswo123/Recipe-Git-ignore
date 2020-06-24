@@ -41,8 +41,7 @@ public class RecipeSearchView {
 			list.add(c);
 		}	
 		findByIngName(list);
-		sc.close();
-		
+				
 	}
 	public void findByIngName(List<String> ingName) {
 		List<RecipeInfo> recipeInfo = null;
@@ -69,10 +68,9 @@ public class RecipeSearchView {
 		List<RecipeInfo> recipeInfo = null;
 		try {
 			dio.sendMenu(Menu.SEARCH_RECIPE_NAME);
-
 			dio.send(recipeName);		
 			recipeInfo = dio.receiveRecipeInfos();		
-			dio.receiveStatus();
+			//dio.receiveStatus();
 			RecipeListView listView = new RecipeListView(dio);
 			listView.searchedRecipeList(recipeInfo);
 

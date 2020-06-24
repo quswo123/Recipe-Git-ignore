@@ -1,15 +1,22 @@
 package com.recipe.control;
 
+import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.EOFException;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.Socket;
 
 import com.recipe.exception.FindException;
+import com.recipe.exception.ModifyException;
 import com.recipe.io.DataIO;
 import com.recipe.io.Menu;
 import com.recipe.share.AdminShare;
+import com.recipe.vo.Point;
+import com.recipe.vo.RecipeInfo;
 
 public class AdminFrontThread implements Runnable{
 	private Socket client;
@@ -41,6 +48,18 @@ public class AdminFrontThread implements Runnable{
 					break;
 				case Menu.ADMIN_LOGOUT:
 					logoutFront();
+					break;
+				case Menu.RECOMMENDED_RECIPE: // 추천 레시피
+					recommendRecipeFront();
+					break;
+				case Menu.RECIPE_PROCESS: //레시피 과정 정보
+					recipeProcessFront();
+					break;
+				case Menu.LIKE: //좋아요
+					likeRecipeFront();
+					break;
+				case Menu.DISLIKE: //싫어요
+					disLikeRecipeFront();
 					break;
 				default:
 					break;
@@ -79,5 +98,86 @@ public class AdminFrontThread implements Runnable{
 		AdminShare.removeSession(adminId);
 		
 		dio.sendSuccess();
+	}
+	
+	/**
+	 * 클라이언트에게 추천 레시피를 탐색하여 전송한다
+	 * @throws IOException
+	 * @author 최종국
+	 */
+	public void recommendRecipeFront() throws IOException {
+		RecipeInfo info = null;
+		try {
+			info = control.searchRecommended();
+			dio.sendSuccess();
+			dio.send(info);
+		} catch (FindException e) {
+			e.printStackTrace();
+			dio.sendFail(e.getMessage());
+		}
+	}
+	
+	/**
+	 * 레시피 과정 정보를 클라이언트에 전송한다
+	 * @throws IOException
+	 * @author 최종국
+	 */
+	public void recipeProcessFront() throws IOException {
+		String filePath = dio.receive();
+		String result = "";
+		String process = "";
+		BufferedReader br = null;
+		try {
+			br = new BufferedReader(new InputStreamReader(new FileInputStream(filePath)));
+			while((process = br.readLine()) != null) result += process + "\n";
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if(br != null) {
+				try {
+					br.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		dio.send(result);
+	}
+	
+	/**
+	 * 레시피 코드를 전달받아 해당하는 레시피의 좋아요 개수를 증가시킨다
+	 * @throws IOException
+	 * @author 최종국
+	 */
+	public void likeRecipeFront() throws IOException {
+		Point p = dio.receivePoint();
+		p.like();
+		try {
+			control.modifyPoint(p);
+			dio.sendSuccess();
+		} catch (ModifyException e) {
+			e.printStackTrace();
+			dio.sendFail(e.getMessage());
+		}
+	}
+	
+	/**
+	 * 레시피 코드를 전달받아 해당하는 레시피의 싫어요 개수를 증가시킨다
+	 * @throws IOException
+	 * @author 최종국
+	 */
+	public void disLikeRecipeFront() throws IOException {
+		Point p = dio.receivePoint();
+		p.disLike();
+		try {
+			control.modifyPoint(p);
+			dio.sendSuccess();
+		} catch (ModifyException e) {
+			e.printStackTrace();
+			dio.sendFail(e.getMessage());
+		}
 	}
 }
