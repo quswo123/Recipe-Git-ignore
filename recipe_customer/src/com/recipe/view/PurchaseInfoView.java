@@ -2,6 +2,7 @@ package com.recipe.view;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Scanner;
 
 import com.recipe.io.DataIO;
 import com.recipe.share.CustomerShare;
@@ -10,8 +11,10 @@ import com.recipe.vo.Review;
 
 public class PurchaseInfoView {
 	private DataIO dio;
+	private Scanner sc;
 	
 	public PurchaseInfoView(DataIO dio) {
+		sc = new Scanner(System.in);
 		this.dio = dio;
 	}
 	
@@ -27,7 +30,8 @@ public class PurchaseInfoView {
 			System.out.println("구매일자 : " + p.getPurchaseDate());
 			System.out.println("구매수량 : " + p.getPurchaseDetail().getPurchaseDetailQuantity());
 			System.out.println("총 결제금액 : " + p.getPurchaseDetail().getPurchaseDetailQuantity()*p.getPurchaseDetail().getRecipeInfo().getRecipePrice());
-			System.out.println("1.레시피로가기 | 2.후기등록하기 | 0.목록으로 | *.메인메뉴");
+			System.out.println("1.상세레시피로가기 | 2.후기등록하기 | 0.목록으로");
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

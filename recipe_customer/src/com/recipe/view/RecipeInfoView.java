@@ -6,6 +6,8 @@ import java.util.Scanner;
 import com.recipe.io.DataIO;
 import com.recipe.io.Menu;
 import com.recipe.share.CustomerShare;
+import com.recipe.vo.Purchase;
+import com.recipe.vo.PurchaseDetail;
 import com.recipe.vo.RecipeInfo;
 
 public class RecipeInfoView {
@@ -73,7 +75,7 @@ public class RecipeInfoView {
 				System.out.println("1.구매하기 2.후기목록보기 3.즐겨찾기추가 4.좋아요 5.싫어요 0.목록으로 *초기화면");
 				menu = sc.nextLine();
 				if (menu.equals("1")) {
-
+					purchaseRecipe(info);
 				} else if (menu.equals("2")) {
 
 				} else if (menu.equals("3")) {
@@ -121,5 +123,14 @@ public class RecipeInfoView {
 		}
 	}
 	
-	
+	private void purchaseRecipe(RecipeInfo info) throws IOException{
+		System.out.println("수량을 입력해주세요");
+		dio.sendMenu(Menu.PURCHASE);
+		int line = Integer.parseInt(sc.nextLine());
+		dio.send(info);
+		Purchase p = new Purchase();
+		line = p.getPurchaseDetail().getPurchaseDetailQuantity();
+		System.out.println("총가격은"+p.getPurchaseDetail().getPurchaseDetailQuantity()*p.getPurchaseDetail().getRecipeInfo().getRecipePrice()+"입니다 구입하시겠습니까?");
+		dio.send(p);
+	}
 }

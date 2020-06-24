@@ -73,7 +73,7 @@ public class PurchaseListVIew {
 				j -= 5;
 				break;
 			}
-			System.out.println(i + 1 + " " + purchaseInfo.get(i).getPurchaseDetail().getRecipeInfo().getRecipeName());
+			System.out.println(i+1 + " " + purchaseInfo.get(i).getPurchaseDetail().getRecipeInfo().getRecipeName());
 
 		}
 		System.out.println("-:이전페이지 | +:다음페이지 | *:메인메뉴");
