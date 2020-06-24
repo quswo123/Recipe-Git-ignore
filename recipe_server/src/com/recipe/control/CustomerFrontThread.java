@@ -38,6 +38,7 @@ public class CustomerFrontThread implements Runnable {
 			do {
 				menu = dio.receiveMenu();
 				switch (menu) {
+				//내 정보 보기 . 영민
 				case Menu.CUSTOMER_INFO: // 내 정보 보기
 					String id = dio.receiveId();
 					try {
@@ -54,8 +55,8 @@ public class CustomerFrontThread implements Runnable {
 					loginFront();
 					break;
 				case Menu.CUSTOMER_REGISTER: // 회원가입
-					// TO DO
 					break;
+				//내 정보 수정 .영민
 				case Menu.CUSTOMER_MODIFY: //내 정보 수정
 					Customer c2 = dio.receiveCustomer();
 					try {
