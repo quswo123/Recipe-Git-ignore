@@ -96,6 +96,12 @@ public class CustomerFrontThread implements Runnable {
 				case Menu.REMOVE_FAVORITE: //로그인한 사용자 즐겨찾기 목록 보기
 					favoriteRemove();
 					break;
+				case Menu.SEARCH_REVIEW_BY_CUSTOMERID: //로그인한 사용자 즐겨찾기 목록 보기
+					reviewByCustomerIdFront();
+					break;
+				case Menu.SEARCH_REVIEW_BY_RECIPECODE: //로그인한 사용자 즐겨찾기 목록 보기
+					reviewByRecipeCodeFront();
+					break;
 				default:
 					break;
 				}
@@ -257,6 +263,39 @@ public class CustomerFrontThread implements Runnable {
 		try {
 			control.removeFavorite(f);
 		} catch (RemoveException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * customerId에 해당하는 즐겨찾기 목록을 조회한 후 반환한다.
+	 * @throws IOException
+	 * @author 고수정
+	 */
+	public void reviewByCustomerIdFront() throws IOException {
+		String customerId = dio.receive();
+		List<Review> list = new ArrayList<>();
+		
+		try {
+			list = control.viewMyReview(customerId);
+			dio.sendReviews(list);
+		} catch (FindException e) {
+			e.printStackTrace();
+		}
+	}
+	/**
+	 * customerId에 해당하는 즐겨찾기 목록을 조회한 후 반환한다.
+	 * @throws IOException
+	 * @author 고수정
+	 */
+	public void reviewByRecipeCodeFront() throws IOException {
+		int recipeCode = dio.receiveMenu();
+		List<Review> list = new ArrayList<>();
+		
+		try {
+			list = control.viewRecipeReview(recipeCode);
+			dio.sendReviews(list);
+		} catch (FindException e) {
 			e.printStackTrace();
 		}
 	}
