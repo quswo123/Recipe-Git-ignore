@@ -68,7 +68,7 @@ public class RecipeInfoView {
 	private void rdMenu() {
 		String menu = null;
 		do {
-			System.out.println("1.후기목록보기 2.수정하기 3.삭제하기 0.목록으로 *초기화면");
+			System.out.println("1.후기목록보기 2.수정하기 3.삭제하기 0.목록으로 *.초기화면");
 			menu = sc.nextLine();
 			if(menu.equals("1")) {
 				//레시피 후기 목록
