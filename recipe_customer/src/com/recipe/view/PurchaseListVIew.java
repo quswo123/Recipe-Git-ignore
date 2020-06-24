@@ -45,7 +45,11 @@ public class PurchaseListVIew {
 				for(Review r : rlist) {
 					String comment = r.getReviewComment();
 					if (p.getCustomerId()==r.getCustomerId()) {
-						
+						if(comment.equals("")) {
+							System.out.print("No");
+						}else {
+							System.out.println("Yes");
+						}
 					}
 				}
 			}
