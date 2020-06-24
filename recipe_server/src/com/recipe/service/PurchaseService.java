@@ -20,14 +20,8 @@ public class PurchaseService {
 	
 	
 	public List<Purchase> findById(String customerId) throws FindException{
-		List<Purchase> list = new ArrayList<>();
-		list = purchasedao.selectById(customerId);
-		List<Review> reviewList = revidao.selectById(customerId);
-		if(reviewList.size()!=0) {
-			throw new FindException("No");
-		}
 		
-		return list;
+		return purchasedao.selectById(customerId);
 	}
 
 }

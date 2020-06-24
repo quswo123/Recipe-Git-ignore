@@ -18,6 +18,7 @@ import com.recipe.share.CustomerShare;
 import com.recipe.vo.Purchase;
 import com.recipe.vo.Customer;
 import com.recipe.vo.RecipeInfo;
+import com.recipe.vo.Review;
 
 
 public class CustomerFrontThread implements Runnable {
@@ -132,7 +133,9 @@ public class CustomerFrontThread implements Runnable {
 		try {
 			String customerId = dio.receiveId();
 			List<Purchase> list = control.viewMyPurchase(customerId);
+			//List<Review> rlist = control.viewMyReview(customerId);
 			
+			//dio.send(rlist);
 			dio.sendPurchase(list);
 			dio.sendSuccess();
 		} catch (FindException e) {

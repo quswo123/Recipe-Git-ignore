@@ -24,11 +24,13 @@ public class PurchaseListVIew {
 	
 	public void purchaseView() {
 		Scanner sc = new Scanner(System.in);
-		List<Purchase> list = new ArrayList<>();
+		List<Purchase> list = null;
+		List<Review> rlist = null;
 		try {
 			dio.sendMenu(Menu.PURCHASE_LIST);
-			dio.sendPurchase(list);
+			
 			list = dio.receivePurchaseList();
+			rlist = dio.receiveReviews();
 			
 			System.out.println("나의 구매내역");
 			System.out.println("["+list.size()+"건의 구매내역이 조회되었습니다 ]");
