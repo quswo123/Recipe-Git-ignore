@@ -16,4 +16,11 @@ public class SuccessView {
 	public void logoutCustomerView() {
 		System.out.println("로그아웃 되었습니다");
 	}
+	/**
+	 * 즐겨찾기 목록에서 삭제 시 성공메세지를 출력한다.
+	 * @author 고수정
+	 */
+	public void favoriteDeleteView(String msg) {
+		System.out.println(msg);
+	}
 }
