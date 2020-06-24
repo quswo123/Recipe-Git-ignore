@@ -3,8 +3,6 @@ package com.recipe.view;
 public class PurchaseInfoView {
 	
 	public void searchPurchaseInfoView(String purchaseRecipeName) {
-		
-		
 		System.out.println("구매상세내역");
 		
 		System.out.println("레시피명");
