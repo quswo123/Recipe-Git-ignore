@@ -29,7 +29,6 @@ public class PurchaseListVIew {
 		try {
 			dio.sendMenu(Menu.PURCHASE_LIST);
 		
-			dio.receiveStatus();
 			list = dio.receivePurchaseList();
 			rlist = dio.receiveReviews();
 			

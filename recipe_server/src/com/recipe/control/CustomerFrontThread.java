@@ -154,6 +154,7 @@ public class CustomerFrontThread implements Runnable {
 		List<Purchase> list = null;
 		List<Review> rlist = null;
 		try {
+			System.out.println("보냄");
 			list = control.viewMyPurchase(customerId);
 			rlist = control.viewMyReview(customerId);
 			
