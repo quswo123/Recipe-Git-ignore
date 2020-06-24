@@ -257,6 +257,121 @@ public class RecipeInfoDAO {
 			}
 		}
 	}
+	public void update(RecipeInfo recipe_InfoVo, List<Ingredient> ingList) {
+		//입력받아온 recipe_InfoVo,ingList
+		Connection conn = null; // DB연결된 상태(세션)을 담은 객체
+		PreparedStatement pstm = null;  // SQL 문을 나타내는 객체
+		ResultSet rs = null;  // 쿼리문을 날린것에 대한 반환값을 담을 객체
+
+		String quary = "DELETE FROM RECIPE_INFO WHERE RECIP_NAME = ?";
+		try {
+			conn = MyConnection.getConnection();
+			pstm = conn.prepareStatement(quary);
+			pstm.setString(1, recipe_InfoVo.getRecipeName());
+
+			rs = pstm.executeQuery();
+
+			//insert문 불러오기
+			
+		/*
+		 * -------------
+			-- 레시피 수정
+			-------------
+			-- SELECT * FROM RECIPE_INFO WHERE RECIPE_NAME = '돈까스';
+			-- RECIPE_CODE : 49
+			
+			-- 1. 레시피 재료 데이터 삭제 (수정하려는 레시피 코드 기준으로)
+			-- SELECT * FROM RECIPE_INGREDIENT WHERE RECIPE_CODE = 49;
+			DELETE FROM RECIPE_INGREDIENT WHERE RECIPE_CODE = 49;
+			
+			-- 2. 레시피 내용 UPDATE
+			UPDATE RECIPE_INFO SET 업데이트~ WHERE RECIPE_NAME = '돈까스';
+			
+			-- 3. 재료 등록
+			
+			-- 3-1. 레시피 재료 정보를 INSERT 한다.
+			SELECT ING_CODE FROM INGREDIENT WHERE ING_NAME = '새우살';
+			MERGE INTO INGREDIENT 
+			USING DUAL
+			   ON (ING_NAME = '새우살')
+			WHEN NOT MATCHED THEN
+			    INSERT (ING_CODE, ING_NAME) 
+			    VALUES ((SELECT MAX(ING_CODE) + 1 FROM INGREDIENT), '새우살');
+			
+			-- 3-2. 재료 코드 리스트를 조회한다.
+			SELECT ING_CODE FROM INGREDIENT WHERE ING_NAME IN ('돼지고기','빵가루','계란','밀가루');
+			-> 16,26,65,178
+			
+			-- 3-3. 재료코드 리스트 반복문을 수행하면서 (레시피코드 - 재료코드) 레시피 재료테이블에 등록한다.
+			for ( ING_CODE list )
+			INSERT INTO RECIPE_INGREDIENT VALUES (49, 16);
+			INSERT INTO RECIPE_INGREDIENT VALUES (49, 26);
+			INSERT INTO RECIPE_INGREDIENT VALUES (49, 65);
+			INSERT INTO RECIPE_INGREDIENT VALUES (49, 178);
+			
+			
+			
+			
+		-------------
+		-- 레시피 삭제
+		-------------
+		SELECT * FROM RECIPE_INFO WHERE RECIPE_NAME = '돈까스';
+		RECIPE_CODE : 49
+
+		-- 1. 레시피 재료 데이터 삭제 (수정하려는 레시피 코드 기준으로)
+		DELETE FROM RECIPE_INGREDIENT WHERE RECIPE_CODE = 49;
+
+		-- 2. 레시피 삭제
+		DELETE FROM RECIPE_INFO WHERE RECIPE_CODE = 49;
+		 */
+			//레시피코드값 구해오는것은 맨위에서 받아온것으로 사용
+			quary = "DELETE FROM RECIPE_INGREDIENT WHERE RECIPE_CODE = ?";
+			conn = MyConnection.getConnection();
+			pstm = conn.prepareStatement(quary);
+			
+			
+			quary = "DELETE FROM RECIPE_INFO WHERE RECIPE_CODE = ?";
+			conn = MyConnection.getConnection();
+			pstm = conn.prepareStatement(quary);
+			
+			
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}finally{
+			// DB 연결을 종료한다.
+			try{
+				if ( rs != null ){rs.close();}   
+				if ( pstm != null ){pstm.close();}   
+				if ( conn != null ){conn.close(); }
+			}catch(Exception e){
+				throw new RuntimeException(e.getMessage());
+			}
+		}
+	}
+
+	public String selectAll() {
+		Connection conn = null; // DB연결된 상태(세션)을 담은 객체
+		PreparedStatement pstm = null;  // SQL 문을 나타내는 객체
+		ResultSet rs = null;  // 쿼리문을 날린것에 대한 반환값을 담을 객체
+
+		String quary = "SELECT RECIPE_CODE, RECIPE_NAME FROM RECIPE_INFO";
+		try {
+			conn = MyConnection.getConnection();
+			pstm = conn.prepareStatement(quary);
+			
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		/*
+		-------------
+		-- 레시피 목록보기
+		-------------
+		SELECT recipe_code 코드번호, recipe_name 레시피명 FROM RECIPE_INFO;
+		 */
+		return null;
+	}
 
 	
 	public static void main(String[] args) {
