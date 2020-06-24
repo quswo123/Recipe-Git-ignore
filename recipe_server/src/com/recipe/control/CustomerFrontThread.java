@@ -25,9 +25,6 @@ import com.recipe.vo.Point;
 import com.recipe.vo.RecipeInfo;
 import com.recipe.vo.Review;
 
-
-import com.recipe.service.PostService;
-import com.recipe.vo.Customer;
 import com.recipe.vo.Postal;
 
 public class CustomerFrontThread implements Runnable {
