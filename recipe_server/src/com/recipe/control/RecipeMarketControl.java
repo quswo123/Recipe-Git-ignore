@@ -146,8 +146,10 @@ public class RecipeMarketControl {
 	 * @throws FindException
 	 * @author 고수정
 	 */
-	public void viewRecipeReview(int recipeCode) throws FindException {
-		reviewService.findByCode(recipeCode);
+	public List<Review> viewRecipeReview(int recipeCode) throws FindException {
+		List<Review> list = new ArrayList<>();
+		list = reviewService.findByCode(recipeCode);
+		return list;
 	}
 
 	/**
@@ -167,8 +169,10 @@ public class RecipeMarketControl {
 	 * @throws FindException
 	 * @author 고수정
 	 */
-	public void viewMyReview(String customerId) throws FindException {
-		reviewService.findById(customerId);
+	public List<Review> viewMyReview(String customerId) throws FindException {
+		List<Review> list = new ArrayList<>();
+		list = reviewService.findById(customerId);
+		return list;
 	}
 
 	/**
