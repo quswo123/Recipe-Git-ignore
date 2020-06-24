@@ -45,13 +45,13 @@ public class RdFrontThread implements Runnable{
 					// TO DO
 					break;
 				case Menu.SEARCH_RECIPE_CODE: // 레시피 코드 검색
-					selectByIngFront();
+					
 					break;
 				case Menu.SEARCH_RECIPE_NAME: // 레시피 제목 검색
 					selectByNameFront();
 					break;
 				case Menu.SEARCH_RECIPE_INGREDIENTS: // 레시피 재료 검색
-					// TO DO
+					selectByIngFront();
 					break;
 				case Menu.RD_LOGOUT:
 					logoutFront();
