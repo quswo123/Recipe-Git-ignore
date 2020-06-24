@@ -43,7 +43,6 @@ public class RecipeListView {
 				i = j - 5;
 				j -= 5;
 				break;		
-				
 			}
 			System.out.println(i+1 + " "+ recipeInfo.get(i).getRecipeName());
 			
