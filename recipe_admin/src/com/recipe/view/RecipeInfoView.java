@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 import com.recipe.io.DataIO;
 import com.recipe.io.Menu;
-import com.recipe.share.CustomerShare;
+import com.recipe.share.AdminShare;
 import com.recipe.vo.RecipeInfo;
 
 public class RecipeInfoView {
@@ -31,11 +31,7 @@ public class RecipeInfoView {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		if(CustomerShare.loginedId.equals("")) {
-			basicMenu();
-		} else {
-			customerMenu();
-		}
+		basicMenu(); //Admin은 로그인하지 않은 경우에만 레시피 검색을 하기때문에 로그인 상태를 체크할 필요가 없다.
 	}
 	
 	/**
@@ -55,28 +51,5 @@ public class RecipeInfoView {
 				
 			}
 		}while(menu.equals("0") || menu.equals("*")); //초기화면으로 가는 처리는 아직 고민중
-	}
-	
-	/**
-	 * 로그인한 상태에서 보여줄 메뉴를 출력
-	 * @author 최종국
-	 */
-	private void customerMenu() {
-		String menu = null;
-		do {
-			System.out.println("1.구매하기 2.후기목록보기 3.즐겨찾기추가 4.좋아요 5.싫어요 0.목록으로 *초기화면");
-			menu = sc.nextLine();
-			if(menu.equals("1")) {
-				
-			} else if(menu.equals("2")) {
-				
-			} else if(menu.equals("3")) {
-				
-			} else if(menu.equals("4")) {
-				
-			} else if(menu.equals("5")) {
-				
-			}
-		}while(menu.equals("0") || menu.equals("*"));
 	}
 }

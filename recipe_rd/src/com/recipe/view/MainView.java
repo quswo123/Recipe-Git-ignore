@@ -26,28 +26,34 @@ public class MainView {
 	
 	public void mainMenu() {
 		int menu = -1;
-		do {
-			System.out.println("1.레시피검색 2.추천레시피 3.로그인 4.회원가입 0.프로그램 종료");
-			menu = Integer.parseInt(sc.nextLine());
-			switch(menu) {
-			case 1:
-				break;
-			case 2:
-				break;
-			case 3:
-				LoginView loginView = new LoginView(dio);
-				loginView.showLoginView();
-				break;
-			case 4:
-				break;
-			case 5:
-				break;
-			case 0:
-				System.exit(0);
-			default:
-				break;	
-			}
-		}while(menu != -1);
+		try {
+			do {
+				System.out.println("1.레시피검색 2.추천레시피 3.로그인 4.회원가입 0.프로그램 종료");
+				menu = Integer.parseInt(sc.nextLine());
+				switch (menu) {
+				case 1:
+					break;
+				case 2:
+					RecommendedRecipeView recommendedRecipeView = new RecommendedRecipeView(dio);
+					recommendedRecipeView.showRecommendedRecipeView();
+					break;
+				case 3:
+					LoginView loginView = new LoginView(dio);
+					loginView.showLoginView();
+					break;
+				case 4:
+					break;
+				case 5:
+					break;
+				case 0:
+					System.exit(0);
+				default:
+					break;
+				}
+			} while (menu != -1);
+		} catch (IOException e) {
+
+		}
 	}
 	
 	public static void main(String[] args) {
