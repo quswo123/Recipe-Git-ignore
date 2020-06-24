@@ -311,21 +311,22 @@ public class DataIO {
       return dis.readUTF();
    }
    /**
-    * VO 객체 Customer의 내용들을 전달받는다
-    * @return 전달받은 내용들로 구성한 Customer
-    * @throws IOException
-    */
-   public Customer receiveCustomer() throws IOException {
-      String id = dis.readUTF();
-      String pwd = dis.readUTF();
-      String name = dis.readUTF();
-      String email = dis.readUTF();
-      String phone = dis.readUTF();
-      Postal postal = receivePostal(); 
-      String addr = dis.readUTF();
-      
-      return new Customer(id, pwd, name, email, phone, postal, addr);
-   }
+	 * VO 객체 Customer의 내용들을 전달받는다
+	 * @return 전달받은 내용들로 구성한 Customer
+	 * @throws IOException
+	 */
+	public Customer receiveCustomer() throws IOException {
+		String id = dis.readUTF();
+		String pwd = dis.readUTF();
+		String name = dis.readUTF();
+		String email = dis.readUTF();
+		String phone = dis.readUTF();
+		//Postal postal = receivePostal();
+		String addr = dis.readUTF();
+		
+		//return new Customer(id, pwd, name, email, phone, postal, addr);
+		return new Customer(id, pwd, name, email, phone, null, addr);
+	}
    /**
     * Customer List를 전달받는다
     * @return 전달받은 Customer들의 List
@@ -374,7 +375,7 @@ public class DataIO {
    public Purchase receivePurchase() throws IOException, ParseException {
       int purchaseCode = dis.readInt();
       String customerId = dis.readUTF();
-      Date purchaseDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(dis.readUTF());
+      Date purchaseDate = new SimpleDateFormat("yyyy-MM-dd").parse(dis.readUTF());
       PurchaseDetail purchaseDetail = receivePurchaseDetail();
       
       return new Purchase(purchaseCode, customerId, purchaseDate, purchaseDetail);
@@ -514,7 +515,7 @@ public class DataIO {
    public Review receiveReview() throws IOException, ParseException {
       String customerId = dis.readUTF();
       String reviewComment = dis.readUTF();
-      Date reviewDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(dis.readUTF());
+      Date reviewDate = new SimpleDateFormat("yyyy-MM-dd").parse(dis.readUTF());
       RecipeInfo recipeInfo = receiveRecipeInfo();
       
       return new Review(customerId, reviewComment, reviewDate, recipeInfo);

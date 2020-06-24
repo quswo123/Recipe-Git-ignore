@@ -126,7 +126,7 @@ public class CustomerDAO {
 		String updateSQL = "UPDATE customer ";
 		boolean isModified = false;
 
-		if (c.getCustomerPwd() != null) {
+		if (!c.getCustomerPwd() .equals("")) {
 			if (isModified) {
 				updateSQL += ",";
 			} else {
@@ -137,7 +137,7 @@ public class CustomerDAO {
 			isModified = true;
 		}
 
-		if (c.getCustomerName() != null) {
+		if (!c.getCustomerName().equals("")) {
 			if (isModified) {
 				updateSQL += ",";
 			} else {
@@ -148,7 +148,7 @@ public class CustomerDAO {
 			isModified = true;
 		}
 
-		if (c.getCustomerEmail() != null) {
+		if (!c.getCustomerEmail() .equals("")) {
 			if (isModified) {
 				updateSQL += ",";
 			} else {
@@ -159,7 +159,7 @@ public class CustomerDAO {
 			isModified = true;
 		}
 
-		if (c.getCustomerAddr() != null) {
+		if (!c.getCustomerAddr() .equals("")) {
 			if (isModified) {
 				updateSQL += ",";
 			} else {
@@ -170,7 +170,7 @@ public class CustomerDAO {
 			isModified = true;
 		}
 
-		if (c.getCustomerPhone() != null) {
+		if (!c.getCustomerPhone() .equals("")) {
 			if (isModified) {
 				updateSQL += ",";
 			} else {

@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.recipe.exception.FindException;
+import com.recipe.exception.ModifyException;
 import com.recipe.io.DataIO;
 import com.recipe.io.Menu;
 import com.recipe.vo.Favorite;
@@ -23,6 +24,9 @@ import com.recipe.vo.RecipeInfo;
 import com.recipe.vo.Review;
 
 
+import com.recipe.service.PostService;
+import com.recipe.vo.Customer;
+import com.recipe.vo.Postal;
 
 public class CustomerFrontThread implements Runnable {
 	private Socket client;
@@ -68,6 +72,31 @@ public class CustomerFrontThread implements Runnable {
 				case Menu.CUSTOMER_REGISTER: // 회원가입
 					// TO DO
 					break;
+				case Menu.CUSTOMER_MODIFY: //내 정보 수정
+					Customer c2 = dio.receiveCustomer();
+					try {
+						control.modifyMyAccount(c2);
+						dio.sendSuccess();
+					} catch (ModifyException e) {
+						e.printStackTrace();
+						dio.sendFail(e.getMessage());
+					}
+					break;
+				case Menu.SEARCH_POSTAL:
+					String doro = dio.receive();
+					List<Postal> list;
+					try {
+						list = control.searchByDoro(doro);
+						dio.sendSuccess();
+						dio.send("" + list.size());
+						for(Postal p : list) {
+							dio.send(p);
+						}
+					} catch (FindException e) {
+						e.printStackTrace();
+						dio.sendFail(e.getMessage());
+					}
+					
 				case Menu.RECOMMENDED_RECIPE: // 추천 레시피
 					recommendRecipeFront();
 					break;
@@ -101,6 +130,8 @@ public class CustomerFrontThread implements Runnable {
 			e.printStackTrace();
 		}
 	}
+	
+	
 
 	/**
 	 * 로그인에 필요한 ID, 패스워드를 Client로부터 전달받아 로그인 절차를 수행한다

@@ -24,4 +24,6 @@ public class Menu {
 	public static final int SEARCH_REVIEW_BY_RECIPECODE = 41; //REVIEW recipeCode로 조회
 	public static final int ADD_REVIEW = 42; //후기 등록
 	public static final int RECIPE_PROCESS = 100; //레시피 과정 요청
-}
+	public static final int CUSTOMER_MODIFY = 15; //Customer 내 정보 수정
+	public static final int SEARCH_POSTAL = 16;
+}//Customer 도로명 주소 검색
