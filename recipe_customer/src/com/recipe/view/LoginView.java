@@ -21,13 +21,12 @@ public class LoginView {
 	 */
 	public void showLoginView() {
 		Scanner sc = new Scanner(System.in);
-		System.out.println("1.아이디를 입력하세요 : ");
+		System.out.print("1.아이디를 입력하세요 : ");
 		id = sc.nextLine();
-		System.out.println("2.비밀번호를 입력하세요 : ");
+		System.out.print("2.비밀번호를 입력하세요 : ");
 		pwd = sc.nextLine();
 		
 		login(id, pwd);
-		sc.close();
 	}
 	
 	/**

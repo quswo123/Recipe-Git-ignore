@@ -53,7 +53,7 @@ public class MainView {
 				}
 			} while (menu != -1);
 		} catch (IOException e) {
-
+			e.printStackTrace();
 		}
 	}
 	
