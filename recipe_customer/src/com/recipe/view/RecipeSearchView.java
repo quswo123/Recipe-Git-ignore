@@ -1,16 +1,13 @@
 package com.recipe.view;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.net.Socket;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 import com.recipe.io.DataIO;
 import com.recipe.io.Menu;
 import com.recipe.vo.RecipeInfo;
-import com.recipe.vo.RecipeIngredient;
 
 public class RecipeSearchView {
 	private Scanner sc;		
@@ -35,10 +32,29 @@ public class RecipeSearchView {
 	}
 	private void showFindbyIngNameView() {
 		Scanner sc = new Scanner(System.in);
+		List<String> list = new ArrayList<>();
 		System.out.println("재료로 검색");
-		System.out.println("재료를 입력하세요: ");
+		System.out.println("재료를 입력하세요(하나 이상의 재료는  "+ "," + " 로 분리해주세요):");
 		
+		String[] s = sc.nextLine().split(",");
+		for (String c : s) {
+			list.add(c);
+		}	
 		
+		sc.close();
+		
+	}
+	public void findByIngName(List<String> ingName) {
+		RecipeInfo recipeInfo = null;
+		try {
+			dio.sendMenu(Menu.SEARCH_RECIPE_INGREDIENTS);
+			dio.sendListString(ingName);
+			recipeInfo = dio.receiveRecipeInfo();
+			//레시피 상세뷰 들어올자리
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	private void showFindbyName() {
 		Scanner sc = new Scanner(System.in);
