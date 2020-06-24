@@ -16,9 +16,11 @@ import com.recipe.service.PurchaseService;
 import com.recipe.service.RDAccountService;
 import com.recipe.service.RecipeService;
 import com.recipe.service.ReviewService;
+import com.recipe.share.RDShare;
 import com.recipe.vo.Customer;
 import com.recipe.vo.Favorite;
 import com.recipe.vo.Purchase;
+import com.recipe.vo.RD;
 import com.recipe.vo.Postal;
 import com.recipe.vo.Point;
 import com.recipe.vo.Review;
@@ -282,5 +284,9 @@ public class RecipeMarketControl {
 	 */
 	public void modifyPoint(Point p) throws ModifyException{
 		recipeService.modifyPoint(p);
+	}
+	
+	public List<RD> viewAllRd() throws FindException {
+		return rdAccountService.findAll();
 	}
 }

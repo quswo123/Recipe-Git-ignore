@@ -2,7 +2,6 @@ package com.recipe.io;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -143,6 +142,15 @@ public class DataIO {
       dos.writeUTF(strNullCheck(r.getRdManagerName()));
       dos.writeUTF(strNullCheck(r.getRdTeamName()));
       dos.writeUTF(strNullCheck(r.getRdPhone()));
+   }
+   /**
+    * RD List를 전송한다
+    * @param list 보낼 RD들을 가진 List
+    * @throws IOException
+    */
+   public void sendRDList(List<RD> list) throws IOException {
+	   dos.writeInt(list.size());
+	   for(RD r : list) send(r);
    }
    /**
     * VO 객체 Purchase의 내용들을 전송한다
@@ -366,6 +374,18 @@ public class DataIO {
       String rdPhone = dis.readUTF();
       
       return new RD(rdId, rdPwd, rdManagerName, rdTeamName, rdPhone);
+   }
+   /**
+    * RD List를 전달받는다
+    * @return 전달받은 RD들의 List
+    * @throws IOException
+    */
+   public List<RD> receiveRDList() throws IOException {
+	   List<RD> result = new ArrayList<RD>();
+	   int size = dis.readInt();
+	   for(int i = 0; i < size; i++) result.add(receiveRd());
+	   
+	   return result;
    }
    /**
     * VO 객체 Purchase의 내용들을 전달받는다

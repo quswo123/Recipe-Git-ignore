@@ -28,4 +28,5 @@ public class Menu {
 	public static final int SEARCH_POSTAL = 16; //도로명주소 검색
 	public static final int LIKE = 101; //좋아요
 	public static final int DISLIKE = 102; //싫어요
+	public static final int RD_ALL = 103; //R&D 계정 전체 조회
 }

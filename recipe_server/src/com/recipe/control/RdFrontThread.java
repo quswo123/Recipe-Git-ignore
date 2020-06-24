@@ -17,6 +17,7 @@ import com.recipe.io.DataIO;
 import com.recipe.io.Menu;
 import com.recipe.share.RDShare;
 import com.recipe.vo.Point;
+import com.recipe.vo.RD;
 import com.recipe.vo.RecipeInfo;
 
 public class RdFrontThread implements Runnable{
@@ -47,11 +48,14 @@ public class RdFrontThread implements Runnable{
 				case Menu.RD_LOGIN: // 로그인
 					loginFront();
 					break;
+				case Menu.RD_ALL: //R&D계정 전체 조회
+					
+					break;
 				case Menu.RECOMMENDED_RECIPE: // 추천 레시피
 					recommendRecipeFront();
 					break;
 				case Menu.SEARCH_RECIPE_CODE: // 레시피 코드 검색
-					
+					viewAllRdFront();
 					break;
 				case Menu.SEARCH_RECIPE_NAME: // 레시피 제목 검색
 					selectByNameFront();
@@ -211,6 +215,14 @@ public class RdFrontThread implements Runnable{
 			recipeInfo = control.searchByName(recipeName);
 			dio.send(recipeInfo);
 			//dio.sendSuccess();
+		} catch (FindException e) {
+			dio.sendFail(e.getMessage());
+		}
+	}
+	public void viewAllRdFront() throws IOException {
+		try {
+			dio.sendSuccess();
+			control.viewAllRd();
 		} catch (FindException e) {
 			dio.sendFail(e.getMessage());
 		}
