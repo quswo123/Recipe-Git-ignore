@@ -14,18 +14,18 @@ import com.recipe.io.DataIO;
 public class TestView {
 
 	public static void main(String[] args) {
-		
 		Socket s;
 		DataIO dio;
 		
 		try {
 			s = new Socket("127.0.0.1", 1025);
 			dio = new DataIO(new DataOutputStream(s.getOutputStream()), new DataInputStream(s.getInputStream()));
-			FavoriteListVIew view = new FavoriteListVIew(dio);
-			view.showFavoriteListView();
+			FavoriteListView view = new FavoriteListView(dio);
+			String customerId = "tester";
+			view.showFavoriteListView(customerId);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-
-}
+	
+} // end class TestView()
