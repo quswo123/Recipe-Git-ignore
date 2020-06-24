@@ -94,14 +94,13 @@ public class DataIO {
 	 * @throws IOException
 	 */
 	public void send(Customer c) throws IOException {
-		
-		dos.writeUTF(c.getCustomerId() != null ? c.getCustomerId() : "");
-		dos.writeUTF(c.getCustomerPwd() != null ? c.getCustomerPwd() : "");
-		dos.writeUTF(c.getCustomerName() != null ? c.getCustomerName() : "");
-		dos.writeUTF(c.getCustomerEmail() != null ? c.getCustomerEmail() : "");
-		dos.writeUTF(c.getCustomerPhone() != null ? c.getCustomerPhone() : "");
-		send(c.getPostal());
-		dos.writeUTF(c.getCustomerAddr() != null ? c.getCustomerAddr() : "");
+		dos.writeUTF(strNullCheck(c.getCustomerId()));
+		dos.writeUTF(strNullCheck(c.getCustomerPwd()));
+		dos.writeUTF(strNullCheck(c.getCustomerName()));
+		dos.writeUTF(strNullCheck(c.getCustomerEmail()));
+		dos.writeUTF(strNullCheck(c.getCustomerPhone()));
+		send(c.getPostal()); 
+		dos.writeUTF(strNullCheck(c.getCustomerAddr()));
 	}
 	/**
 	 * Customer List를 전송한다
@@ -118,11 +117,12 @@ public class DataIO {
 	 * @throws IOException
 	 */
 	public void send(Postal p) throws IOException {
-		dos.writeUTF(p.getBuildingno());
-		dos.writeUTF(p.getZipcode());
-		dos.writeUTF(p.getCity());
-		dos.writeUTF(p.getDoro());
-		dos.writeUTF(p.getBuilding());
+		if(p == null) p = new Postal();
+		dos.writeUTF(strNullCheck(p.getBuildingno()));
+		dos.writeUTF(strNullCheck(p.getZipcode()));
+		dos.writeUTF(strNullCheck(p.getCity()));
+		dos.writeUTF(strNullCheck(p.getDoro()));
+		dos.writeUTF(strNullCheck(p.getBuilding()));
 	}
 	/**
 	 * VO 객체 RD의 내용들을 전송한다
@@ -130,11 +130,11 @@ public class DataIO {
 	 * @throws IOException
 	 */
 	public void send(RD r) throws IOException {
-		dos.writeUTF(r.getRdId());
-		dos.writeUTF(r.getRdPwd());
-		dos.writeUTF(r.getRdManagerName());
-		dos.writeUTF(r.getRdTeamName());
-		dos.writeUTF(r.getRdPhone());
+		dos.writeUTF(strNullCheck(r.getRdId()));
+		dos.writeUTF(strNullCheck(r.getRdPwd()));
+		dos.writeUTF(strNullCheck(r.getRdManagerName()));
+		dos.writeUTF(strNullCheck(r.getRdTeamName()));
+		dos.writeUTF(strNullCheck(r.getRdPhone()));
 	}
 	/**
 	 * VO 객체 Purchase의 내용들을 전송한다
@@ -143,8 +143,8 @@ public class DataIO {
 	 */
 	public void send(Purchase p) throws IOException {
 		dos.writeInt(p.getPurchaseCode());
-		dos.writeUTF(p.getCustomerId());
-		dos.writeUTF(p.getPurchaseDate().toString());
+		dos.writeUTF(strNullCheck(p.getCustomerId()));
+		dos.writeUTF(strNullCheck(p.getPurchaseDate().toString()));
 		send(p.getPurchaseDetail());
 	}
 	/**
@@ -157,6 +157,21 @@ public class DataIO {
 		dos.writeInt(pd.getPurchaseDetailQuantity());
 		send(pd.getRecipeInfo());
 	}
+	
+	public void sendPurchase(List<Purchase> list) throws IOException{
+		dos.writeInt(list.size());
+		for(Purchase p : list) send(p);
+	}
+	
+	/**
+	 * VO 객체 RecipeInfo의 내용들을 전송한다
+	 * @param ri
+	 * @throws IOException
+	 */
+	public void send(List<RecipeInfo> list) throws IOException {
+		dos.writeInt(list.size());
+		for(RecipeInfo i : list) send(i);
+	}
 	/**
 	 * VO 객체 RecipeInfo의 내용들을 전송한다
 	 * @param ri 정보를 전송할 RecipeInfo
@@ -164,13 +179,14 @@ public class DataIO {
 	 */
 	public void send(RecipeInfo r) throws IOException {
 		dos.writeInt(r.getRecipeCode());
-		dos.writeUTF(r.getRecipeName());
-		dos.writeUTF(r.getRecipeSumm());
+		dos.writeUTF(strNullCheck(r.getRecipeName()));
+		dos.writeUTF(strNullCheck(r.getRecipeSumm()));
 		dos.writeDouble(r.getRecipePrice());
-		dos.writeUTF(r.getRecipeProcess());
+		dos.writeUTF(strNullCheck(r.getRecipeProcess()));
 		send(r.getPoint());
 		sendRecipeIngredients(r.getIngredients());
 	}
+
 	/**
 	 * VO 객체 RecipeIngredient의 내용들을 전송한다
 	 * @param ri
@@ -186,7 +202,7 @@ public class DataIO {
 	 */
 	public void send(Ingredient i) throws IOException {
 		dos.writeInt(i.getIngCode());
-		dos.writeUTF(i.getIngName());
+		dos.writeUTF(strNullCheck(i.getIngName()));
 	}
 	/**
 	 * RecipeIngredient List를 전송한다
@@ -194,6 +210,10 @@ public class DataIO {
 	 * @throws IOException
 	 */
 	public void sendRecipeIngredients(List<RecipeIngredient> list) throws IOException {
+		if(list == null) { //RecipeIngredient 리스트가 null이면 size로 0을 보내 receiveReceipeInfo에서 list의 receive를 수행하지 않도록 한다.
+			dos.writeInt(0);
+			return;
+		}
 		dos.writeInt(list.size());
 		for(RecipeIngredient i : list) send(i);
 	}
@@ -213,7 +233,7 @@ public class DataIO {
 	 * @throws IOException
 	 */
 	public void send(Favorite f) throws IOException {
-		dos.writeUTF(f.getCustomerId());
+		dos.writeUTF(strNullCheck(f.getCustomerId()));
 		send(f.getRecipeInfo());
 	}
 	
@@ -233,9 +253,9 @@ public class DataIO {
 	 * @throws IOException
 	 */
 	public void send(Review r) throws IOException {
-		dos.writeUTF(r.getCustomerId());
-		dos.writeUTF(r.getReviewComment());
-		dos.writeUTF(r.getReviewDate().toString());
+		dos.writeUTF(strNullCheck(r.getCustomerId()));
+		dos.writeUTF(strNullCheck(r.getReviewComment()));
+		dos.writeUTF(strNullCheck(r.getReviewDate().toString()));
 		send(r.getRecipeInfo());
 	}
 	
@@ -248,7 +268,6 @@ public class DataIO {
 		dos.writeInt(list.size());
 		for(Review r: list) send(r);
 	}
-	
 	
 	public String receiveStatus() throws IOException {
 		return dis.readUTF();
@@ -270,6 +289,22 @@ public class DataIO {
 		return dis.readInt();
 	}
 	/**
+	 * Client로부터 ID를 전달받는다
+	 * @return 전달받은 ID
+	 * @throws IOException
+	 */
+	public String receiveId() throws IOException {
+		return dis.readUTF();
+	}
+	/**
+	 * Client로부터 패스워드를 전달받는다
+	 * @return 전달받은 패스워드
+	 * @throws IOException
+	 */
+	public String receivePwd() throws IOException {
+		return dis.readUTF();
+	}
+	/**
 	 * VO 객체 Customer의 내용들을 전달받는다
 	 * @return 전달받은 내용들로 구성한 Customer
 	 * @throws IOException
@@ -280,7 +315,7 @@ public class DataIO {
 		String name = dis.readUTF();
 		String email = dis.readUTF();
 		String phone = dis.readUTF();
-		Postal postal = receivePostal();
+		Postal postal = receivePostal(); 
 		String addr = dis.readUTF();
 		
 		return new Customer(id, pwd, name, email, phone, postal, addr);
@@ -350,6 +385,35 @@ public class DataIO {
 		
 		return new PurchaseDetail(purchaseCode, purchaseDetailQuantity, recipeInfo);
 	}
+	
+	/**
+	 * Purchase객체를 전달받는다
+	 * @return
+	 * @throws IOException
+	 * @throws ParseException
+	 */
+	public List<Purchase> receivePurchaseList() throws IOException, ParseException{
+		int size = dis.readInt();
+		List<Purchase> list = new ArrayList<>();
+		for(int i=0; i<size; i++) list.add(receivePurchase());
+		
+		return list;
+	}
+	
+	/**
+	 * RecipeInfo List를 전달받는다
+	 * @return 전달받은 RecipeIngredient들의 List
+	 * @throws IOException
+	 */
+	public List<RecipeInfo> receiveRecipeInfos() throws IOException {
+		int size = dis.readInt();
+		List<RecipeInfo> list = new ArrayList<RecipeInfo>();
+		for(int i = 0; i < size; i++) list.add(receiveRecipeInfo());
+		
+		return list;
+	}
+	
+	
 	/**
 	 * VO 객체 RecipeInfo의 내용들을 전달받는다
 	 * @return 전달받은 내용들로 구성한 RecipeInfo
@@ -362,7 +426,7 @@ public class DataIO {
 		double recipePrice = dis.readDouble();
 		String recipeProcess = dis.readUTF();
 		Point point = receivePoint();
-		List<RecipeIngredient> ingredients = receiveRecipeIngredients();
+		List<RecipeIngredient> ingredients = receiveRecipeIngredients(); 
 		
 		return new RecipeInfo(recipeCode, recipeName, recipeSumm, recipePrice, recipeProcess, point, ingredients);
 	}
@@ -408,6 +472,15 @@ public class DataIO {
 		int disLikeCount = dis.readInt();
 		
 		return new Point(recipeCode, likeCount, disLikeCount);
+	}
+	
+	/**
+	 * String 타입의 멤버 변수가 null이면 빈 문자열을 보낼수 있도록 처리하기 위한 메소드
+	 * @param str null인지 확인할 문자열
+	 * @return null이면 빈 문자열, null이 아니면 str을 그대로 return
+	 */
+	public String strNullCheck(String str) {
+		return str != null ? str : "";
 	}
 	
 	public void close() {

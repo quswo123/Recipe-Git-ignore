@@ -16,6 +16,14 @@ public class AccountService {
 		customerDAO = new CustomerDAO();
 	}
 
+	/**
+	 * 로그인 절차를 수행하는 메소드
+	 * 아이디와 패스워드를 가진 Customer가 존재하는지 여부를 확인하고, 존재하면 세션에 아이디를 저장한뒤 클라이언트에게 로그인 성공 메시지를 전송한다
+	 * @param customerId 로그인 절차를 수행할 아이디
+	 * @param customerPwd 로그인 절차를 수행할 패스워드
+	 * @throws FindException
+	 * @author 최종국
+	 */
 	public void login(String customerId, String customerPwd) throws FindException {
 		Customer c;
 		try {

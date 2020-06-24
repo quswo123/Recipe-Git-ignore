@@ -19,5 +19,14 @@ public class RecipeService {
 	public List<RecipeInfo> findByIngName(List<String> ingName) throws FindException{
 		return idao.selectByIngName(ingName);
 	}
+	/**
+	 * 추천 레시피 절차를 위한 메소드
+	 * @return 추천 레시피 정보를 가진 RecipeInfo
+	 * @throws FindException
+	 * @author 최종국
+	 */
+	public RecipeInfo findRecommended() throws FindException {
+		return dao.selectByRank();
+	}
 	
 }

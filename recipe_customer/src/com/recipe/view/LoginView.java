@@ -1,9 +1,6 @@
 package com.recipe.view;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.net.Socket;
 import java.util.Scanner;
 
 import com.recipe.io.DataIO;

@@ -22,7 +22,6 @@ import com.recipe.vo.Purchase;
 import com.recipe.vo.RecipeInfo;
 import com.recipe.vo.Review;
 
-
 public class RecipeMarketControl {
 	private static RecipeMarketControl control = new RecipeMarketControl();
 
@@ -49,20 +48,23 @@ public class RecipeMarketControl {
 	public static RecipeMarketControl getInstance() {
 		return control;
 	}
+
 	/**
 	 * Customer 클라이언트의 로그인 절차를 위한 Control 메소드
-	 * @param customerId Customer 클라이언트에서 전달받은 아이디
+	 * 
+	 * @param customerId  Customer 클라이언트에서 전달받은 아이디
 	 * @param customerPwd Customer 클라이언트에서 전달받은 패스워드
 	 * @throws FindException
 	 * @author 최종국
 	 */
-	public void loginToAccount(String customerId, String customerPwd) throws FindException{
+	public void loginToAccount(String customerId, String customerPwd) throws FindException {
 		accountService.login(customerId, customerPwd);
 	}
-	
+
 	/**
 	 * R&D 클라이언트의 로그인 절차를 위한 Control 메소드
-	 * @param rdId R&D 클라이언트에서 전달받은 아이디
+	 * 
+	 * @param rdId  R&D 클라이언트에서 전달받은 아이디
 	 * @param rdPwd R&D 클라이언트에서 전달받은 패스워드
 	 * @throws FindException
 	 * @author 최종국
@@ -70,38 +72,41 @@ public class RecipeMarketControl {
 	public void loginToRd(String rdId, String rdPwd) throws FindException {
 		rdAccountService.login(rdId, rdPwd);
 	}
-	
+
 	/**
 	 * Admin 클라이언트의 로그인 절차를 위한 Control 메소드
-	 * @param adminId Admin 클라이언트에서 전달받은 아이디
+	 * 
+	 * @param adminId  Admin 클라이언트에서 전달받은 아이디
 	 * @param adminPwd Admin 클라이언트에서 전달받은 패스워드
 	 * @throws FindException
 	 * @author 최종국
 	 */
-	public void loginToAdmin(String adminId, String adminPwd) throws FindException{
+	public void loginToAdmin(String adminId, String adminPwd) throws FindException {
 		adminAccountService.login(adminId, adminPwd);
 	}
-	
+
 	/**
 	 * 구매하기 메소드
+	 * 
 	 * @param p
 	 * @throws AddException
 	 * @author 변재원
 	 */
-	public void buyRecipe(Purchase p) throws AddException{
+	public void buyRecipe(Purchase p) throws AddException {
 		purchaseService.buy(p);
 	}
-	
+
 	/**
 	 * 구매목록 메소드
+	 * 
 	 * @param List<Purchase>
 	 * @throws AddException
 	 * @author 변재원
 	 */
-	public List<Purchase> viewMyPurchase(String customerId) throws FindException{
-		return purchaseService.findById(customerId); 
+	public List<Purchase> viewMyPurchase(String customerId) throws FindException {
+		return purchaseService.findById(customerId);
 	}
-	
+
 	/**
 	 * 
 	 * @param f
@@ -112,7 +117,7 @@ public class RecipeMarketControl {
 	public void addFavorite(Favorite f) throws AddException, DuplicatedException {
 		favoriteService.add(f);
 	}
-	
+
 	/**
 	 * 
 	 * @param customerId
@@ -124,7 +129,7 @@ public class RecipeMarketControl {
 		list = favoriteService.findById(customerId);
 		return list;
 	}
-	
+
 	/**
 	 * 
 	 * @param f
@@ -134,17 +139,17 @@ public class RecipeMarketControl {
 	public void removeFavorite(Favorite f) throws RemoveException {
 		favoriteService.remove(f);
 	}
-	
+
 	/**
 	 * 
 	 * @param recipeCode
 	 * @throws FindException
 	 * @author 고수정
 	 */
-	public void viewRecipeReview(int recipeCode) throws FindException{
+	public void viewRecipeReview(int recipeCode) throws FindException {
 		reviewService.findByCode(recipeCode);
 	}
-	
+
 	/**
 	 * 
 	 * @param r
@@ -152,10 +157,10 @@ public class RecipeMarketControl {
 	 * @throws DuplicatedException
 	 * @author 고수정
 	 */
-	public void addReview(Review r ) throws AddException, DuplicatedException {
+	public void addReview(Review r) throws AddException, DuplicatedException {
 		reviewService.add(r);
 	}
-	
+
 	/**
 	 * 
 	 * @param customerId
@@ -165,7 +170,7 @@ public class RecipeMarketControl {
 	public void viewMyReview(String customerId) throws FindException {
 		reviewService.findById(customerId);
 	}
-	
+
 	/**
 	 * 
 	 * @param recipeCode
@@ -173,10 +178,10 @@ public class RecipeMarketControl {
 	 * @throws FindException
 	 * @author 이혜림
 	 */
-	public RecipeInfo searchByCode(int recipeCode) throws FindException{
+	public RecipeInfo searchByCode(int recipeCode) throws FindException {
 		return recipeService.findByCode(recipeCode);
 	}
-	
+
 	/**
 	 * 
 	 * @param recipeName
@@ -184,10 +189,10 @@ public class RecipeMarketControl {
 	 * @throws FindException
 	 * @author 이혜림
 	 */
-	public List<RecipeInfo> searchByName(String recipeName) throws FindException{
+	public List<RecipeInfo> searchByName(String recipeName) throws FindException {
 		return recipeService.findByName(recipeName);
 	}
-	
+
 	/**
 	 * 
 	 * @param ingName
@@ -195,14 +200,15 @@ public class RecipeMarketControl {
 	 * @throws FindException
 	 * @author 이혜림
 	 */
-	public List<RecipeInfo> searchByIngName(List<String> ingName) throws FindException{
+	public List<RecipeInfo> searchByIngName(List<String> ingName) throws FindException {
 		return recipeService.findByIngName(ingName);
 	}
 
-
 	/*
 	 * Control에서 accountService의 add 호출
+	 * 
 	 * @param Customer C
+	 * 
 	 * @author 영민
 	 */
 	public void addAccount(Customer c) throws AddException, DuplicatedException {
@@ -211,29 +217,43 @@ public class RecipeMarketControl {
 
 	/*
 	 * Control에서 accountService의 findById호출
+	 * 
 	 * @param String id
+	 * 
 	 * @author 영민
 	 */
-	public void viewMyAccount(String id) throws FindException {
-		accountService.findById(id);
+	public Customer viewMyAccount(String id) throws FindException {
+		return accountService.findById(id);
 	}
 
 	/*
 	 * Control에서 accountService의 modify호출
+	 * 
 	 * @param Customer c
+	 * 
 	 * @author 영민
 	 */
-	public void modifyMyAccount(Customer c) throws ModifyException{
+	public void modifyMyAccount(Customer c) throws ModifyException {
 		accountService.modify(c);
 	}
 
 	/*
 	 * Control에서 accountService의 removeMyAccount
+	 * 
 	 * @param Cusotomer c
+	 * 
 	 * @author 영민
 	 */
-	public void removeMyAccount(Customer c) throws RemoveException{
+	public void removeMyAccount(Customer c) throws RemoveException {
 		accountService.remove(c);
 	}
 
+	/**
+	 * 추천 레시피 탐색 절차를 위한 메소드
+	 * @return 추천 레시피 정보를 가진 RecipeInfo
+	 * @throws FindException
+	 */
+	public RecipeInfo searchRecommended() throws FindException {
+		return recipeService.findRecommended();
+	}
 }

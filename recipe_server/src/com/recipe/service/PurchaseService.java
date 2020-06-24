@@ -13,8 +13,7 @@ import com.recipe.vo.Review;
 public class PurchaseService {
 	PurchaseDAO purchasedao = new PurchaseDAO();
 	ReviewDAO revidao = new ReviewDAO();
-	
-	
+
 	public void buy(Purchase p)  throws AddException{
 		purchasedao.insert(p);
 	}

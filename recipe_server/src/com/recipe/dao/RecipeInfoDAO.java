@@ -137,7 +137,7 @@ public class RecipeInfoDAO {
 	
 	public static void main(String[] args) {
 		RecipeInfoDAO dao = new RecipeInfoDAO();
-//		int code = 195454;
+//		int code = 195453;
 //		try {
 //			RecipeInfo list = dao.selectByCode(code);
 //			System.out.println("code:" + list.getRecipeCode() + "  name:" + list.getRecipeName() + "  summ:"+ list.getRecipeSumm() +"  price:"+ list.getRecipePrice());
@@ -152,7 +152,7 @@ public class RecipeInfoDAO {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
-		
+//		
 		String name = "단호박";
 	
 		try {
@@ -171,5 +171,56 @@ public class RecipeInfoDAO {
 		
 		
 	}
-	
+	/**
+	 * 좋아요 개수(내림차순), 싫어요 개수(오름차순), 작성된 후기 개수(내림차순)를 기준으로 추천 레시피를 선정하여 반환한다 
+	 * @return 추천 레시피 정보를 포함한 RecipeInfo 객체
+	 * @throws FindException
+	 */
+	public RecipeInfo selectByRank() throws FindException {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			con = MyConnection.getConnection();
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+			throw new FindException(e.getMessage());
+		}
+		
+		String selectByRankSQL = "SELECT ri.recipe_code, ri.recipe_name, ri.recipe_summ, ri.recipe_price, ri.recipe_process, po.like_count, po.dislike_count\r\n" + 
+				"FROM recipe_info ri JOIN point po ON (ri.recipe_code = po.recipe_code)\r\n" + 
+				"WHERE\r\n" + 
+				"    ri.recipe_code = (\r\n" + 
+				"        SELECT\r\n" + 
+				"            recipe_code\r\n" + 
+				"        FROM (\r\n" + 
+				"                SELECT\r\n" + 
+				"                    recipe_code\r\n" + 
+				"                FROM\r\n" + 
+				"                    point p\r\n" + 
+				"                ORDER BY\r\n" + 
+				"                    like_count DESC,\r\n" + 
+				"                    dislike_count ASC, (\r\n" + 
+				"                        SELECT\r\n" + 
+				"                            COUNT(*)\r\n" + 
+				"                        FROM\r\n" + 
+				"                            review\r\n" + 
+				"                        WHERE\r\n" + 
+				"                            recipe_code = p.recipe_code\r\n" + 
+				"                    ) DESC\r\n" + 
+				"            )\r\n" + 
+				"        WHERE ROWNUM = 1)";
+		
+		try {
+			pstmt = con.prepareStatement(selectByRankSQL);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) return new RecipeInfo(rs.getInt("recipe_code"), rs.getString("recipe_name"), rs.getString("recipe_summ"), rs.getDouble("recipe_price"), rs.getString("recipe_process"), new Point(rs.getInt("recipe_code"), rs.getInt("like_count"), rs.getInt("dislike_count")), null);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		throw new FindException("추천 레시피 탐색 오류");
+	}
 }
