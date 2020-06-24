@@ -14,6 +14,7 @@ import java.util.List;
 
 import com.recipe.exception.FindException;
 import com.recipe.exception.ModifyException;
+import com.recipe.exception.RemoveException;
 import com.recipe.io.DataIO;
 import com.recipe.io.Menu;
 import com.recipe.vo.Favorite;
@@ -120,6 +121,9 @@ public class CustomerFrontThread implements Runnable {
 					break;
 				case Menu.SEARCH_FAVORITE_BY_CUSTOMERID: //로그인한 사용자 즐겨찾기 목록 보기
 					favoriteByCustomerIdFront();
+					break;
+				case Menu.REMOVE_FAVORITE: //로그인한 사용자 즐겨찾기 목록 보기
+					favoriteRemove();
 					break;
 				default:
 					break;
@@ -270,6 +274,21 @@ public class CustomerFrontThread implements Runnable {
 			//dio.sendSuccess();
 		} catch (FindException e) {
 			dio.sendFail(e.getMessage());
+		}
+	}
+	
+	/**
+	 * favorite 삭제
+	 * @throws IOException
+	 * @author 고수정
+	 */
+	public void favoriteRemove() throws IOException {
+		Favorite f = new Favorite();
+		f = dio.receiveFavorite();
+		try {
+			control.removeFavorite(f);
+		} catch (RemoveException e) {
+			e.printStackTrace();
 		}
 	}
 }
