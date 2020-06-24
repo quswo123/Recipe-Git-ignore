@@ -28,7 +28,8 @@ public class PurchaseListVIew {
 		List<Review> rlist = null;
 		try {
 			dio.sendMenu(Menu.PURCHASE_LIST);
-			
+		
+			dio.receiveStatus();
 			list = dio.receivePurchaseList();
 			rlist = dio.receiveReviews();
 			
@@ -38,6 +39,14 @@ public class PurchaseListVIew {
 			for(Purchase p : list) {
 				System.out.print(p.getPurchaseDetail().getRecipeInfo().getRecipeName());
 				System.out.print(p.getPurchaseDate());
+			}
+			for(Review r : rlist) {
+				String comment = r.getReviewComment();
+				if (comment == null) {
+					System.out.print("No");
+				}else {
+					System.out.println("Yes");
+				}
 			}
 			
 		} catch (IOException | ParseException e) {

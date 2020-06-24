@@ -150,14 +150,17 @@ public class CustomerFrontThread implements Runnable {
 	 * @throws IOException
 	 */
 	public void purchaseList() throws IOException{
+		String customerId = dio.receiveId();
+		List<Purchase> list = null;
+		List<Review> rlist = null;
 		try {
-			String customerId = dio.receiveId();
-			List<Purchase> list = control.viewMyPurchase(customerId);
-			//List<Review> rlist = control.viewMyReview(customerId);
+			list = control.viewMyPurchase(customerId);
+			rlist = control.viewMyReview(customerId);
 			
-			//dio.send(rlist);
+			System.out.println("보냄1");
+			dio.sendReviews(rlist);
 			dio.sendPurchase(list);
-			dio.sendSuccess();
+			System.out.println("보냄2");
 		} catch (FindException e) {
 			e.printStackTrace();
 			dio.sendFail(e.getMessage());
