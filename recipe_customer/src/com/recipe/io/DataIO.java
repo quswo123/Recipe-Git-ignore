@@ -100,7 +100,7 @@ public class DataIO {
 		dos.writeUTF(c.getCustomerName() != null ? c.getCustomerName() : "");
 		dos.writeUTF(c.getCustomerEmail() != null ? c.getCustomerEmail() : "");
 		dos.writeUTF(c.getCustomerPhone() != null ? c.getCustomerPhone() : "");
-		send(c.getPostal());
+		//send(c.getPostal());
 		dos.writeUTF(c.getCustomerAddr() != null ? c.getCustomerAddr() : "");
 	}
 	/**
@@ -259,10 +259,11 @@ public class DataIO {
 		String name = dis.readUTF();
 		String email = dis.readUTF();
 		String phone = dis.readUTF();
-		Postal postal = receivePostal();
+		//Postal postal = receivePostal();
 		String addr = dis.readUTF();
 		
-		return new Customer(id, pwd, name, email, phone, postal, addr);
+		//return new Customer(id, pwd, name, email, phone, postal, addr);
+		return new Customer(id, pwd, name, email, phone, null, addr);
 	}
 	/**
 	 * Customer List를 전달받는다

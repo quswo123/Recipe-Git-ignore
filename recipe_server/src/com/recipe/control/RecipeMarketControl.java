@@ -22,6 +22,7 @@ import com.recipe.service.RecipeService;
 import com.recipe.service.ReviewService;
 import com.recipe.vo.Purchase;
 import com.recipe.vo.Favorite;
+import com.recipe.vo.Postal;
 import com.recipe.vo.Review;
 import com.recipe.vo.RecipeInfo;
 import com.recipe.vo.Customer;
@@ -240,7 +241,7 @@ public class RecipeMarketControl {
 	}
 
 	/*
-	 * Control에서 accountService의 removeMyAccount
+	 * Control에서 accountService의 removeMyAccount 호출
 	 * 
 	 * @param Cusotomer c
 	 * 
@@ -248,6 +249,15 @@ public class RecipeMarketControl {
 	 */
 	public void removeMyAccount(Customer c) throws RemoveException {
 		accountService.remove(c);
+	}
+	/*
+	 * control에서 PostService의 findMyDoro 호출
+	 * @param String doro
+	 * @author 영민
+	 */
+	public List<Postal> searchByDoro(String doro) throws FindException{
+		PostService service = new PostService();
+		return service.findByDoro(doro);
 	}
 
 }

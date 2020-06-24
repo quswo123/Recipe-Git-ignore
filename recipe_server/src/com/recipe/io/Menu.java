@@ -15,4 +15,6 @@ public class Menu {
 	public static final int ADMIN_LOGIN = 12; //Admin 로그인
 	public static final int ADD_RECIPE = 13; //레시피 등록
 	public static final int CUSTOMER_INFO = 14; //Customer 내 정보 보기
-}
+	public static final int CUSTOMER_MODIFY = 15; //Customer 내 정보 수정
+	public static final int SEARCH_POSTAL = 16; //Customer 도로명 주소 검색
+	}
