@@ -5,7 +5,6 @@ import java.util.Scanner;
 
 import com.recipe.io.DataIO;
 import com.recipe.io.Menu;
-import com.recipe.share.AdminShare;
 import com.recipe.vo.RecipeInfo;
 
 public class RecipeInfoView {
@@ -42,7 +41,7 @@ public class RecipeInfoView {
 		String menu = null;
 		try {
 			do {
-				System.out.println("1.좋아요 2.싫어요 3.후기목록보기 0.목록으로 *초기화면");
+				System.out.println("1.좋아요 2.싫어요 3.후기목록보기 0.이전화면");
 				menu = sc.nextLine();
 				if (menu.equals("1")) {
 					likeThisRecipe(info);
@@ -51,7 +50,7 @@ public class RecipeInfoView {
 				} else if (menu.equals("3")) {
 
 				}
-			} while (!menu.equals("0") && !menu.equals("*")); // 초기화면으로 가는 처리는 아직 고민중
+			} while (!menu.equals("0")); // 초기화면으로 가는 처리는 아직 고민중
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
