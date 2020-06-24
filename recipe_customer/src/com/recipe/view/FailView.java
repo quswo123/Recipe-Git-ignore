@@ -17,6 +17,7 @@ public class FailView {
 		System.out.println("로그아웃 실패");
 	}
 	
+	
 	/**
 	 * 즐겨찾기 목록 조회 실패 메시지를 출력한다
 	 * @author 고수정
@@ -28,7 +29,15 @@ public class FailView {
 	 /* 추천 레시피 실패 메시지를 출력한다
 	 * @author 최종국
 	 */
-	public void recommendedRecipe() {
-		System.out.println("추천 레시피 실패");
+	public void recommendedRecipe(String msg) {
+		System.out.println("추천 레시피 실패 : " + msg);
+	}
+	
+	/**
+	 * 좋아요 실패 메시지를 출력한다
+	 * @author 최종국
+	 */
+	public void likeRecipe(String msg) {
+		System.out.println("좋아요 실패 : " + msg);
 	}
 }

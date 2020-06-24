@@ -20,7 +20,7 @@ public class RecommendedRecipeView {
 			recipeInfoView.showRecipeInfoView(dio.receiveRecipeInfo());
 		} else {
 			FailView fail = new FailView();
-			fail.recommendedRecipe();
+			fail.recommendedRecipe(dio.receive());
 		}
 	}
 }

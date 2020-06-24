@@ -21,6 +21,7 @@ import com.recipe.vo.Favorite;
 import com.recipe.share.CustomerShare;
 import com.recipe.vo.Purchase;
 import com.recipe.vo.Customer;
+import com.recipe.vo.Point;
 import com.recipe.vo.RecipeInfo;
 import com.recipe.vo.Review;
 
@@ -112,6 +113,12 @@ public class CustomerFrontThread implements Runnable {
 					break;
 				case Menu.RECIPE_PROCESS: //레시피 과정 정보
 					recipeProcessFront();
+					break;
+				case Menu.LIKE:
+					likeRecipeFront();
+					break;
+				case Menu.DISLIKE:
+					disLikeRecipeFront();
 					break;
 				case Menu.PURCHASE_LIST: // 구매 내역
 					purchaseList();
@@ -273,6 +280,22 @@ public class CustomerFrontThread implements Runnable {
 			dio.send(searchedRecipeInfo);
 			//dio.sendSuccess();
 		} catch (FindException e) {
+		}
+		}
+	
+	/**
+	 * 레시피 코드를 전달받아 해당하는 레시피의 좋아요 개수를 증가시킨다
+	 * @throws IOException
+	 * @author 최종국
+	 */
+	public void likeRecipeFront() throws IOException {
+		Point p = dio.receivePoint();
+		p.like();
+		try {
+			control.modifyPoint(p);
+			dio.sendSuccess();
+		} catch (ModifyException e) {
+			e.printStackTrace();
 			dio.sendFail(e.getMessage());
 		}
 	}
@@ -289,6 +312,22 @@ public class CustomerFrontThread implements Runnable {
 			control.removeFavorite(f);
 		} catch (RemoveException e) {
 			e.printStackTrace();
+		}
+	}
+
+	 /* 레시피 코드를 전달받아 해당하는 레시피의 싫어요 개수를 증가시킨다
+	 * @throws IOException
+	 * @author 최종국
+	 */
+	public void disLikeRecipeFront() throws IOException {
+		Point p = dio.receivePoint();
+		p.disLike();
+		try {
+			control.modifyPoint(p);
+			dio.sendSuccess();
+		} catch (ModifyException e) {
+			e.printStackTrace();
+			dio.sendFail(e.getMessage());
 		}
 	}
 }
