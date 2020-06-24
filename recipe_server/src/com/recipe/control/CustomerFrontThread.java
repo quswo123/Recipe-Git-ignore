@@ -78,7 +78,7 @@ public class CustomerFrontThread implements Runnable {
 					selectByNameFront();
 					break;
 				case Menu.SEARCH_RECIPE_INGREDIENTS: // 레시피 재료 검색
-					// TO DO
+					selectByIngFront();
 					break;
 				case Menu.RECIPE_PROCESS: //레시피 과정 정보
 					recipeProcessFront();
@@ -229,5 +229,16 @@ public class CustomerFrontThread implements Runnable {
 		}
 		
 		dio.send(result);
+	}
+	public void selectByIngFront() throws IOException {
+		List<String> recipeInfo = dio.receiveListString();
+		List<RecipeInfo> searchedRecipeInfo = null;		
+		try {
+			searchedRecipeInfo = control.searchByIngName(recipeInfo);
+			dio.send(searchedRecipeInfo);
+			//dio.sendSuccess();
+		} catch (FindException e) {
+			dio.sendFail(e.getMessage());
+		}
 	}
 }
