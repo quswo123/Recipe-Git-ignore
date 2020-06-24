@@ -126,8 +126,9 @@ public class RecipeInfoView {
 	private void purchaseRecipe(RecipeInfo info) throws IOException{
 		System.out.println("수량을 입력해주세요");
 		dio.sendMenu(Menu.PURCHASE);
-		int line = Integer.parseInt(sc.nextLine());
+		dio.sendId(CustomerShare.loginedId);
 		dio.send(info);
+		int line = Integer.parseInt(sc.nextLine());
 		Purchase p = new Purchase();
 		line = p.getPurchaseDetail().getPurchaseDetailQuantity();
 		System.out.println("총가격은"+p.getPurchaseDetail().getPurchaseDetailQuantity()*p.getPurchaseDetail().getRecipeInfo().getRecipePrice()+"입니다 구입하시겠습니까?");

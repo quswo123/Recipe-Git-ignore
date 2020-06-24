@@ -220,6 +220,7 @@ public class CustomerFrontThread implements Runnable {
 	 */
 	public void purchaseRecipe() throws IOException{
 		Purchase purchase = null;
+		String customerId = dio.receiveId();
 		try {
 			control.buyRecipe(purchase);
 			
