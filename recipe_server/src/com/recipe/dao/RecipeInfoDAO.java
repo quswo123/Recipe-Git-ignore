@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.recipe.exception.DuplicatedException;
 import com.recipe.exception.FindException;
 import com.recipe.jdbc.MyConnection;
 import com.recipe.vo.Ingredient;
@@ -134,6 +135,129 @@ public class RecipeInfoDAO {
 		
 		return recipeInfo;
 	}
+	
+	public void insert(RecipeInfo recipe_InfoVo, List<Ingredient> ingList) throws DuplicatedException{
+		//입력받아온 recipe_InfoVo,ingList
+		Connection conn = null; // DB연결된 상태(세션)을 담은 객체
+		PreparedStatement pstm = null;  // SQL 문을 나타내는 객체
+		ResultSet rs = null;  // 쿼리문을 날린것에 대한 반환값을 담을 객체
+
+		String ing_name = "";
+		for(Ingredient ingredientVO : ingList) {		//ingList에 있는 객체들을 ingredientVO에 넣으면서 반복문 실행
+			ing_name +=", '" + ingredientVO.getIngName() + "'";
+		}
+
+		String quary = "SELECT COUNT(1) AS CNT FROM RECIPE_INFO WHERE RECIPE_NAME = ?";
+		try {
+			conn = MyConnection.getConnection();
+			pstm = conn.prepareStatement(quary);
+			pstm.setString(1,  recipe_InfoVo.getRecipeName());
+
+			rs = pstm.executeQuery();
+
+			int countFlag = 0;
+			while(rs.next()) {		//쿼리문을 돌렸을때 받아온 컬럼의 값이 있을때 true
+				countFlag = rs.getInt(1);		//있다면 1을 countFlag에 넣는다.
+			}
+			if(0 < countFlag) {
+				throw new DuplicatedException("이미 존재하는 레시피입니다.");
+			}
+			for(Ingredient ingredientVO : ingList) {		//ingList에 있는 객체들을 ingredientVO에 넣으면서 반복문 실행
+				quary = "MERGE INTO INGREDIENT " + 
+						"USING DUAL " + 
+						"   ON (ING_NAME = ?) " + 
+						"WHEN NOT MATCHED THEN " + 
+						"    INSERT (ING_CODE, ING_NAME) " + 
+						"    VALUES ((SELECT ING_CODE.NEXTVAL FROM DUAL), ?)";		//INGREDIENT테이블에서 ING_NAME을 검색하여 값이 없으면 시퀀스값을 ING_CODE에 넣고, 재료명을 ING_NAME에 넣는다.
+				conn = MyConnection.getConnection();
+				pstm = conn.prepareStatement(quary);
+				pstm.setString(1, ingredientVO.getIngName());
+				pstm.setString(2, ingredientVO.getIngName());
+				rs = pstm.executeQuery();
+			}
+
+			List<Ingredient> ing_codeList = new ArrayList<Ingredient>();
+			Ingredient ingredientVo = new Ingredient();
+
+			quary = "SELECT ING_CODE, ING_NAME FROM INGREDIENT WHERE ING_NAME IN ( "
+					+ ing_name.substring(1, ing_name.length()) + ")";	//,빼고 ING_CODE와 ING_NAME값을 셀렉트 해오는 쿼리
+			conn = MyConnection.getConnection();
+			pstm = conn.prepareStatement(quary);
+			rs = pstm.executeQuery();
+
+			while(rs.next()) {
+				ingredientVo = new Ingredient();
+				ingredientVo.setIngCode(rs.getInt(1));		//첫번째 값은 재료코드값으로
+				ingredientVo.setIngName(rs.getString(2));		//두번째값은 재료이름값으로
+				ing_codeList.add(ingredientVo);		//인덱스 하나하나 ing_codeList에 넣어준다.
+			}
+
+			quary = "SELECT RECIPE_CODE.NEXTVAL FROM DUAL";		//레시피코드에 시퀀스넘버를 넣어준다.
+			conn = MyConnection.getConnection();
+			pstm = conn.prepareStatement(quary);
+			rs = pstm.executeQuery();
+
+			while(rs.next()){
+				recipe_InfoVo.setRecipeCode(rs.getInt(1));//setRecipe_code메소드를 이용해서 recipe_InfoVo의 Recipe_code에 넣어준다
+			}
+			recipe_InfoVo.setRecipeProcess("/Users/Shared/recipeProcess/" + recipe_InfoVo.getRecipeCode() + ".txt");		//파일생성.
+
+			quary = "INSERT INTO RECIPE_INFO VALUES(?, ?, ?, ?, ?, ?, ?)";		//RECIPE_INFO 에 값들을 넣어주는 쿼리문
+			conn = MyConnection.getConnection();
+			pstm = conn.prepareStatement(quary);
+			pstm.setInt(1, recipe_InfoVo.getRecipeCode());
+			pstm.setString(2, recipe_InfoVo.getRecipeName());
+			pstm.setString(3, recipe_InfoVo.getRecipeSumm());
+			pstm.setDouble(4, recipe_InfoVo.getRecipePrice());
+			pstm.setString(5, recipe_InfoVo.getRecipeProcess());
+			pstm.setString(6, ("1"));
+			pstm.setString(7, "RD ID 받아오기");
+
+			rs = pstm.executeQuery();
+
+			String fileOutputMessage = "";
+			for(Ingredient ingredientVO2 : ingList) {
+		//		fileOutputMessage += ingredientVO2.getIngName() + " " + ingredientVO2.getIngCpcty() + " ";		//재료명과 용량을 fileOutputMessage에 넣어준다.
+			}
+			fileOutputMessage += "\n" + recipe_InfoVo.getRecipeSumm();		//한칸 넘겨서 요리설명을 넣어준다.
+
+		//	new FileService().FileOutput(recipe_InfoVo.getRecipeProcess(), fileOutputMessage);		//파일에 데이터넣는 메소드 호출
+
+			quary = "INSERT INTO POINT VALUES(?, 0, 0)";
+			conn = MyConnection.getConnection();
+			pstm = conn.prepareStatement(quary);
+			pstm.setInt(1, recipe_InfoVo.getRecipeCode());
+
+			rs = pstm.executeQuery();
+
+			for(Ingredient ingredientVO : ing_codeList) {			//ing_codeList에 있는것들을 ingredientVO에 넣으면서 반복문 돌림.
+				quary = "INSERT INTO RECIPE_INGREDIENT VALUES (?, ?, ?)";		//리세피코드, 재료코드, 용량 insert 해주는 쿼리
+				conn = MyConnection.getConnection();
+				pstm = conn.prepareStatement(quary);
+				pstm.setInt(1, recipe_InfoVo.getRecipeCode());
+				pstm.setInt(2,  ingredientVO.getIngCode());
+				for(Ingredient ingredientVO2 : ingList) {
+					if(ingredientVO.getIngName().equals(ingredientVO2.getIngName())) {
+	//					pstm.setString(3, ingredientVO2.getIngCpcty());
+						break;
+					}
+				}
+				rs = pstm.executeQuery();
+			}
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}finally{
+			// DB 연결을 종료한다.
+			try{
+				if ( rs != null ){rs.close();}   
+				if ( pstm != null ){pstm.close();}   
+				if ( conn != null ){conn.close();}
+			}catch(Exception e){
+				throw new RuntimeException(e.getMessage());
+			}
+		}
+	}
+
 	
 	public static void main(String[] args) {
 		RecipeInfoDAO dao = new RecipeInfoDAO();
