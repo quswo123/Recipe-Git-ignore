@@ -30,14 +30,14 @@ import com.recipe.vo.Review;
 public class RecipeMarketControl {
 	private static RecipeMarketControl control = new RecipeMarketControl();
 
-	AccountService accountService;
-	FavoriteService favoriteService;
-	PostService postService;
-	PurchaseService purchaseService;
-	RDAccountService rdAccountService;
-	RecipeService recipeService;
-	ReviewService reviewService;
-	AdminAccountService adminAccountService;
+	private AccountService accountService;
+	private FavoriteService favoriteService;
+	private PostService postService;
+	private PurchaseService purchaseService;
+	private RDAccountService rdAccountService;
+	private RecipeService recipeService;
+	private ReviewService reviewService;
+	private AdminAccountService adminAccountService;
 
 	private RecipeMarketControl() {
 		accountService = new AccountService();
@@ -286,7 +286,43 @@ public class RecipeMarketControl {
 		recipeService.modifyPoint(p);
 	}
 	
+	/**
+	 * R&D 계정 전체 조회 절차를 위한 메소드
+	 * @return RD 객체 리스트
+	 * @throws FindException
+	 * @author 최종국
+	 */
 	public List<RD> viewAllRd() throws FindException {
 		return rdAccountService.findAll();
+	}
+	
+	/**
+	 * R&D 계정 추가 절차를 위한 메소드
+	 * @param r 추가할 R&D 계정 정보를 가진 RD
+	 * @throws AddException
+	 * @throws DuplicatedException 아이디가 중복되면 발생
+	 * @author 최종국
+	 */
+	public void addRd(RD r) throws AddException, DuplicatedException {
+		rdAccountService.add(r);
+	}
+	
+	/**
+	 * R&D 계정 수정 절차를 위한 메소드
+	 * @param r 수정할 R&D 계정 정보를 가진 RD
+	 * @throws ModifyException 수정하려는 R&D 계정이 존재하지 않으면 발생
+	 * @author 최종국
+	 */
+	public void modifyRd(RD r) throws ModifyException {
+		rdAccountService.modify(r);
+	}
+	
+	/**
+	 * R&D 계정 삭제(비활성화) 절차를 위한 메소드
+	 * @param rdId 삭제할 아이디
+	 * @throws RemoveException 삭제하려는 R&D 계정이 존재하지 않으면 발생
+	 */
+	public void removeRd(String rdId) throws RemoveException {
+		rdAccountService.remove(rdId);
 	}
 }

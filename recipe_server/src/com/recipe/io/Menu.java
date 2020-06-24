@@ -30,4 +30,7 @@ public class Menu {
 	public static final int DISLIKE = 102; //싫어요
 	public static final int PURCHASE = 103; //구매하기
 	public static final int RD_ALL = 103; //R&D 계정 전체 조회
+	public static final int RD_ADD = 104; //R&D 계정 추가
+	public static final int RD_MODIFY = 105; //R&D 계정 수정
+	public static final int RD_REMOVE = 106; //R&D 계정 삭제
 }
