@@ -88,6 +88,17 @@ public class DataIO {
 		dos.writeUTF(pwd);
 	}
 	/**
+	 * 메시지LIST 전송한다
+	 * @param str 보낼 메시지 내용
+	 * @throws IOException
+	 */
+	public void sendListString(List<String> str) throws IOException {
+		dos.writeInt(str.size());
+		for(String s : str) {
+			send(s);
+		}
+	}
+	/**
 	 * VO 객체 Customer의 내용들을 전송한다
 	 * @param c 정보를 전송할 Customer
 	 * @throws IOException
@@ -536,6 +547,18 @@ public class DataIO {
 		int size = dis.readInt();
 		List<Favorite> list = new ArrayList<>();
 		for(int i=0; i<size; i++) list.add(receiveFavorite());
+		
+		return list;
+	}
+	/**
+	 * Favorite List를 전달받는다
+	 * @return 전달받은 Favorite들의 List
+	 * @throws IOException
+	 */
+	public List<String> receiveListString() throws IOException {
+		int size = dis.readInt();
+		List<String> list = new ArrayList<>();
+		for(int i=0; i<size; i++) list.add(receive());
 		
 		return list;
 	}
