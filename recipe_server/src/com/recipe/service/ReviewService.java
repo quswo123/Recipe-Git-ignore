@@ -16,6 +16,10 @@ import com.recipe.vo.Review;
 public class ReviewService {
 	private ReviewDAO dao;
 	
+	public ReviewService() {
+		dao = new ReviewDAO();
+	}
+	
 	public List<Review> findByCode(int recipeCode) throws FindException {
 		List<Review> reviewList = new ArrayList<>();
 		reviewList = dao.selectByCode(recipeCode); 

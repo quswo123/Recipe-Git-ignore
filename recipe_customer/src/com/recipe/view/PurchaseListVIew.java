@@ -11,6 +11,8 @@ import java.util.Scanner;
 
 import com.recipe.io.DataIO;
 import com.recipe.io.Menu;
+import com.recipe.share.CustomerShare;
+import com.recipe.vo.Favorite;
 import com.recipe.vo.Purchase;
 import com.recipe.vo.RecipeInfo;
 import com.recipe.vo.Review;
@@ -28,23 +30,27 @@ public class PurchaseListVIew {
 		List<Review> rlist = null;
 		try {
 			dio.sendMenu(Menu.PURCHASE_LIST);
-		
+			dio.sendId(CustomerShare.loginedId);
+			
 			list = dio.receivePurchaseList();
 			rlist = dio.receiveReviews();
 			
 			System.out.println("나의 구매내역");
 			System.out.println("["+list.size()+"건의 구매내역이 조회되었습니다 ]");
 			System.out.println("레시피상품명/구매일자/후기등록여부");
+			
 			for(Purchase p : list) {
 				System.out.print(p.getPurchaseDetail().getRecipeInfo().getRecipeName());
 				System.out.print(p.getPurchaseDate());
-			}
-			for(Review r : rlist) {
-				String comment = r.getReviewComment();
-				if (comment == null) {
-					System.out.print("No");
-				}else {
-					System.out.println("Yes");
+				for(Review r : rlist) {
+					String comment = r.getReviewComment();
+					if (p.getCustomerId()==r.getCustomerId()) {
+						if(comment.equals("")) {
+							System.out.print("No");
+						}else {
+							System.out.println("Yes");
+						}
+					}
 				}
 			}
 			

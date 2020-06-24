@@ -164,8 +164,8 @@ public class CustomerFrontThread implements Runnable {
 			rlist = control.viewMyReview(customerId);
 			
 			System.out.println("보냄1");
-			dio.sendReviews(rlist);
 			dio.sendPurchase(list);
+			dio.sendReviews(rlist);
 			System.out.println("보냄2");
 		} catch (FindException e) {
 			e.printStackTrace();
