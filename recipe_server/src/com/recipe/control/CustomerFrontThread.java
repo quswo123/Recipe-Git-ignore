@@ -9,9 +9,11 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.recipe.exception.AddException;
 import com.recipe.exception.FindException;
 import com.recipe.exception.ModifyException;
 import com.recipe.exception.RemoveException;
@@ -132,6 +134,9 @@ public class CustomerFrontThread implements Runnable {
 				case Menu.REMOVE_FAVORITE: //로그인한 사용자 즐겨찾기 목록 보기
 					favoriteRemove();
 					break;
+				case Menu.PURCHASE: //레시피구매하기
+					purchaseRecipe();
+					break;
 				default:
 					break;
 				}
@@ -197,19 +202,33 @@ public class CustomerFrontThread implements Runnable {
 		List<Purchase> list = null;
 		List<Review> rlist = null;
 		try {
-			System.out.println("보냄");
 			list = control.viewMyPurchase(customerId);
 			rlist = control.viewMyReview(customerId);
 			
-			System.out.println("보냄1");
 			dio.sendPurchase(list);
 			dio.sendReviews(rlist);
-			System.out.println("보냄2");
 		} catch (FindException e) {
 			e.printStackTrace();
 			dio.sendFail(e.getMessage());
 		}
 	}
+	
+	/**
+	 * 해당되는 레시피 구매하기
+	 * @throws IOException
+	 */
+	public void purchaseRecipe() throws IOException{
+		Purchase purchase = null;
+		try {
+			control.buyRecipe(purchase);
+			
+			dio.send(purchase);
+			dio.sendSuccess();
+		} catch (IOException | AddException e) {
+			dio.sendFail(e.getMessage());
+		} 
+	}
+	
 	/**
 	 * 레시피이름에 해당하는 레시피목록을 클라이언트부터 전달받음
 	 * @throws IOException
@@ -281,7 +300,7 @@ public class CustomerFrontThread implements Runnable {
 			//dio.sendSuccess();
 		} catch (FindException e) {
 		}
-		}
+	}
 	
 	/**
 	 * 레시피 코드를 전달받아 해당하는 레시피의 좋아요 개수를 증가시킨다

@@ -45,8 +45,8 @@ public class PurchaseListVIew {
 			}
 			else {
 				for(Purchase p : list) {
-					System.out.print(p.getPurchaseDetail().getRecipeInfo().getRecipeName());
-					System.out.print(p.getPurchaseDate());
+					System.out.print(i+1 + list.get(i).getPurchaseDetail().getRecipeInfo().getRecipeName() + "/ ");
+					System.out.print(p.getPurchaseDate()+ "/ ");
 					for(Review r : rlist) {
 						String comment = r.getReviewComment();
 						if (p.getCustomerId().equals(r.getCustomerId())) {
@@ -58,8 +58,6 @@ public class PurchaseListVIew {
 						}
 					}
 				}
-				System.out.println("0:다시검색 | *:메인메뉴");
-				System.out.println("상세구매내역를 보시려면 번호를 입력하세요");
 			}
 		} catch (IOException | ParseException e) {
 			e.printStackTrace();
@@ -89,7 +87,7 @@ public class PurchaseListVIew {
 			}
 			viewList(purchaseInfo, i - 10, j - 5);
 		} else if (value.equals("*")) {
-			//메인메뉴로 이동
+			PurchaseInfoView pview = new PurchaseInfoView(dio);
 		}
 	}
 	
