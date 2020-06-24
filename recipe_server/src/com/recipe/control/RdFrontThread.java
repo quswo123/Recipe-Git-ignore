@@ -59,13 +59,16 @@ public class RdFrontThread implements Runnable{
 				case Menu.SEARCH_RECIPE_INGREDIENTS: // 레시피 재료 검색
 					selectByIngFront();
 					break;
-				case Menu.LIKE:
+				case Menu.RECIPE_PROCESS: //레시피 과정 정보
+					recipeProcessFront();
+					break;
+				case Menu.LIKE: //좋아요
 					likeRecipeFront();
 					break;
-				case Menu.DISLIKE:
+				case Menu.DISLIKE: //싫어요
 					disLikeRecipeFront();
 					break;
-				case Menu.RD_LOGOUT:
+				case Menu.RD_LOGOUT: //로그아웃
 					logoutFront();
 					break;
 				default:

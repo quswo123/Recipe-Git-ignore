@@ -51,7 +51,7 @@ public class RecipeInfoView {
 				} else if (menu.equals("3")) {
 
 				}
-			} while (menu.equals("0") || menu.equals("*")); // 초기화면으로 가는 처리는 아직 고민중
+			} while (!menu.equals("0") && !menu.equals("*")); // 초기화면으로 가는 처리는 아직 고민중
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

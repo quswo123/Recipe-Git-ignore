@@ -52,10 +52,13 @@ public class AdminFrontThread implements Runnable{
 				case Menu.RECOMMENDED_RECIPE: // 추천 레시피
 					recommendRecipeFront();
 					break;
-				case Menu.LIKE:
+				case Menu.RECIPE_PROCESS: //레시피 과정 정보
+					recipeProcessFront();
+					break;
+				case Menu.LIKE: //좋아요
 					likeRecipeFront();
 					break;
-				case Menu.DISLIKE:
+				case Menu.DISLIKE: //싫어요
 					disLikeRecipeFront();
 					break;
 				default:

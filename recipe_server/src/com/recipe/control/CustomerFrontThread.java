@@ -114,10 +114,10 @@ public class CustomerFrontThread implements Runnable {
 				case Menu.RECIPE_PROCESS: //레시피 과정 정보
 					recipeProcessFront();
 					break;
-				case Menu.LIKE:
+				case Menu.LIKE: //좋아요
 					likeRecipeFront();
 					break;
-				case Menu.DISLIKE:
+				case Menu.DISLIKE: //싫어요
 					disLikeRecipeFront();
 					break;
 				case Menu.PURCHASE_LIST: // 구매 내역
