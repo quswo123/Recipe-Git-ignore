@@ -20,11 +20,14 @@ public class RecipeSearchView {
 		System.out.println("레시피 검색");
 		System.out.println("1. 재료로 레시피 검색");
 		System.out.println("2. 이름으로 레시피 검색");
+		System.out.println("3. 코드로 레시피 검색");
 		int num = Integer.parseInt(sc.nextLine());
 		if (num == 1) {
 			showFindbyIngNameView();
 		} else if (num == 2) {
 			showFindbyName();
+		} else if (num == 3) {
+			showFindbyCodeView();
 		} else {
 			showRecipeInfoView();
 		}
@@ -78,6 +81,28 @@ public class RecipeSearchView {
 		}
 		
 	}
+	private void showFindbyCodeView() {
+		Scanner sc = new Scanner(System.in);		
+		System.out.println("코드로 검색");
+		System.out.println("코드를 입력하세요:");		
+		int s = sc.nextInt();
+		findByCode(s);				
+	}
+	public void findByCode(int recipeCode) {
+		RecipeInfo recipeInfo = null;
+		try {
+			dio.sendMenu(Menu.SEARCH_RECIPE_CODE);
+			dio.sendMenu(recipeCode);
+			recipeInfo = dio.receiveRecipeInfo();
+			RecipeInfoView infoView = new RecipeInfoView(dio);
+			infoView.showRecipeInfoView(recipeInfo);			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	
 	
 	
 	

@@ -51,7 +51,7 @@ public class RdFrontThread implements Runnable{
 					recommendRecipeFront();
 					break;
 				case Menu.SEARCH_RECIPE_CODE: // 레시피 코드 검색
-					
+					selectByRecipeCode();
 					break;
 				case Menu.SEARCH_RECIPE_NAME: // 레시피 제목 검색
 					selectByNameFront();
@@ -209,6 +209,21 @@ public class RdFrontThread implements Runnable{
 		String recipeName = dio.receive();
 		try {
 			recipeInfo = control.searchByName(recipeName);
+			dio.send(recipeInfo);
+			//dio.sendSuccess();
+		} catch (FindException e) {
+			dio.sendFail(e.getMessage());
+		}
+	}
+	/**
+	 * 레시피코드에 해당하는 레시피목록을 클라이언트부터 전달받음
+	 * @throws IOException
+	 */
+	public void selectByRecipeCode() throws IOException {
+		RecipeInfo recipeInfo = null;
+		int recipeCode = dio.receiveMenu();
+		try {
+			recipeInfo = control.searchByCode(recipeCode);
 			dio.send(recipeInfo);
 			//dio.sendSuccess();
 		} catch (FindException e) {

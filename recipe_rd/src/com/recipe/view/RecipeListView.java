@@ -59,29 +59,27 @@ public class RecipeListView {
 		}
 		System.out.println("-:이전페이지 | +:다음페이지 | 0:다시검색 | *:메인메뉴");
 		System.out.println("상세레시피를 보시려면 번호를 입력하세요");
-		String value = sc.nextLine();
-		if (value.equals("+")) {
-			//다음페이지 넘기기
-			//다시 receipInfo를 불러주고 i 를 넘기고, i가 도는 총 loop번수 j 를 +5 해준다
-			viewList(recipeInfo, i, j + 5);
-		} else if (value.equals("-")) {
-			//이전페이지 넘기기
-			//만약 첫페이지라면
-			if (i == 5 || i < 10) {
-				//첫페이지로 계속 갱신해줌
-				viewList(recipeInfo, 0, 0);
+		String value = null;
+		do {
+			value = sc.nextLine();
+			switch (value) {
+			case "+":
+				viewList(recipeInfo, i, j + 5);
+			case "-":
+				if (i == 5 || i < 10) {
+					// 첫페이지로 계속 갱신해줌
+					viewList(recipeInfo, 0, 0);
+				}
+				//아닌경우, i -10 과 j-5로 갱신해줌
+				viewList(recipeInfo, i - 10, j - 5);		
+			default:
+				int t = Integer.valueOf(value);
+				RecipeInfo param = recipeInfo.get(t-1);			
+				RecipeInfoView infoView = new RecipeInfoView(dio);
+				infoView.showRecipeInfoView(param);
 			}
-			//아닌경우, i -10 과 j-5로 갱신해줌
-			viewList(recipeInfo, i - 10, j - 5);
 
-		} else if (value.equals("0")) {
-			// showRecipeInfoView();
-		} else {
-			//만약 번호를 쳤으면, List 의 인덱스 RecipeInfo 를 넘겨줌
-			int t = Integer.valueOf(value);
-			RecipeInfo param = recipeInfo.get(t-1);			
-			RecipeInfoView infoView = new RecipeInfoView(dio);
-			infoView.showRecipeInfoView(param);
-		}
+		} while (value != Integer.toString(0));
+		
 	}
 }
