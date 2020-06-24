@@ -5,11 +5,13 @@ import java.io.DataOutputStream;
 import java.io.EOFException;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.List;
 
 import com.recipe.exception.FindException;
 import com.recipe.io.DataIO;
 import com.recipe.io.Menu;
 import com.recipe.share.RDShare;
+import com.recipe.vo.RecipeInfo;
 
 public class RdFrontThread implements Runnable{
 	private Socket client;
@@ -43,10 +45,10 @@ public class RdFrontThread implements Runnable{
 					// TO DO
 					break;
 				case Menu.SEARCH_RECIPE_CODE: // 레시피 코드 검색
-					// TO DO
+					selectByIngFront();
 					break;
 				case Menu.SEARCH_RECIPE_NAME: // 레시피 제목 검색
-					// TO DO
+					selectByNameFront();
 					break;
 				case Menu.SEARCH_RECIPE_INGREDIENTS: // 레시피 재료 검색
 					// TO DO
@@ -91,5 +93,31 @@ public class RdFrontThread implements Runnable{
 		RDShare.removeSession(rdId);
 		
 		dio.sendSuccess();
+	}
+	public void selectByIngFront() throws IOException {
+		List<String> recipeInfo = dio.receiveListString();
+		List<RecipeInfo> searchedRecipeInfo = null;		
+		try {
+			searchedRecipeInfo = control.searchByIngName(recipeInfo);
+			dio.send(searchedRecipeInfo);
+			//dio.sendSuccess();
+		} catch (FindException e) {
+			dio.sendFail(e.getMessage());
+		}
+	}
+	/**
+	 * 레시피이름에 해당하는 레시피목록을 클라이언트부터 전달받음
+	 * @throws IOException
+	 */
+	public void selectByNameFront() throws IOException {
+		List<RecipeInfo> recipeInfo = null;
+		String recipeName = dio.receive();
+		try {
+			recipeInfo = control.searchByName(recipeName);
+			dio.send(recipeInfo);
+			//dio.sendSuccess();
+		} catch (FindException e) {
+			dio.sendFail(e.getMessage());
+		}
 	}
 }
