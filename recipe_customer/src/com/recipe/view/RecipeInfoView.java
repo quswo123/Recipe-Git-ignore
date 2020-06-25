@@ -1,6 +1,7 @@
 package com.recipe.view;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.Scanner;
 
 import com.recipe.io.DataIO;
@@ -131,14 +132,31 @@ public class RecipeInfoView {
 	}
 	
 	private void purchaseRecipe(RecipeInfo info) throws IOException{
+		
 		System.out.println("수량을 입력해주세요");
-		dio.sendMenu(Menu.PURCHASE);
-		dio.sendId(CustomerShare.loginedId);
-		dio.send(info);
 		int line = Integer.parseInt(sc.nextLine());
-		Purchase p = new Purchase();
-		line = p.getPurchaseDetail().getPurchaseDetailQuantity();
-		System.out.println("총가격은"+p.getPurchaseDetail().getPurchaseDetailQuantity()*p.getPurchaseDetail().getRecipeInfo().getRecipePrice()+"입니다 구입하시겠습니까?");
-		dio.send(p);
+		System.out.println("총가격은"+ line*info.getRecipePrice()+"입니다 구매하시겠습니까?(Y/N)");
+		String purchaseLine = sc.nextLine();
+		if(purchaseLine.equals("y")) {
+			Purchase p = new Purchase();
+			PurchaseDetail pd = new PurchaseDetail();
+			p.setCustomerId(CustomerShare.loginedId);
+			
+			pd.setPurchaseDetailQuantity(line);
+			pd.setRecipeInfo(info);
+			
+			p.setPurchaseDetail(pd);
+			
+			dio.sendMenu(Menu.PURCHASE);
+			dio.send(p);
+			System.out.println("send");
+			if(dio.receiveStatus().equals("success")){
+				SuccessView success = new SuccessView();
+				success.purchaseView("구매성공");
+			}else {
+				FailView fail = new FailView();
+				fail.purchaseView(dio.receive());
+			}
+		}
 	}
 }

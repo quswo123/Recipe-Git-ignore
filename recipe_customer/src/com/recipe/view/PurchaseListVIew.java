@@ -3,6 +3,7 @@ package com.recipe.view;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -27,6 +28,7 @@ public class PurchaseListVIew {
 		List<Review> rlist = null;
 		SimpleDateFormat sdf = new SimpleDateFormat("yy-MM-dd");
 		String menu = null;
+		List<Boolean> blist = new ArrayList<>();
 
 		try {
 			dio.sendMenu(Menu.PURCHASE_LIST);
@@ -34,7 +36,7 @@ public class PurchaseListVIew {
 
 			list = dio.receivePurchaseList();
 			rlist = dio.receiveReviews();
-
+			
 			int size = list.size();
 			int start_index = 0; // 화면에 다섯개씩 보여줄때 사용할 시작 인덱스
 			int end_index = size <= 5 ? size : 5;// 화면에 다섯개씩 보여줄때 사용할 끝 인덱스
@@ -46,28 +48,29 @@ public class PurchaseListVIew {
 			System.out.println("레시피상품명/구매일자/후기등록여부");
 			do {
 				for (int i = start_index; i < end_index; i++) {
-
-					System.out.print(i + 1 + ". " + list.get(i).getPurchaseDetail().getRecipeInfo().getRecipeName() + "/ ");
+					System.out.print(i+1 + ". " + list.get(i).getPurchaseDetail().getRecipeInfo().getRecipeName() + "/ ");
 					System.out.print(sdf.format(list.get(i).getPurchaseDate()) + "/ ");
 					for (Review r : rlist) {
 						if (list.get(i).getPurchaseDate().equals(r.getReviewDate()) && list.get(i).getPurchaseDetail()
 								.getRecipeInfo().getRecipeCode() == r.getRecipeInfo().getRecipeCode()) {
 							System.out.println("No");
+							blist.add(false);
 						} else {
 							System.out.println("Yes");
+							blist.add(true);
 						}
 					}
 				}
 				if (size < 5) {
-					System.out.println("상세페이지번호 : | *.이전화면");
+					System.out.println("상세페이지번호 : | 0.이전화면");
 					menu = sc.nextLine();
 					int n = Integer.parseInt(menu);
-					
-					Purchase param = list.get(n - 1);
-					PurchaseInfoView infoView = new PurchaseInfoView(dio);
-					infoView.searchPurchaseInfoView(param);
+					if(n !=0) {
+						PurchaseInfoView infoView = new PurchaseInfoView(dio);
+						infoView.searchPurchaseInfoView(list.get(n - 1),blist.get(n-1));
+					}
 				} else {
-					System.out.println("-:이전페이지 +:다음페이지 | 상세페이지번호 : | *.이전화면");
+					System.out.println("-:이전페이지 +:다음페이지 | 상세페이지번호 : | 0.이전화면");
 					menu = sc.nextLine();
 					if (menu.equals("-")) {
 						start_index = (start_index - 5) >= 0 ? (start_index - 5) : 0; // 이전 페이지를 누르면 시작 인덱스 값을 5 감소시킨다.
@@ -80,14 +83,13 @@ public class PurchaseListVIew {
 						start_index = end_index - 5; // 시작 인덱스부터 다섯개를 출력하기 위해 시작 인덱스는 끝 인덱스에서 5 감소한 값을 갖는다
 					} else {
 						int n = Integer.parseInt(menu);
-						System.out.println(menu);
-						Purchase param = list.get(n - 1);
-						PurchaseInfoView infoView = new PurchaseInfoView(dio);
-						infoView.searchPurchaseInfoView(param);
+						if(n !=0) {
+							PurchaseInfoView infoView = new PurchaseInfoView(dio);
+							infoView.searchPurchaseInfoView(list.get(n - 1),blist.get(n-1));
+						}
 					}
 				}
-			} while (!menu.equals("*"));
-
+			} while (!menu.equals("0"));
 		} catch (IOException | ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

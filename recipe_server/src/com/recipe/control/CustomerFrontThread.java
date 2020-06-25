@@ -134,6 +134,7 @@ public class CustomerFrontThread implements Runnable {
 					break;
 				case Menu.PURCHASE: //레시피구매하기
 					purchaseRecipe();
+					break;
 				case Menu.SEARCH_REVIEW_BY_CUSTOMERID: //로그인한 사용자 즐겨찾기 목록 보기
 					reviewByCustomerIdFront();
 					break;
@@ -234,15 +235,17 @@ public class CustomerFrontThread implements Runnable {
 	 */
 	public void purchaseRecipe() throws IOException{
 		Purchase purchase = null;
-		String customerId = dio.receiveId();
 		try {
+			purchase = dio.receivePurchase();
+			System.out.println("들어옴");
 			control.buyRecipe(purchase);
-			
-			dio.send(purchase);
 			dio.sendSuccess();
-		} catch (IOException | AddException e) {
+		} catch (IOException | ParseException e1) {
+			e1.printStackTrace();
+		} catch (AddException e) {
 			dio.sendFail(e.getMessage());
-		} 
+		}
+		
 	}
 	
 	/**

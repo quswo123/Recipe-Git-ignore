@@ -23,4 +23,13 @@ public class SuccessView {
 	public void favoriteDeleteView(String msg) {
 		System.out.println(msg);
 	}
+	
+	/**
+	 * 구매하기 성공 메시지를 출력한다
+	 * @param msg
+	 * @author 변재원
+	 */
+	public void purchaseView(String msg) {
+		System.out.println(msg);
+	}
 }

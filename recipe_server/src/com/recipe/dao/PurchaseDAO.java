@@ -128,6 +128,7 @@ public class PurchaseDAO {
 			//현재 사용자ID를 추가
 			ps.setString(1, p.getCustomerId());
 			ps.executeUpdate();
+			ps.close();
 			
 			//위 쿼리문을 PurchaseDetail에 추가
 			ps = con.prepareStatement(insertSQL2);

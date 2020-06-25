@@ -168,9 +168,20 @@ public class DataIO {
    public void send(Purchase p) throws IOException {
       dos.writeInt(p.getPurchaseCode());
       dos.writeUTF(strNullCheck(p.getCustomerId()));
-      dos.writeUTF(strNullCheck(p.getPurchaseDate().toString()));
+      if(p.getPurchaseDate() == null) dos.writeUTF("1900-00-00");
+      else dos.writeUTF(strNullCheck(p.getPurchaseDate().toString()));
       send(p.getPurchaseDetail());
    }
+   
+   /**
+    * int 전달받는다
+    * @return 전달받은 메뉴 번호
+    * @throws IOException
+    */
+   public int receiveInt() throws IOException{
+      return dis.readInt();
+   }
+   
    /**
     * VO 객체 PurchaseDetail의 내용들을 전송한다
     * @param pd 정보를 전송할 PurchaseDetail
