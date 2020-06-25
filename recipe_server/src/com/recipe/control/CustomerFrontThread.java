@@ -9,7 +9,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,15 +18,14 @@ import com.recipe.exception.ModifyException;
 import com.recipe.exception.RemoveException;
 import com.recipe.io.DataIO;
 import com.recipe.io.Menu;
-import com.recipe.vo.Favorite;
 import com.recipe.share.CustomerShare;
-import com.recipe.vo.Purchase;
 import com.recipe.vo.Customer;
+import com.recipe.vo.Favorite;
 import com.recipe.vo.Point;
+import com.recipe.vo.Postal;
+import com.recipe.vo.Purchase;
 import com.recipe.vo.RecipeInfo;
 import com.recipe.vo.Review;
-
-import com.recipe.vo.Postal;
 
 public class CustomerFrontThread implements Runnable {
 	private Socket client;
@@ -139,7 +137,6 @@ public class CustomerFrontThread implements Runnable {
 					break;
 				case Menu.SEARCH_REVIEW_BY_RECIPECODE: //로그인한 사용자 즐겨찾기 목록 보기
 					reviewByRecipeCodeFront();
-					break;
 				default:
 					break;
 				}
