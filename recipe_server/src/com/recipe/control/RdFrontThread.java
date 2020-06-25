@@ -11,6 +11,7 @@ import java.io.InputStreamReader;
 import java.net.Socket;
 import java.util.List;
 
+import com.recipe.exception.DuplicatedException;
 import com.recipe.exception.FindException;
 import com.recipe.exception.ModifyException;
 import com.recipe.io.DataIO;
@@ -49,7 +50,7 @@ public class RdFrontThread implements Runnable{
 					loginFront();
 					break;
 				case Menu.ADD_RECIPE: // 레시피 등록
-					
+					addRecipeFont();
 					break;
 				case Menu.RECOMMENDED_RECIPE: // 추천 레시피
 					recommendRecipeFront();
@@ -249,5 +250,12 @@ public class RdFrontThread implements Runnable{
 		String ingInfo = dio.receive();
 		List<Ingredient> ingList = dio.receiveIngredientList();
 		String process = dio.receive();
+		try {
+			control.addRecipe(recipeInfo, ingInfo, ingList, process);
+			dio.sendSuccess();
+		} catch (DuplicatedException e) {
+			e.printStackTrace();
+			dio.sendFail(e.getMessage());
+		}
 	}
 }

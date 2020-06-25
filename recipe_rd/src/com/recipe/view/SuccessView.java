@@ -15,4 +15,8 @@ public class SuccessView {
 	public void logoutRdView() {
 		System.out.println("로그아웃 되었습니다");
 	}
+	
+	public void addRecipeView() {
+		System.out.println("레시피가 등록되었습니다");
+	}
 }

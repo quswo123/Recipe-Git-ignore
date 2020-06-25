@@ -327,7 +327,7 @@ public class RecipeMarketControl {
 	public void removeRd(String rdId) throws RemoveException {
 		rdAccountService.remove(rdId);
 	}
-	public void addRecipe(RecipeInfo recipeInfo, String ingInfo, List<Ingredient> ingList, String process) {
-		
+	public void addRecipe(RecipeInfo recipeInfo, String ingInfo, List<Ingredient> ingList, String process) throws DuplicatedException {
+		recipeService.addRecipe(recipeInfo, ingInfo, ingList, process);
 	}
 }

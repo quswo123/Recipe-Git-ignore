@@ -88,8 +88,6 @@ public class AddRecipeView {
 			process += "\n" + temp;
 		}
 		
-		
-		
 		try {
 			dio.sendMenu(Menu.ADD_RECIPE);
 			
@@ -97,6 +95,14 @@ public class AddRecipeView {
 			dio.send(ingInfo);
 			dio.sendIngredientList(ingList);
 			dio.send(process);
+			
+			if(dio.receiveStatus().equals("success")) {		//rd로 로그인이 잘됬는지?
+				SuccessView success = new SuccessView();
+				success.addRecipeView();
+			}else {
+				FailView fail = new FailView();
+				fail.addRecipeView(dio.receive());
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

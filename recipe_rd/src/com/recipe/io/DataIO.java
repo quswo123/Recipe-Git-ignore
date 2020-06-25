@@ -245,6 +245,7 @@ public class DataIO {
     * @throws IOException
     */
    public void send(Point p) throws IOException {
+	   p = p != null ? p : new Point();
       dos.writeInt(p.getRecipeCode());
       dos.writeInt(p.getLikeCount());
       dos.writeInt(p.getDisLikeCount());
