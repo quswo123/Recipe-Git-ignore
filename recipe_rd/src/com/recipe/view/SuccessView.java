@@ -22,5 +22,8 @@ public class SuccessView {
 	public void modifyRecipeView() {
 		System.out.println("레시피가 수정되었습니다");
 	}
+	public void removeRecipeView() {
+		System.out.println("레시피가 삭제되었습니다");
+	}
 	
 }

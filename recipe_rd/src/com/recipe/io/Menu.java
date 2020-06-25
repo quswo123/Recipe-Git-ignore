@@ -13,7 +13,7 @@ public class Menu {
 	public static final int ADMIN_LOGIN = 12; //Admin 로그인
 	public static final int ADD_RECIPE = 13; //레시피 등록
 	public static final int MODIFY_RECIPE = 53; //레시피 수정
-	public static final int DELETE_RECIPE = 54; //레시피 삭제
+	public static final int REMOVE_RECIPE = 54; //레시피 삭제
 	public static final int RECIPE_ALL = 55; //레시피전체조회
 	public static final int ADMIN_LOGOUT = 70; //Admin 로그아웃
 	public static final int RD_LOGOUT = 71; //R&D 로그아웃
