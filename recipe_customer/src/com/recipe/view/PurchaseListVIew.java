@@ -31,9 +31,14 @@ public class PurchaseListVIew {
 		try {
 			dio.sendMenu(Menu.PURCHASE_LIST);
 			dio.sendId(CustomerShare.loginedId);
+			System.out.println("들어옴");
 			
 			list = dio.receivePurchaseList();
 			rlist = dio.receiveReviews();
+			
+			System.out.println("받음");
+			System.out.println(list.size());
+			System.out.println(rlist.size());
 			
 			System.out.println("나의 구매내역");
 			System.out.println("["+list.size()+"건의 구매내역이 조회되었습니다 ]");
