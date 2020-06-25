@@ -21,38 +21,6 @@ public class RecipeListView {
 		printRecipeList(recipeInfo);
 	}
 
-	private void viewList(List<RecipeInfo> recipeInfo, int i, int j) {
-	      Scanner sc = new Scanner(System.in);
-
-	      for (; i < j + 5; i++) {
-	         if (i == recipeInfo.size()) {
-	            i = j - 5;
-	            j -= 5;
-	            break;
-	         }
-	         System.out.println(i + 1 + " " + recipeInfo.get(i).getRecipeName());
-
-	      }
-	      System.out.println("-:이전페이지 | +:다음페이지 | 0:다시검색 | *:메인메뉴");
-	      System.out.println("상세레시피를 보시려면 번호를 입력하세요");
-	      String value = sc.nextLine();
-	      if (value.equals("+")) {
-	         viewList(recipeInfo, i, j + 5);
-	      } else if (value.equals("-")) {
-	         if (i == 5 || i < 10) {
-	            viewList(recipeInfo, 0, 0);
-	         }
-	         viewList(recipeInfo, i - 10, j - 5);
-
-	      } else if (value.equals("0")) {
-	         // showRecipeInfoView();
-	      } else {
-	         int t = Integer.valueOf(value);
-	         RecipeInfo param = recipeInfo.get(t-1);         
-	         RecipeInfoView infoView = new RecipeInfoView(dio);
-	         infoView.showRecipeInfoView(param);
-	      }
-	   }
 	private void printRecipeList(List<RecipeInfo> list) {
 		String menu;
 		int size = list.size();
@@ -77,7 +45,7 @@ public class RecipeListView {
 				} else if(menu.equals("+")) {
 					end_index = (end_index + 5) <= size ? (end_index + 5) : size; //다음 페이지를 누르면 end_index 값을 5 증가시킨다. 이때, list의 size보다 커지면 size와 같은 값으로 설정한다
 					start_index = end_index - 5; //시작 인덱스부터 다섯개를 출력하기 위해 시작 인덱스는 끝 인덱스에서 5 감소한 값을 갖는다
-				}  else {
+				}  else if (!menu.equals("0")){
 					int n = Integer.parseInt(menu);
 					System.out.println(menu);
 					RecipeInfo param = list.get(n-1);			
