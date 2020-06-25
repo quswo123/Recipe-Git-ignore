@@ -64,6 +64,14 @@ public class DataIO {
       dos.writeUTF(str);
    }
    /**
+    * 숫자를 전송한다
+    * @param num 보낼 숫자
+    * @throws IOException
+    */
+   public void send(int num) throws IOException {
+	  dos.writeInt(num);
+   }
+   /**
     * 메뉴 번호를 전송한다
     * @param menuNo 보낼 메뉴 번호
     * @throws IOException

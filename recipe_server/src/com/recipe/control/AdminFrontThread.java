@@ -10,8 +10,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
 
+import com.recipe.exception.AddException;
+import com.recipe.exception.DuplicatedException;
 import com.recipe.exception.FindException;
 import com.recipe.exception.ModifyException;
+import com.recipe.exception.RemoveException;
 import com.recipe.io.DataIO;
 import com.recipe.io.Menu;
 import com.recipe.share.AdminShare;
@@ -49,6 +52,18 @@ public class AdminFrontThread implements Runnable{
 				case Menu.ADMIN_LOGOUT:
 					logoutFront();
 					break;
+				case Menu.RD_ALL: //R&D계정 전체 조회
+					viewAllRdFront();
+					break;
+				case Menu.RD_ADD: //R&D계정 추가
+					addRdFront();
+					break;
+				case Menu.RD_MODIFY: //R&D계정 수정
+					modifyRdFront();
+					break;
+				case Menu.RD_REMOVE: //R&D계정 삭제
+					removeRdFront();
+					break;
 				case Menu.RECOMMENDED_RECIPE: // 추천 레시피
 					recommendRecipeFront();
 					break;
@@ -81,7 +96,7 @@ public class AdminFrontThread implements Runnable{
 		String id = dio.receiveId();
 		String pwd = dio.receivePwd();
 		try {
-			control.loginToRd(id, pwd);
+			control.loginToAdmin(id, pwd);
 			dio.sendSuccess();
 		} catch (FindException e) {
 			dio.sendFail(e.getMessage());
@@ -176,6 +191,66 @@ public class AdminFrontThread implements Runnable{
 			control.modifyPoint(p);
 			dio.sendSuccess();
 		} catch (ModifyException e) {
+			e.printStackTrace();
+			dio.sendFail(e.getMessage());
+		}
+	}
+	/**
+	 * 모든 R&D 계정에 대한 RD 객체 리스트를 클라이언트에게 전송한다
+	 * @throws IOException
+	 */
+	public void viewAllRdFront() throws IOException {
+		try {
+			dio.sendSuccess();
+			dio.sendRDList(control.viewAllRd());
+		} catch (FindException e) {
+			dio.sendFail(e.getMessage());
+		}
+	}
+	
+	/**
+	 * R&D 계정 추가에 필요한 RD 객체를 클라이언트로부터 수신하여 rd 테이블에 새로운 R&D 계정 정보를 추가한다 
+	 * @throws IOException
+	 * @author 최종국
+	 */
+	public void addRdFront() throws IOException {
+		try {
+			control.addRd(dio.receiveRd());
+			dio.sendSuccess();
+		} catch (DuplicatedException e) {
+			e.printStackTrace();
+			dio.sendFail(e.getMessage());
+		} catch (AddException e) {
+			e.printStackTrace();
+			dio.sendFail(e.getMessage());
+		}
+	}
+	
+	/**
+	 * R&D 계정 수정에 필요한 RD 객체를 클라이언트로부터 수신하여 rd 테이블의 R&D 계정 정보를 수정한다 
+	 * @throws IOException
+	 * @author 최종국
+	 */
+	public void modifyRdFront() throws IOException {
+		try {
+			control.modifyRd(dio.receiveRd());
+			dio.sendSuccess();
+		} catch (ModifyException e) {
+			e.printStackTrace();
+			dio.sendFail(e.getMessage());
+		}
+	}
+	
+	/**
+	 * R&D 계정 삭제에 필요한 아이디를 클라이언트로 수신하여 rd 테이블의 R&D 계정 정보를 삭제한다
+	 * @throws IOException
+	 * @author 최종국
+	 */
+	public void removeRdFront() throws IOException {
+		try {
+			control.removeRd(dio.receiveId());
+			dio.sendSuccess();
+		} catch (RemoveException e) {
 			e.printStackTrace();
 			dio.sendFail(e.getMessage());
 		}

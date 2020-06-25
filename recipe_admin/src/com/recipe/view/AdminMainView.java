@@ -1,7 +1,6 @@
 package com.recipe.view;
 
 import java.io.IOException;
-import java.net.Socket;
 import java.util.Scanner;
 
 import com.recipe.io.DataIO;
@@ -26,12 +25,20 @@ public class AdminMainView {
 				menu = Integer.parseInt(sc.nextLine());
 				switch (menu) {
 				case 1:
+					AddRdView addRdView = new AddRdView(dio);
+					addRdView.showAddRdView();
 					break;
 				case 2:
+					ModifyRdView modifyRdView = new ModifyRdView(dio);
+					modifyRdView.showModifyRdView();
 					break;
 				case 3:
+					RemoveRdView removeRdView = new RemoveRdView(dio);
+					removeRdView.showRemoveRdView();
 					break;
 				case 4:
+					AllRdListView allRdListView = new AllRdListView(dio);
+					allRdListView.showAllRdListView();
 					break;
 				case 5:
 					menu = -1;
