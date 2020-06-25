@@ -282,7 +282,6 @@ public class RdFrontThread implements Runnable{
 			e.printStackTrace();
 			dio.sendFail(e.getMessage());
 		}
-
 	}
 	
 	public void removeRecipeFront() throws IOException{
