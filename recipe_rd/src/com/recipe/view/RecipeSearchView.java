@@ -55,7 +55,7 @@ public class RecipeSearchView {
 			dio.sendListString(ingName);
 			recipeInfo = dio.receiveRecipeInfos();
 			RecipeListView listView = new RecipeListView(dio);
-			listView.searchedRecipeList(recipeInfo);			
+			listView.showAllRecipeListView(recipeInfo);			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -76,7 +76,7 @@ public class RecipeSearchView {
 			recipeInfo = dio.receiveRecipeInfos();		
 			//dio.receiveStatus();
 			RecipeListView listView = new RecipeListView(dio);
-			listView.searchedRecipeList(recipeInfo);
+			listView.showAllRecipeListView(recipeInfo);
 
 		} catch (IOException e) {		
 			e.printStackTrace();

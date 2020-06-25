@@ -176,7 +176,7 @@ public class CustomerFrontThread implements Runnable {
 	 */
 	public void favoriteByCustomerIdFront() throws IOException {
 		String customerId = dio.receive();
-		List<Favorite> list = new ArrayList<>();
+		List<Favorite> list = null;
 		try {
 			list = control.viewFavorite(customerId);
 			dio.sendFavorites(list);
