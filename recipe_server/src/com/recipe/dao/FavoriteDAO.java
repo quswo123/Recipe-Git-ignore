@@ -100,6 +100,7 @@ public class FavoriteDAO {
 				+" WHERE CUSTOMER_ID = ? AND RECIPE_STATUS = '1'"
 				+" ORDER BY RECIPE_CODE";
 		
+		System.out.println(selectSQL);
 		try {
 			con = MyConnection.getConnection();
 			
@@ -167,8 +168,14 @@ public class FavoriteDAO {
 		System.out.println(deleteSQL);
 
  		String customerId = f.getCustomerId();
+		if (customerId == null) {
+			System.out.println("customerID null!!!!");
+		}
+		
 		int recipeCode = f.getRecipeInfo().getRecipeCode();
-		System.out.println("recipeCode : " + recipeCode);
+		if (recipeCode == 0) {
+			System.out.println("recipeCode null!!!!");
+		}
 		
 		try {
 			pstmt = con.prepareStatement(deleteSQL);
