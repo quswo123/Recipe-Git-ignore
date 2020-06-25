@@ -18,12 +18,9 @@ import com.recipe.service.RecipeService;
 import com.recipe.service.ReviewService;
 import com.recipe.vo.Customer;
 import com.recipe.vo.Favorite;
-<<<<<<< HEAD
 import com.recipe.vo.Point;
 import com.recipe.vo.Postal;
-=======
 import com.recipe.vo.Ingredient;
->>>>>>> cc831af4e8878795d35d7828859e50851cb30eff
 import com.recipe.vo.Purchase;
 import com.recipe.vo.RD;
 import com.recipe.vo.RecipeInfo;
