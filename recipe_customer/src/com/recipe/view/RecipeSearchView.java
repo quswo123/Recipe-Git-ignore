@@ -56,8 +56,11 @@ public class RecipeSearchView {
 			if (dio.receiveStatus().equals("fail")) {
 				FailView fail = new FailView();
 				fail.likeRecipe("해당되는 레시피 없음");
+			} else {
+				listView.showAllRecipeListView(recipeInfo);
 			}
 			listView.showAllRecipeListView(recipeInfo);
+
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -85,6 +88,8 @@ public class RecipeSearchView {
 			if (dio.receiveStatus().equals("fail")) {
 				FailView fail = new FailView();
 				fail.likeRecipe("해당되는 레시피 없음");
+			} else {
+				listView.showAllRecipeListView(recipeInfo);
 			}
 
 			listView.showAllRecipeListView(recipeInfo);
