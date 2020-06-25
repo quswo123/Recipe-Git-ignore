@@ -29,7 +29,7 @@ public class PurchaseInfoView {
 			dio.send(p.getPurchaseDetail().getRecipeInfo());
 			dio.sendId(CustomerShare.loginedId);
 			
-			System.out.println("구매상세내역");
+			System.out.println("");
 			System.out.println("레시피명 : " + p.getPurchaseDetail().getRecipeInfo().getRecipeName());
 			System.out.println("구매일자 : " + sdf.format(p.getPurchaseDate()));
 			System.out.println("구매수량 : " + p.getPurchaseDetail().getPurchaseDetailQuantity());
