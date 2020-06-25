@@ -144,12 +144,14 @@ public class CustomerFrontThread implements Runnable {
 						insertFavorite();
 					} catch (AddException e) {
 						e.printStackTrace();
+						dio.sendFail(e.getMessage());
 					}
 				case Menu.ADD_REVIEW: //후기 등록 
 					try {
-						reviewInsert();
+						insertReview();
 					} catch (AddException e) {
 						e.printStackTrace();
+						dio.sendFail(e.getMessage());
 					}
 				default:
 					break;
@@ -402,20 +404,32 @@ public class CustomerFrontThread implements Runnable {
 	 * @throws IOException
 	 * @author 고수정
 	 */
-	public void reviewInsert() throws IOException, AddException, DuplicatedException {
+	public void insertReview() throws IOException, AddException, DuplicatedException {
 		Review r;
 		try {
 			r = dio.receiveReview();
+			System.out.println( r );
 			control.addReview(r);
-			System.out.println("CustomerFrontThread : 후기 등록 성공!");
+			
+			int select = dio.receiveInt();
+			if ( select == Menu.LIKE ) {
+				likeRecipeFront();
+			} else  {
+				disLikeRecipeFront();
+			} 
+			dio.sendSuccess();
+			
 		} catch (IOException | ParseException e) {
 			e.printStackTrace();
+			dio.sendFail(e.getMessage());
 		
 		} catch (DuplicatedException e) {
-			throw new DuplicatedException(e.getMessage());
+			e.printStackTrace();
+			dio.sendFail(e.getMessage());
 		
 		} catch (AddException e) {
-			throw new AddException(e.getMessage());
+			e.printStackTrace();
+			dio.sendFail(e.getMessage());
 		}
 	}
 	/**
@@ -429,11 +443,15 @@ public class CustomerFrontThread implements Runnable {
 			f = dio.receiveFavorite(); 
 			control.addFavorite(f);
 			dio.sendSuccess("즐겨찾기추가성공!");
+
 		} catch (DuplicatedException e) {
-			throw new DuplicatedException(e.getMessage());
+			e.printStackTrace();
+			dio.sendFail(e.getMessage());
 			
 		} catch (AddException e) {
-			throw new AddException(e.getMessage());
+			e.printStackTrace();
+			dio.sendFail(e.getMessage());
 		}
 	}
+
 } //end class CustomerFrontThread
