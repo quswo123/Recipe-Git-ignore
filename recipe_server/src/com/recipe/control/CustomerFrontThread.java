@@ -239,7 +239,6 @@ public class CustomerFrontThread implements Runnable {
 		Purchase purchase = null;
 		try {
 			purchase = dio.receivePurchase();
-			System.out.println("들어옴");
 			control.buyRecipe(purchase);
 			dio.sendSuccess();
 		} catch (IOException | ParseException e1) {

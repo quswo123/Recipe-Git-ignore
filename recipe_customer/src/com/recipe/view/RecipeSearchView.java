@@ -53,11 +53,12 @@ public class RecipeSearchView {
 			dio.sendListString(ingName);
 			recipeInfo = dio.receiveRecipeInfos();
 			RecipeListView listView = new RecipeListView(dio);
-			listView.showAllRecipeListView(recipeInfo);
 			if (dio.receiveStatus().equals("fail")) {
 				FailView fail = new FailView();
 				fail.likeRecipe("해당되는 레시피 없음");
 			}
+			listView.showAllRecipeListView(recipeInfo);
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -81,12 +82,12 @@ public class RecipeSearchView {
 			recipeInfo = dio.receiveRecipeInfos();
 			// dio.receiveStatus();
 			RecipeListView listView = new RecipeListView(dio);
-			listView.showAllRecipeListView(recipeInfo);
 			if (dio.receiveStatus().equals("fail")) {
 				FailView fail = new FailView();
 				fail.likeRecipe("해당되는 레시피 없음");
 			}
 
+			listView.showAllRecipeListView(recipeInfo);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
