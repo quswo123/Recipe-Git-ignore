@@ -36,18 +36,22 @@ public class PurchaseInfoView {
 			System.out.println("총 결제금액 : " + p.getPurchaseDetail().getPurchaseDetailQuantity()*p.getPurchaseDetail().getRecipeInfo().getRecipePrice());
 
 			System.out.println("1.상세레시피로가기 | 2.후기등록하기 | 0.목록으로");
-			menu = sc.nextLine();
-			if(menu.equals("2")) {
-				
-			}else if(menu.equals("0")) {
-				
-			}else {
-				int n = Integer.parseInt(menu);
-				System.out.println(menu);
-				RecipeInfo param = p.getPurchaseDetail().getRecipeInfo();		
-				RecipeInfoView view = new RecipeInfoView(dio);
-				view.showRecipeInfoView(param);
-			}
+			
+			do {
+				menu = sc.nextLine();
+				if(menu.equals("2")) {
+					
+				}else if(menu.equals("0")) {
+					PurchaseListVIew view = new PurchaseListVIew(dio);
+					view.purchaseView();
+				}else {
+					int n = Integer.parseInt(menu);
+					System.out.println(menu);
+					RecipeInfo param = p.getPurchaseDetail().getRecipeInfo();		
+					RecipeInfoView view = new RecipeInfoView(dio);
+					view.showRecipeInfoView(param);
+				}
+			}while(!menu.equals("3"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
