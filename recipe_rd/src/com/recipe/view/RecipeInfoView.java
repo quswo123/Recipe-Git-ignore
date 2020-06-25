@@ -111,31 +111,3 @@ public class RecipeInfoView {
 		}
 	}
 }
-
-p.purchase_date,
-    pd.purchase_quantity,
-    r.review_comment,
-    i.recipe_code,
-    i.recipe_name,
-    i.recipe_summ,
-    i.recipe_price,
-    i.recipe_process,
-    po.like_count,
-    po.dislike_count
-
-
-
-
-
-
-
-
-System.out.print(sdf.format(p.getPurchaseDate()) + "/ ");
-							for (Review r : rlist) {
-								if (p.getPurchaseDate().equals(r.getReviewDate()) && p.getPurchaseDetail().getRecipeInfo()
-								.getRecipeCode() == r.getRecipeInfo().getRecipeCode()) {
-									System.out.println("No");
-								} else {
-									System.out.println("Yes");
-								}
-							}
