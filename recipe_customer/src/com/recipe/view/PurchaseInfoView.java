@@ -21,7 +21,6 @@ public class PurchaseInfoView {
 	}
 	
 	public void searchPurchaseInfoView(Purchase p) {
-		List<Review> rlist = null;
 		SimpleDateFormat sdf = new SimpleDateFormat("yy-MM-dd");
 		String menu = null;
 		
