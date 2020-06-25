@@ -32,6 +32,8 @@ public class RdMainView {
 				case 3:
 					break;
 				case 4:
+					RecommendedRecipeView recommendedRecipeView = new RecommendedRecipeView(dio);
+					recommendedRecipeView.showRecommendedRecipeView();
 					break;
 				case 5:
 					break;

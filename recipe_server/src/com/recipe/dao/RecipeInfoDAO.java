@@ -286,14 +286,15 @@ public class RecipeInfoDAO {
 			while(rs.next()) {		//쿼리문을 돌렸을때 받아온 컬럼의 값이 있을때 true
 				countFlag = rs.getInt(1);		//있다면 1을 countFlag에 넣는다.
 			}
-			if(0 == countFlag) {
-				throw new ModifyException("해당 레시피가 존재하지 않습니다.");
+			System.out.println(countFlag);
+			if(0 < countFlag) {
+				throw new ModifyException("해당 레시피 이름이 이미 존재합니다");
 			}
 			rs.close();
 			pstmt.close();
 			
 			//레시피코드로 연결된 RECIPE_INGREDIENT테이블의 재료코드값을 삭제한다.
-			quary = "DELETE FROM RECIPE_INGREDIENT WHERE RECIP_CODE = ?";
+			quary = "DELETE FROM RECIPE_INGREDIENT WHERE RECIPE_CODE = ?";
 			pstmt = con.prepareStatement(quary);
 			pstmt.setInt(1, recipe_InfoVo.getRecipeCode());
 
@@ -345,13 +346,6 @@ public class RecipeInfoDAO {
 			pstmt.close();
 			
 			fileOutput(recipe_InfoVo.getRecipeProcess(), ingInfo + "\n" + process);
-			
-			quary = "INSERT INTO POINT VALUES(?, 0, 0)";		//좋아요싫어요 초기값설정해주는 쿼리문
-			pstmt = con.prepareStatement(quary);
-			pstmt.setInt(1, recipe_InfoVo.getRecipeCode());
-
-			pstmt.executeUpdate();
-			pstmt.close();
 
 			for(Ingredient ingredientVO : ing_codeList) {			//ing_codeList에 있는것들을 ingredientVO에 넣으면서 반복문 돌림.
 				quary = "INSERT INTO RECIPE_INGREDIENT VALUES (?, ?)";		//리세피코드, 재료코드, 용량 insert 해주는 쿼리
