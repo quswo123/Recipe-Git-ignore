@@ -510,6 +510,15 @@ public class DataIO {
    }
    
    /**
+    * int 전달받는다
+    * @return 전달받은 메뉴 번호
+    * @throws IOException
+    */
+   public int receiveInt() throws IOException{
+      return dis.readInt();
+   }
+   
+   /**
     * String 타입의 멤버 변수가 null이면 빈 문자열을 보낼수 있도록 처리하기 위한 메소드
     * @param str null인지 확인할 문자열
     * @return null이면 빈 문자열, null이 아니면 str을 그대로 return
