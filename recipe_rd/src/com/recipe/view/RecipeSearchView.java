@@ -1,6 +1,5 @@
 package com.recipe.view;
 
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,11 +9,13 @@ import com.recipe.io.DataIO;
 import com.recipe.io.Menu;
 import com.recipe.vo.RecipeInfo;
 
-public class RecipeSearchView {	
-	private DataIO dio;	
+public class RecipeSearchView {
+	private DataIO dio;
+
 	public RecipeSearchView(DataIO dio) {
 		this.dio = dio;
 	}
+
 	public void showRecipeInfoView() {
 		Scanner sc = new Scanner(System.in);
 		System.out.println("레시피 검색");
@@ -31,8 +32,9 @@ public class RecipeSearchView {
 		} else {
 			showRecipeInfoView();
 		}
-		
+
 	}
+
 	private void showFindbyIngNameView() {
 		Scanner sc = new Scanner(System.in);
 		List<String> list = new ArrayList<>();
@@ -51,45 +53,59 @@ public class RecipeSearchView {
 	public void findByIngName(List<String> ingName) {
 		List<RecipeInfo> recipeInfo = null;
 		try {
+
 			dio.sendMenu(Menu.SEARCH_RECIPE_INGREDIENTS);
 			dio.sendListString(ingName);
 			recipeInfo = dio.receiveRecipeInfos();
 			RecipeListView listView = new RecipeListView(dio);
-			listView.showAllRecipeListView(recipeInfo);			
+			listView.showAllRecipeListView(recipeInfo);
+			if (dio.receiveStatus().equals("fail")) {
+				FailView fail = new FailView();
+				fail.likeRecipe("해당되는 레시피 없음");
+			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
+
 	private void showFindbyName() {
 		Scanner sc = new Scanner(System.in);
 		System.out.println("이름으로 검색");
 		System.out.println("이름을 입력하세요: ");
 		String ingName = sc.nextLine();
-		findByName(ingName);		
+		findByName(ingName);
 	}
-	public void findByName(String recipeName){
+
+	public void findByName(String recipeName) {
 		List<RecipeInfo> recipeInfo = null;
 		try {
+
 			dio.sendMenu(Menu.SEARCH_RECIPE_NAME);
-			dio.send(recipeName);		
-			recipeInfo = dio.receiveRecipeInfos();		
-			//dio.receiveStatus();
+			dio.send(recipeName);
+			recipeInfo = dio.receiveRecipeInfos();
+			// dio.receiveStatus();
 			RecipeListView listView = new RecipeListView(dio);
 			listView.showAllRecipeListView(recipeInfo);
+			if (dio.receiveStatus().equals("fail")) {
+				FailView fail = new FailView();
+				fail.likeRecipe("해당되는 레시피 없음");
+			}
 
-		} catch (IOException e) {		
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
+
 	private void showFindbyCodeView() {
-		Scanner sc = new Scanner(System.in);		
+		Scanner sc = new Scanner(System.in);
 		System.out.println("코드로 검색");
-		System.out.println("코드를 입력하세요:");		
+		System.out.println("코드를 입력하세요:");
 		int s = sc.nextInt();
-		findByCode(s);				
+		findByCode(s);
 	}
+
 	public void findByCode(int recipeCode) {
 		RecipeInfo recipeInfo = null;
 		try {
@@ -97,15 +113,15 @@ public class RecipeSearchView {
 			dio.sendMenu(recipeCode);
 			recipeInfo = dio.receiveRecipeInfo();
 			RecipeInfoView infoView = new RecipeInfoView(dio);
-			infoView.showRecipeInfoView(recipeInfo);			
+			infoView.showRecipeInfoView(recipeInfo);
+			if (dio.receiveStatus().equals("fail")) {
+				FailView fail = new FailView();
+				fail.likeRecipe("해당되는 레시피 없음");
+			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
-	
-	
-	
-	
+
 }
