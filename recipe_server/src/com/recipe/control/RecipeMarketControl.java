@@ -18,6 +18,7 @@ import com.recipe.service.RecipeService;
 import com.recipe.service.ReviewService;
 import com.recipe.vo.Customer;
 import com.recipe.vo.Favorite;
+import com.recipe.vo.Ingredient;
 import com.recipe.vo.Purchase;
 import com.recipe.vo.RecipeInfo;
 import com.recipe.vo.Review;
@@ -259,5 +260,9 @@ public class RecipeMarketControl {
 	 */
 	public RecipeInfo searchRecommended() throws FindException {
 		return recipeService.findRecommended();
+	}
+	
+	public void addRecipe(RecipeInfo recipeInfo, String ingInfo, List<Ingredient> ingList, String process) {
+		
 	}
 }

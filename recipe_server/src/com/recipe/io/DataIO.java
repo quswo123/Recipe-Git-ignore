@@ -265,6 +265,11 @@ public class DataIO {
       send(r.getRecipeInfo());
    }
    
+   public void sendIngredientList(List<Ingredient> list) throws IOException {
+	   dos.writeInt(list.size());
+	   for(Ingredient i: list) send(i);
+   }
+   
    /**
     * Review List를 전송한다
     * @param list 보낼 Review들을 가진 List
@@ -566,5 +571,13 @@ public class DataIO {
 		return list;
 	}
 
+   public List<Ingredient> receiveIngredientList() throws IOException {
+	   int size = dis.readInt();
+	   List<Ingredient> list = new ArrayList<>();
+	   for(int i=0; i<size; i++) list.add(receiveIngredient());
+
+	   return list;
+   }
+   
 }
 

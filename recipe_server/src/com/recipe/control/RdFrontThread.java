@@ -5,11 +5,14 @@ import java.io.DataOutputStream;
 import java.io.EOFException;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.List;
 
 import com.recipe.exception.FindException;
 import com.recipe.io.DataIO;
 import com.recipe.io.Menu;
 import com.recipe.share.RDShare;
+import com.recipe.vo.Ingredient;
+import com.recipe.vo.RecipeInfo;
 
 public class RdFrontThread implements Runnable{
 	private Socket client;
@@ -38,6 +41,9 @@ public class RdFrontThread implements Runnable{
 				switch (menu) {
 				case Menu.RD_LOGIN: // 로그인
 					loginFront();
+					break;
+				case Menu.ADD_RECIPE: // 레시피 등록
+					
 					break;
 				case Menu.RECOMMENDED_RECIPE: // 추천 레시피
 					// TO DO
@@ -91,5 +97,12 @@ public class RdFrontThread implements Runnable{
 		RDShare.removeSession(rdId);
 		
 		dio.sendSuccess();
+	}
+	
+	public void addRecipeFont()throws IOException{
+		RecipeInfo recipeInfo = dio.receiveRecipeInfo();
+		String ingInfo = dio.receive();
+		List<Ingredient> ingList = dio.receiveIngredientList();
+		String process = dio.receive();
 	}
 }
