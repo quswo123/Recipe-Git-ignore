@@ -6,8 +6,8 @@ import java.util.Scanner;
 import com.recipe.io.DataIO;
 import com.recipe.io.Menu;
 import com.recipe.share.CustomerShare;
+import com.recipe.vo.Favorite;
 import com.recipe.vo.Purchase;
-import com.recipe.vo.PurchaseDetail;
 import com.recipe.vo.RecipeInfo;
 
 public class RecipeInfoView {
@@ -91,8 +91,12 @@ public class RecipeInfoView {
 		}
 	}
 	private void addFavorite(RecipeInfo info) throws IOException {
+		Favorite f = new Favorite();
 		dio.sendMenu(Menu.ADD_FAVORITE);
-		dio.send(info);
+		f.setCustomerId(CustomerShare.loginedId);
+		f.setRecipeInfo(info);
+		dio.send(f);
+	
 		if (dio.receiveStatus().equals("fail")) {
 			FailView fail = new FailView();
 			fail.favoriteListView("즐겨찾기 추가 실패");

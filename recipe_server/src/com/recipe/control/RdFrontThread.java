@@ -199,7 +199,7 @@ public class RdFrontThread implements Runnable{
 		try {
 			searchedRecipeInfo = control.searchByIngName(recipeInfo);
 			dio.send(searchedRecipeInfo);
-			//dio.sendSuccess();
+			dio.sendSuccess();
 		} catch (FindException e) {
 			dio.sendFail(e.getMessage());
 		}
@@ -214,7 +214,7 @@ public class RdFrontThread implements Runnable{
 		try {
 			recipeInfo = control.searchByName(recipeName);
 			dio.send(recipeInfo);
-			//dio.sendSuccess();
+			dio.sendSuccess();
 		} catch (FindException e) {
 			dio.sendFail(e.getMessage());
 		}
@@ -230,7 +230,7 @@ public class RdFrontThread implements Runnable{
 		try {
 			recipeInfo = control.searchByCode(recipeCode);
 			dio.send(recipeInfo);
-			//dio.sendSuccess();
+			dio.sendSuccess();
 		}catch (FindException e) {
 			e.printStackTrace();
 		}
