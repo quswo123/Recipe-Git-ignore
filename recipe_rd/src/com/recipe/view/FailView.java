@@ -32,4 +32,16 @@ public class FailView {
 	public void likeRecipe(String msg) {
 		System.out.println("좋아요 실패 : " + msg);
 	}
+	
+	public void addRecipeView(String msg) {
+		System.out.println("레시피 등록 실패 : " + msg);
+	}
+	
+	public void modifyRecipeView(String msg) {
+		System.out.println("레시피 수정 실패 : " + msg);
+	}
+	
+	public void removeRecipeView(String msg) {
+		System.out.println("레시피 삭제 실패 : " + msg);
+	}
 }

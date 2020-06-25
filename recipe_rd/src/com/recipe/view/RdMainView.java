@@ -24,12 +24,16 @@ public class RdMainView {
 				menu = Integer.parseInt(sc.nextLine());
 				switch (menu) {
 				case 1:
+					AddRecipeView addRecipeView = new AddRecipeView(dio);
+					addRecipeView.AddRecipeFormView();
 					break;
 				case 2:
 					break;
 				case 3:
 					break;
 				case 4:
+					RecommendedRecipeView recommendedRecipeView = new RecommendedRecipeView(dio);
+					recommendedRecipeView.showRecommendedRecipeView();
 					break;
 				case 5:
 					break;

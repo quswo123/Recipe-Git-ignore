@@ -10,12 +10,12 @@ import com.recipe.share.CustomerShare;
 public class CustomerMainView {
 	private Scanner sc;
 	private DataIO dio;
-	
+
 	public CustomerMainView(DataIO dio) {
 		sc = new Scanner(System.in);
 		this.dio = dio;
 	}
-	
+
 	public void mainMenu() {
 		int menu = -1;
 		try {
@@ -28,6 +28,8 @@ public class CustomerMainView {
 					searchView.showRecipeInfoView();
 					break;
 				case 2:
+					RecommendedRecipeView recommendedView = new RecommendedRecipeView(dio);
+					recommendedView.showRecommendedRecipeView();
 					break;
 				case 3:
 					PurchaseListVIew purchaseListView = new PurchaseListVIew(dio);
@@ -59,13 +61,14 @@ public class CustomerMainView {
 
 	/**
 	 * 현재 로그인중인 아이디를 서버로 전송하고 로그아웃 절차를 수행한다
+	 * 
 	 * @throws IOException
 	 */
 	private void logout() throws IOException {
 		dio.sendMenu(Menu.CUSTOMER_LOGOUT);
 		dio.sendId(CustomerShare.loginedId);
-		
-		if(dio.receiveStatus().equals("success")) {
+
+		if (dio.receiveStatus().equals("success")) {
 			CustomerShare.loginedId = "";
 			SuccessView success = new SuccessView();
 			success.logoutCustomerView();

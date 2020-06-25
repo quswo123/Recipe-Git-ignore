@@ -23,11 +23,21 @@ public class SuccessView {
 	public void favoriteDeleteView(String msg) {
 		System.out.println(msg);
 	}
+<<<<<<< HEAD
 	/**
 	 * 후기 등록 시 성공메세지를 출력한다.
 	 * @author 고수정
 	 */	
 	public void reviewInsertView(String msg) {
+=======
+	
+	/**
+	 * 구매하기 성공 메시지를 출력한다
+	 * @param msg
+	 * @author 변재원
+	 */
+	public void purchaseView(String msg) {
+>>>>>>> cc831af4e8878795d35d7828859e50851cb30eff
 		System.out.println(msg);
 	}
 }

@@ -18,8 +18,12 @@ import com.recipe.service.RecipeService;
 import com.recipe.service.ReviewService;
 import com.recipe.vo.Customer;
 import com.recipe.vo.Favorite;
+<<<<<<< HEAD
 import com.recipe.vo.Point;
 import com.recipe.vo.Postal;
+=======
+import com.recipe.vo.Ingredient;
+>>>>>>> cc831af4e8878795d35d7828859e50851cb30eff
 import com.recipe.vo.Purchase;
 import com.recipe.vo.RD;
 import com.recipe.vo.RecipeInfo;
@@ -275,6 +279,7 @@ public class RecipeMarketControl {
 		return recipeService.findRecommended();
 	}
 	
+
 	/**
 	 * 포인트 수정 절차를 위한 메소드
 	 * @param p 수정할 레시피 코드와 좋아요, 싫어요 개수를 포함한 Point 객체
@@ -323,5 +328,17 @@ public class RecipeMarketControl {
 	 */
 	public void removeRd(String rdId) throws RemoveException {
 		rdAccountService.remove(rdId);
+	}
+	public void addRecipe(String rdId, RecipeInfo recipeInfo, String ingInfo, List<Ingredient> ingList, String process) throws DuplicatedException {
+		recipeService.addRecipe(rdId, recipeInfo, ingInfo, ingList, process);
+	}
+	public void modifyRecipe(String rdId, RecipeInfo recipeInfo, String ingInfo, List<Ingredient> ingList, String process) throws ModifyException {
+		recipeService.modifyRecipe(rdId, recipeInfo, ingInfo, ingList, process);
+	}
+	public void removeRecipe(String rdId, RecipeInfo recipeInfo) throws ModifyException {
+		recipeService.removeRecipe(rdId, recipeInfo);
+	}
+	public List<RecipeInfo> viewAllRecpe(List<RecipeInfo> recipeInfoList) throws FindException{
+		return recipeService.findAll(recipeInfoList);
 	}
 }

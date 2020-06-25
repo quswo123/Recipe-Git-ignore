@@ -1,10 +1,8 @@
 package com.recipe.view;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.net.Socket;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -12,85 +10,90 @@ import java.util.Scanner;
 import com.recipe.io.DataIO;
 import com.recipe.io.Menu;
 import com.recipe.share.CustomerShare;
-import com.recipe.vo.Favorite;
 import com.recipe.vo.Purchase;
 import com.recipe.vo.RecipeInfo;
 import com.recipe.vo.Review;
 
 public class PurchaseListVIew {
 	private DataIO dio;
-	
+	private Scanner sc;
+
 	public PurchaseListVIew(DataIO dio) {
+		sc = new Scanner(System.in);
 		this.dio = dio;
 	}
-	
+
 	public void purchaseView() {
-		Scanner sc = new Scanner(System.in);
 		List<Purchase> list = null;
 		List<Review> rlist = null;
+		SimpleDateFormat sdf = new SimpleDateFormat("yy-MM-dd");
+		String menu = null;
+		List<Boolean> blist = new ArrayList<>();
+
 		try {
 			dio.sendMenu(Menu.PURCHASE_LIST);
 			dio.sendId(CustomerShare.loginedId);
-			
+
 			list = dio.receivePurchaseList();
 			rlist = dio.receiveReviews();
 			
+			int size = list.size();
+			int start_index = 0; // 화면에 다섯개씩 보여줄때 사용할 시작 인덱스
+			int end_index = size <= 5 ? size : 5;// 화면에 다섯개씩 보여줄때 사용할 끝 인덱스
+													// ListView를 최초로 구성할때, list의 size가 5 이하이면 size만큼 화면에 출력하고, 5를 초과하면
+													// 5만큼만
+													// 화면에 출력
 			System.out.println("나의 구매내역");
-			System.out.println("["+list.size()+"건의 구매내역이 조회되었습니다 ]");
+			System.out.println("[" + list.size() + "건의 구매내역이 조회되었습니다 ]");
 			System.out.println("레시피상품명/구매일자/후기등록여부");
-	
-			int i =0;
-			if (list.size() > 5) {
-				viewList(list,i, 0);
-			}
-			else {
-				for(Purchase p : list) {
-					System.out.print(i+1 + list.get(i).getPurchaseDetail().getRecipeInfo().getRecipeName() + "/ ");
-					System.out.print(p.getPurchaseDate()+ "/ ");
-					for(Review r : rlist) {
-						String comment = r.getReviewComment();
-						if (p.getCustomerId().equals(r.getCustomerId())) {
-							if(comment.equals("")) {
-								System.out.print("No");
-							}else {
-								System.out.println("Yes");
-							}
+			do {
+				for (int i = start_index; i < end_index; i++) {
+					System.out.print(i+1 + ". " + list.get(i).getPurchaseDetail().getRecipeInfo().getRecipeName() + "/ ");
+					System.out.print(sdf.format(list.get(i).getPurchaseDate()) + "/ ");
+					for (Review r : rlist) {
+						if (list.get(i).getPurchaseDate().equals(r.getReviewDate()) && list.get(i).getPurchaseDetail()
+								.getRecipeInfo().getRecipeCode() == r.getRecipeInfo().getRecipeCode()) {
+							System.out.println("No");
+							blist.add(false);
+						} else {
+							System.out.println("Yes");
+							blist.add(true);
 						}
 					}
 				}
-			}
+				if (size < 5) {
+					System.out.println("상세페이지번호 : | 0.이전화면");
+					menu = sc.nextLine();
+					int n = Integer.parseInt(menu);
+					if(n !=0) {
+						PurchaseInfoView infoView = new PurchaseInfoView(dio);
+						infoView.searchPurchaseInfoView(list.get(n - 1),blist.get(n-1));
+					}
+				} else {
+					System.out.println("-:이전페이지 +:다음페이지 | 상세페이지번호 : | 0.이전화면");
+					menu = sc.nextLine();
+					if (menu.equals("-")) {
+						start_index = (start_index - 5) >= 0 ? (start_index - 5) : 0; // 이전 페이지를 누르면 시작 인덱스 값을 5 감소시킨다.
+																						// 이떄, 0보다 작아지면 0으로 설정한다
+						end_index = start_index + 5; // 시작 인덱스부터 다섯개를 출력하기 위해 끝 인덱스는 시작 인덱스에서 5 증가한 값을 갖는다
+					} else if (menu.equals("+")) {
+						end_index = (end_index + 5) <= size ? (end_index + 5) : size; // 다음 페이지를 누르면 end_index 값을 5
+																						// 증가시킨다. 이때, list의 size보다 커지면
+																						// size와 같은 값으로 설정한다
+						start_index = end_index - 5; // 시작 인덱스부터 다섯개를 출력하기 위해 시작 인덱스는 끝 인덱스에서 5 감소한 값을 갖는다
+					} else {
+						int n = Integer.parseInt(menu);
+						if(n !=0) {
+							PurchaseInfoView infoView = new PurchaseInfoView(dio);
+							infoView.searchPurchaseInfoView(list.get(n - 1),blist.get(n-1));
+						}
+					}
+				}
+			} while (!menu.equals("0"));
 		} catch (IOException | ParseException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}	
-	}
-	
-	private void viewList(List<Purchase> purchaseInfo, int i, int j) {
-		Scanner sc = new Scanner(System.in);
-
-		for (; i < j + 5; i++) {
-			if (i == purchaseInfo.size()) {
-				i = j - 5;
-				j -= 5;
-				break;
-			}
-			System.out.println(i+1 + " " + purchaseInfo.get(i).getPurchaseDetail().getRecipeInfo().getRecipeName());
-
-		}
-		System.out.println("-:이전페이지 | +:다음페이지 | *:메인메뉴");
-		System.out.println("상세구매내역를 보시려면 번호를 입력하세요");
-		String value = sc.nextLine();
-		if (value.equals("+")) {
-			viewList(purchaseInfo, i, j + 5);
-		} else if (value.equals("-")) {
-			if (i == 5 || i < 10) {
-				viewList(purchaseInfo, 0, 0);
-			}
-			viewList(purchaseInfo, i - 10, j - 5);
-		} else if (value.equals("*")) {
-			PurchaseInfoView pview = new PurchaseInfoView(dio);
 		}
 	}
-	
-	
-	
+
 }

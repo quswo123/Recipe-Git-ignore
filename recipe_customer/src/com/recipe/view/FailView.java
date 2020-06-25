@@ -47,4 +47,13 @@ public class FailView {
 	public void reviewListView(String msg) {
 		System.out.println(msg);
 	}
+	
+	/**
+	 * 구매 실패메시지를 출력한다
+	 * @param msg
+	 * @author 변재원
+	 */
+	public void purchaseView(String msg) {
+		System.out.println(msg);
+	}
 }

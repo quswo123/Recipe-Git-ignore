@@ -134,6 +134,7 @@ public class CustomerFrontThread implements Runnable {
 					break;
 				case Menu.PURCHASE: //레시피구매하기
 					purchaseRecipe();
+					break;
 				case Menu.SEARCH_REVIEW_BY_CUSTOMERID: //로그인한 사용자 즐겨찾기 목록 보기
 					reviewByCustomerIdFront();
 					break;
@@ -223,6 +224,7 @@ public class CustomerFrontThread implements Runnable {
 			
 			dio.sendPurchase(list);
 			dio.sendReviews(rlist);
+			
 		} catch (FindException e) {
 			e.printStackTrace();
 			dio.sendFail(e.getMessage());
@@ -235,15 +237,17 @@ public class CustomerFrontThread implements Runnable {
 	 */
 	public void purchaseRecipe() throws IOException{
 		Purchase purchase = null;
-		String customerId = dio.receiveId();
 		try {
+			purchase = dio.receivePurchase();
+			System.out.println("들어옴");
 			control.buyRecipe(purchase);
-			
-			dio.send(purchase);
 			dio.sendSuccess();
-		} catch (IOException | AddException e) {
+		} catch (IOException | ParseException e1) {
+			e1.printStackTrace();
+		} catch (AddException e) {
 			dio.sendFail(e.getMessage());
-		} 
+		}
+		
 	}
 	
 	/**
@@ -256,7 +260,7 @@ public class CustomerFrontThread implements Runnable {
 		try {
 			recipeInfo = control.searchByName(recipeName);
 			dio.send(recipeInfo);
-			//dio.sendSuccess();
+			dio.sendSuccess();
 		} catch (FindException e) {
 			dio.sendFail(e.getMessage());
 		}
@@ -314,7 +318,7 @@ public class CustomerFrontThread implements Runnable {
 		try {
 			searchedRecipeInfo = control.searchByIngName(recipeInfo);
 			dio.send(searchedRecipeInfo);
-			//dio.sendSuccess();
+			dio.sendSuccess();
 		} catch (FindException e) {
 		}
 	}

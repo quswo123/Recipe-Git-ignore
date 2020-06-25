@@ -5,9 +5,11 @@ import java.util.List;
 import com.recipe.dao.PointDAO;
 import com.recipe.dao.RecipeInfoDAO;
 import com.recipe.dao.RecipeIngredientDAO;
+import com.recipe.exception.DuplicatedException;
 import com.recipe.exception.FindException;
 import com.recipe.exception.ModifyException;
 import com.recipe.vo.Point;
+import com.recipe.vo.Ingredient;
 import com.recipe.vo.RecipeInfo;
 
 public class RecipeService {
@@ -33,7 +35,18 @@ public class RecipeService {
 	public RecipeInfo findRecommended() throws FindException {
 		return dao.selectByRank();
 	}
-	
+	public void addRecipe(String rdId, RecipeInfo recipeInfo, String ingInfo, List<Ingredient> ingList, String process) throws DuplicatedException {
+		dao.insert(rdId, recipeInfo, ingInfo, ingList, process);
+	}
+	public void modifyRecipe(String rdId, RecipeInfo recipeInfo, String ingInfo, List<Ingredient> ingList, String process) throws ModifyException {
+		dao.update(rdId, recipeInfo, ingInfo, ingList, process);
+	}
+	public void removeRecipe(String rdId, RecipeInfo recipeInfo) throws ModifyException {
+		dao.remove(rdId, recipeInfo);
+	}
+	public List<RecipeInfo> findAll(List<RecipeInfo> recipeInfoList) throws FindException {
+		return dao.selectAll(recipeInfoList);
+	}
 	/**
 	 * 포인트 수정 절차를 위한 메소드
 	 * @param p 수정할 레시피 코드와 좋아요, 싫어요 개수를 포함한 Point 객체
@@ -43,5 +56,6 @@ public class RecipeService {
 	public void modifyPoint(Point p) throws ModifyException {
 		pointDAO.update(p);
 	}
+
 	
 }

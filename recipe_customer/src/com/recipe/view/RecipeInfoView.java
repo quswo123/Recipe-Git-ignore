@@ -1,13 +1,14 @@
 package com.recipe.view;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.Scanner;
 
 import com.recipe.io.DataIO;
 import com.recipe.io.Menu;
 import com.recipe.share.CustomerShare;
+import com.recipe.vo.Favorite;
 import com.recipe.vo.Purchase;
-import com.recipe.vo.PurchaseDetail;
 import com.recipe.vo.RecipeInfo;
 
 public class RecipeInfoView {
@@ -79,7 +80,7 @@ public class RecipeInfoView {
 				} else if (menu.equals("2")) {
 
 				} else if (menu.equals("3")) {
-
+					addFavorite(info);
 				} else if (menu.equals("4")) {
 					likeThisRecipe(info);
 				} else if (menu.equals("5")) {
@@ -90,7 +91,18 @@ public class RecipeInfoView {
 			e.printStackTrace();
 		}
 	}
+	private void addFavorite(RecipeInfo info) throws IOException {
+		Favorite f = new Favorite();
+		dio.sendMenu(Menu.ADD_FAVORITE);
+		f.setCustomerId(CustomerShare.loginedId);
+		f.setRecipeInfo(info);
+		dio.send(f);
 	
+		if (dio.receiveStatus().equals("fail")) {
+			FailView fail = new FailView();
+			fail.favoriteListView("즐겨찾기 추가 실패");
+		}
+	}
 	/**
 	 * 현재 레시피의 좋아요 개수를 하나 증가한다
 	 * @param info 현재 레시피 정보를 가진 RecipeInfo 객체
@@ -124,14 +136,31 @@ public class RecipeInfoView {
 	}
 	
 	private void purchaseRecipe(RecipeInfo info) throws IOException{
+		
 		System.out.println("수량을 입력해주세요");
-		dio.sendMenu(Menu.PURCHASE);
-		dio.sendId(CustomerShare.loginedId);
-		dio.send(info);
 		int line = Integer.parseInt(sc.nextLine());
-		Purchase p = new Purchase();
-		line = p.getPurchaseDetail().getPurchaseDetailQuantity();
-		System.out.println("총가격은"+p.getPurchaseDetail().getPurchaseDetailQuantity()*p.getPurchaseDetail().getRecipeInfo().getRecipePrice()+"입니다 구입하시겠습니까?");
-		dio.send(p);
+		System.out.println("총가격은"+ line*info.getRecipePrice()+"입니다 구매하시겠습니까?(Y/N)");
+		String purchaseLine = sc.nextLine();
+		if(purchaseLine.equals("y")) {
+			Purchase p = new Purchase();
+			PurchaseDetail pd = new PurchaseDetail();
+			p.setCustomerId(CustomerShare.loginedId);
+			
+			pd.setPurchaseDetailQuantity(line);
+			pd.setRecipeInfo(info);
+			
+			p.setPurchaseDetail(pd);
+			
+			dio.sendMenu(Menu.PURCHASE);
+			dio.send(p);
+			System.out.println("send");
+			if(dio.receiveStatus().equals("success")){
+				SuccessView success = new SuccessView();
+				success.purchaseView("구매성공");
+			}else {
+				FailView fail = new FailView();
+				fail.purchaseView(dio.receive());
+			}
+		}
 	}
 }

@@ -72,8 +72,12 @@ public class RecipeInfoView {
 			if(menu.equals("1")) {
 				//레시피 후기 목록
 			} else if(menu.equals("2")) {
+				ModifyRecipeView modifyRecipeView = new ModifyRecipeView(dio);
+				modifyRecipeView.showModifyRecipeView(info);
 				//레시피 수정
 			} else if(menu.equals("3")) {
+				RemoveRecipeView removeRecipeView = new RemoveRecipeView(dio);
+				removeRecipeView.showRemoveRecipeView();
 				//레시피 삭제
 			}
 		}while(!menu.equals("0"));

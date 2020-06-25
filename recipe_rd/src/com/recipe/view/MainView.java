@@ -34,6 +34,7 @@ public class MainView {
 				case 1:
 					RecipeSearchView recipeSearchView = new RecipeSearchView(dio);
 					recipeSearchView.showRecipeInfoView();
+					break;
 				case 2:
 					RecommendedRecipeView recommendedRecipeView = new RecommendedRecipeView(dio);
 					recommendedRecipeView.showRecommendedRecipeView();

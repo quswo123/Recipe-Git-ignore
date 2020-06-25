@@ -12,6 +12,9 @@ public class Menu {
 	public static final int RD_LOGIN = 11; //R&D 로그인
 	public static final int ADMIN_LOGIN = 12; //Admin 로그인
 	public static final int ADD_RECIPE = 13; //레시피 등록
+	public static final int MODIFY_RECIPE = 53; //레시피 수정
+	public static final int REMOVE_RECIPE = 54; //레시피 삭제
+	public static final int RECIPE_ALL = 55; //레시피전체조회
 	public static final int ADMIN_LOGOUT = 70; //Admin 로그아웃
 	public static final int RD_LOGOUT = 71; //R&D 로그아웃
 	public static final int CUSTOMER_LOGOUT = 72; //Customer 로그아웃
@@ -28,7 +31,7 @@ public class Menu {
 	public static final int SEARCH_POSTAL = 16; //도로명주소 검색
 	public static final int LIKE = 101; //좋아요
 	public static final int DISLIKE = 102; //싫어요
-	public static final int PURCHASE = 103; //구매하기
+	public static final int PURCHASE = 109; //구매하기
 	public static final int RD_ALL = 103; //R&D 계정 전체 조회
 	public static final int RD_ADD = 104; //R&D 계정 추가
 	public static final int RD_MODIFY = 105; //R&D 계정 수정
