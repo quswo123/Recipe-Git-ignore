@@ -32,4 +32,12 @@ public class SuccessView {
 	public void purchaseView(String msg) {
 		System.out.println(msg);
 	}
+	/**
+	 * 후기 등록 시 성공메세지를 출력한다.
+	 * @author 고수정
+	 */	
+	public void reviewInsertView(String msg) {
+
+		System.out.println(msg);
+	}
 }

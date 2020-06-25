@@ -22,8 +22,8 @@ public class ReviewDAO {
 	
 	public static void main(String[] args) {
 		//test_review_selectByCode();
-		test_review_selectById();
-		//test_review_insert();
+		//test_review_selectById();
+		test_review_insert();
 	}//end method main();
 	
 	/**
@@ -98,6 +98,7 @@ public class ReviewDAO {
 	 * @param Review r
 	 */
 	public void insert(Review r) throws AddException, DuplicatedException {
+		System.out.println("Review ::::" + r);
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		

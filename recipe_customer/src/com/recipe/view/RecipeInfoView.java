@@ -9,6 +9,7 @@ import com.recipe.io.Menu;
 import com.recipe.share.CustomerShare;
 import com.recipe.vo.Favorite;
 import com.recipe.vo.Purchase;
+import com.recipe.vo.PurchaseDetail;
 import com.recipe.vo.RecipeInfo;
 
 public class RecipeInfoView {

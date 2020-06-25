@@ -16,15 +16,13 @@ import com.recipe.service.PurchaseService;
 import com.recipe.service.RDAccountService;
 import com.recipe.service.RecipeService;
 import com.recipe.service.ReviewService;
-import com.recipe.share.RDShare;
 import com.recipe.vo.Customer;
 import com.recipe.vo.Favorite;
 import com.recipe.vo.Ingredient;
+import com.recipe.vo.Point;
+import com.recipe.vo.Postal;
 import com.recipe.vo.Purchase;
 import com.recipe.vo.RD;
-import com.recipe.vo.Postal;
-import com.recipe.vo.Point;
-import com.recipe.vo.Review;
 import com.recipe.vo.RecipeInfo;
 import com.recipe.vo.Review;
 
