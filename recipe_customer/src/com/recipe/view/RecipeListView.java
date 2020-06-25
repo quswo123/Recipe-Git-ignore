@@ -35,6 +35,13 @@ public class RecipeListView {
 			if(size < 5) {
 				System.out.println("0.뒤로가기");
 				menu = sc.nextLine();
+				if (!menu.equals("0")) {
+					int n = Integer.parseInt(menu);
+					System.out.println(menu);
+					RecipeInfo param = list.get(n-1);			
+					RecipeInfoView infoView = new RecipeInfoView(dio);
+					infoView.showRecipeInfoView(param);
+				}
 			}
 			else {
 				System.out.println("-:이전페이지 +:다음페이지 0.뒤로가기");
