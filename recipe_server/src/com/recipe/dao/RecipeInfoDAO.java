@@ -422,38 +422,6 @@ public class RecipeInfoDAO {
 		return null;
 	}
 
-	public static void main(String[] args) {
-		RecipeInfoDAO dao = new RecipeInfoDAO();
-
-		//		try {
-		//			RecipeInfo list = dao.selectByCode(code);
-		//			System.out.println("code:" + list.getRecipeCode() + "  name:" + list.getRecipeName() + "  summ:"+ list.getRecipeSumm() +"  price:"+ list.getRecipePrice());
-		//			List<RecipeIngredient> lines = list.getIngredients();
-		//			Point pt = list.getPoint();
-		//			System.out.println("like" + pt.getLikeCount() + ":"+ "dislike" + pt.getDisLikeCount());
-		//			for(RecipeIngredient line : lines) {
-		//				System.out.print(line.getIngredient().getIngCode() + ":");
-		//				System.out.print(line.getIngredient().getIngName()+ ", ");
-		//			}
-		//		} catch (FindException e) {
-		//			e.printStackTrace();
-		//		}
-		//		
-		//		String name = "단호박";
-		//	
-		//		try {
-		//			List<RecipeInfo> list2 = dao.selectByName(name);
-		//			for(RecipeInfo ri : list2) {
-		//				System.out.println(ri.getRecipeCode() + ri.getRecipeName() + ri.getRecipePrice() + ri.getRecipeProcess() + ri.getRecipeSumm());
-		//				List<RecipeIngredient> lines = ri.getIngredients();
-		//				for(RecipeIngredient ing : lines) {
-		//					System.out.println(ing.getIngredient().getIngName());
-		//				}
-		//			}
-		//		} catch (FindException e) {
-		//			e.printStackTrace();
-		//		}
-	}
 	/**
 	 * 좋아요 개수(내림차순), 싫어요 개수(오름차순), 작성된 후기 개수(내림차순)를 기준으로 추천 레시피를 선정하여 반환한다 
 	 * @return 추천 레시피 정보를 포함한 RecipeInfo 객체
