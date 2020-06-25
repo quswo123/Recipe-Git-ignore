@@ -9,7 +9,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,18 +18,14 @@ import com.recipe.exception.ModifyException;
 import com.recipe.exception.RemoveException;
 import com.recipe.io.DataIO;
 import com.recipe.io.Menu;
-import com.recipe.vo.Favorite;
 import com.recipe.share.CustomerShare;
-import com.recipe.vo.Purchase;
 import com.recipe.vo.Customer;
+import com.recipe.vo.Favorite;
 import com.recipe.vo.Point;
+import com.recipe.vo.Postal;
+import com.recipe.vo.Purchase;
 import com.recipe.vo.RecipeInfo;
 import com.recipe.vo.Review;
-
-
-import com.recipe.service.PostService;
-import com.recipe.vo.Customer;
-import com.recipe.vo.Postal;
 
 public class CustomerFrontThread implements Runnable {
 	private Socket client;
@@ -135,14 +130,13 @@ public class CustomerFrontThread implements Runnable {
 				case Menu.REMOVE_FAVORITE: //로그인한 사용자 즐겨찾기 목록 보기
 					favoriteRemove();
 					break;
+				case Menu.PURCHASE: //레시피구매하기
+					purchaseRecipe();
 				case Menu.SEARCH_REVIEW_BY_CUSTOMERID: //로그인한 사용자 즐겨찾기 목록 보기
 					reviewByCustomerIdFront();
 					break;
 				case Menu.SEARCH_REVIEW_BY_RECIPECODE: //로그인한 사용자 즐겨찾기 목록 보기
 					reviewByRecipeCodeFront();
-				case Menu.PURCHASE: //레시피구매하기
-					purchaseRecipe();
-					break;
 				default:
 					break;
 				}
@@ -225,6 +219,7 @@ public class CustomerFrontThread implements Runnable {
 	 */
 	public void purchaseRecipe() throws IOException{
 		Purchase purchase = null;
+		String customerId = dio.receiveId();
 		try {
 			control.buyRecipe(purchase);
 			
@@ -339,6 +334,23 @@ public class CustomerFrontThread implements Runnable {
 			e.printStackTrace();
 		}
 	}
+
+	 /* 레시피 코드를 전달받아 해당하는 레시피의 싫어요 개수를 증가시킨다
+	 * @throws IOException
+	 * @author 최종국
+	 */
+	public void disLikeRecipeFront() throws IOException {
+		Point p = dio.receivePoint();
+		p.disLike();
+		try {
+			control.modifyPoint(p);
+			dio.sendSuccess();
+		} catch (ModifyException e) {
+			e.printStackTrace();
+			dio.sendFail(e.getMessage());
+		}
+	}
+	
 	/**
 	 * customerId에 해당하는 즐겨찾기 목록을 조회한 후 반환한다.
 	 * @throws IOException
@@ -369,22 +381,6 @@ public class CustomerFrontThread implements Runnable {
 			dio.sendReviews(list);
 		} catch (FindException e) {
 			e.printStackTrace();
-		}
-	}
-
-	 /* 레시피 코드를 전달받아 해당하는 레시피의 싫어요 개수를 증가시킨다
-	 * @throws IOException
-	 * @author 최종국
-	 */
-	public void disLikeRecipeFront() throws IOException {
-		Point p = dio.receivePoint();
-		p.disLike();
-		try {
-			control.modifyPoint(p);
-			dio.sendSuccess();
-		} catch (ModifyException e) {
-			e.printStackTrace();
-			dio.sendFail(e.getMessage());
 		}
 	}
 }
