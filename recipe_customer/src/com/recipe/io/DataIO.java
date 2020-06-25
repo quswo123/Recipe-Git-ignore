@@ -556,6 +556,7 @@ public class DataIO {
     */
    public List<Review> receiveReviews() throws IOException, ParseException {
       int size = dis.readInt();
+      System.out.println("사이즈의 개수" + size);
       List<Review> list = new ArrayList<>();
       for(int i=0; i<size; i++) list.add(receiveReview());
       
