@@ -50,7 +50,7 @@ public class RecipeSearchView {
 			dio.sendListString(ingName);
 			recipeInfo = dio.receiveRecipeInfos();
 			RecipeListView listView = new RecipeListView(dio);
-			listView.searchedRecipeList(recipeInfo);
+			listView.showAllRecipeListView(recipeInfo);
 			//레시피 상세뷰 들어올자리
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -72,14 +72,12 @@ public class RecipeSearchView {
 			recipeInfo = dio.receiveRecipeInfos();		
 			//dio.receiveStatus();
 			RecipeListView listView = new RecipeListView(dio);
-			listView.searchedRecipeList(recipeInfo);
+			listView.showAllRecipeListView(recipeInfo);
 
 		} catch (IOException e) {		
 			e.printStackTrace();
 		}
 		
-	}
-	
-	
+	}	
 	
 }
