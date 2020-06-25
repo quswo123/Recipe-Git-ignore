@@ -8,6 +8,7 @@ import com.recipe.dao.RecipeIngredientDAO;
 import com.recipe.exception.FindException;
 import com.recipe.exception.ModifyException;
 import com.recipe.vo.Point;
+import com.recipe.vo.Ingredient;
 import com.recipe.vo.RecipeInfo;
 
 public class RecipeService {
@@ -32,6 +33,9 @@ public class RecipeService {
 	 */
 	public RecipeInfo findRecommended() throws FindException {
 		return dao.selectByRank();
+	}
+	public void addRecipe(RecipeInfo recipeInfo, String ingInfo, List<Ingredient> ingList, String process) {
+		
 	}
 	
 	/**

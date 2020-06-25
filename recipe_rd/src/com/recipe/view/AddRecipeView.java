@@ -1,52 +1,63 @@
 package com.recipe.view;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import com.recipe.io.DataIO;
+import com.recipe.io.Menu;
 import com.recipe.vo.Ingredient;
 import com.recipe.vo.RecipeInfo;
 
 public class AddRecipeView {
 
 	private Scanner sc;
+	private DataIO dio;
+
+	public AddRecipeView(DataIO dio) {
+		this.dio = dio;
+		sc = new Scanner(System.in);
+	}
 
 	public void AddRecipeFormView() {
-		RecipeInfo recipe_InfoVo = new RecipeInfo();
+
+		RecipeInfo recipeInfoVo = new RecipeInfo();
+		List<Ingredient> ingList = new ArrayList<Ingredient>();
 
 		System.out.println("레시피등록");
-
-		sc = new Scanner(System.in);
 		System.out.println("레시피명을 입력해주세요: ");
-		recipe_InfoVo.setRecipeName(sc.nextLine());		//입력받은 레시피명을 setRecipe_name에 넣는다.
+		recipeInfoVo.setRecipeName(sc.nextLine());		//입력받은 레시피명을 setRecipe_name에 넣는다.
 
 		System.out.println("------------------------------");
-		List<Ingredient> ingList = new ArrayList<Ingredient>();		//재료를 넣기위한 ingList를 선언
+		String ingInfo="";
 		while (true) {
 			Ingredient ingredientVo = new Ingredient();				//재료명과, 용량을 넣기위한 VO 선언
 
-			sc = new Scanner(System.in);
 			System.out.println("재료를 입력해주세요(종료는 exit입력): ");
-			String ing_name = sc.nextLine();
-			if("exit".equals(ing_name.toLowerCase())) {		//입력받은 값을 소문자로 변환후 exit라면 break;
+			String name = sc.nextLine();
+			if("exit".equals(name.toLowerCase())) {		//입력받은 값을 소문자로 변환후 exit라면 break;
 				break;
 			}
-			ingredientVo.setIngName(ing_name);		//입력받은 값을 setIng_name에 넣는다.
+			ingInfo += name;
+			ingredientVo.setIngName(name);		//입력받은 값을 setIng_name에 넣는다.
 
 			sc = new Scanner(System.in);
 			System.out.println("재료의 용량을 입력해주세요: ");
-		//	ingredientVo.setIngCpcty(sc.nextLine());		//입력받은 값을 setIng_cpcty에 넣는다.
+			ingInfo += " " +(sc.nextLine()) + " ";		//입력받은 값을 setIng_cpcty에 넣는다.
 
 			ingList.add(ingredientVo);					//입력받은 VO를 ingList에 넣는다.
 		}
 
-		System.out.println("ingList: " + ingList.toString());		//현재 담겨져 있는것을 출력test
+		//레시피 용량(ingcpcty) VO 객체를 삭제 --완료
+		//문자열에 재료명, 재료용량 순으로 리스트를 만들고, 스플릿을 이용하여 용량은 파일에만 적는걸로.
 
+		System.out.println("ingList: " + ingList.toString());		//현재 담겨져 있는것을 출력test
 		System.out.println("------------------------------");
 
-		sc = new Scanner(System.in);
 		System.out.println("레시피 한줄 소개를 입력해주세요: ");
-		recipe_InfoVo.setRecipeSumm(sc.nextLine());
+		recipeInfoVo.setRecipeSumm(sc.nextLine());
+
 		//		while (true) {		//여러줄 레시피 요약설명적기
 		//			sc = new Scanner(System.in);
 		//			System.out.println("요리 설명을 입력해주세요(종료는 exit입력): ");
@@ -59,24 +70,35 @@ public class AddRecipeView {
 		//		}
 
 		System.out.println("------------------------------");
-		sc = new Scanner(System.in);
 		System.out.println("가격을 입력해주세요.: ");
-		recipe_InfoVo.setRecipePrice(Integer.parseInt(sc.nextLine()));		//입력받은값을 Integer형식으로 바꿔서 setRecipe_price에 넣는다.
+		recipeInfoVo.setRecipePrice(Integer.parseInt(sc.nextLine()));		//입력받은값을 Integer형식으로 바꿔서 setRecipe_price에 넣는다.
 
+		System.out.println("recipe_InfoVo: " + recipeInfoVo.toString());
+		System.out.println("ingList: " + ingList.toString());		//현재 담겨져 있는것을 출력test
+		
+		System.out.println("------------------------------");
 
-		System.out.println("recipe_InfoVo: " + recipe_InfoVo.toString());
-
-		//		String resultFlag = new RecipeMarketControl().addRecipe(recipe_InfoVo, ingList);
-		//		
-		//		if("".equals(resultFlag)) {
-		//			System.out.println("등록이 완료되었습니다.");
-		//			System.out.println("recipe_InfoVo: " + recipe_InfoVo.toString());
-		//		}else {
-		//			System.out.println(resultFlag);
-		//		}
+		String process="";
+		while (true) {
+			System.out.println("과정을 입력해주세요(종료는 exit입력): ");
+			String temp = sc.nextLine();
+			if("exit".equals(temp.toLowerCase())) {		//입력받은 값을 소문자로 변환후 exit라면 break;
+				break;
+			}
+			process += "\n" + temp;
+		}
+		
+		
+		
+		try {
+			dio.sendMenu(Menu.ADD_RECIPE);
+			
+			dio.send(recipeInfoVo);
+			dio.send(ingInfo);
+			dio.sendIngredientList(ingList);
+			dio.send(process);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
-//	public static void main(String []args) {
-//		AddRecipeView addview = new AddRecipeView();
-//		addview.AddRecipeFormView();
-//	}
 }

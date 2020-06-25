@@ -19,6 +19,7 @@ import com.recipe.service.ReviewService;
 import com.recipe.share.RDShare;
 import com.recipe.vo.Customer;
 import com.recipe.vo.Favorite;
+import com.recipe.vo.Ingredient;
 import com.recipe.vo.Purchase;
 import com.recipe.vo.RD;
 import com.recipe.vo.Postal;
@@ -276,6 +277,7 @@ public class RecipeMarketControl {
 		return recipeService.findRecommended();
 	}
 	
+
 	/**
 	 * 포인트 수정 절차를 위한 메소드
 	 * @param p 수정할 레시피 코드와 좋아요, 싫어요 개수를 포함한 Point 객체
@@ -324,5 +326,8 @@ public class RecipeMarketControl {
 	 */
 	public void removeRd(String rdId) throws RemoveException {
 		rdAccountService.remove(rdId);
+	}
+	public void addRecipe(RecipeInfo recipeInfo, String ingInfo, List<Ingredient> ingList, String process) {
+		
 	}
 }
