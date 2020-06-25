@@ -1,5 +1,7 @@
 package com.recipe.service;
 
+import java.util.List;
+
 import com.recipe.dao.RDDAO;
 import com.recipe.exception.FindException;
 import com.recipe.share.RDShare;
@@ -23,5 +25,9 @@ public class RDAccountService {
 		if(!r.getRdPwd().equals(rdPwd)) throw new FindException("로그인 실패");
 		
 		RDShare.addSession(rdId);
+	}
+	
+	public List<RD> findAll() throws FindException {
+		return rdDAO.selectAll();
 	}
 }

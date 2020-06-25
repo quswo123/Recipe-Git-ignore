@@ -29,4 +29,5 @@ public class Menu {
 	public static final int LIKE = 101; //좋아요
 	public static final int DISLIKE = 102; //싫어요
 	public static final int PURCHASE = 103; //구매하기
+	public static final int RD_ALL = 103; //R&D 계정 전체 조회
 }
