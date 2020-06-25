@@ -36,4 +36,8 @@ public class FailView {
 	public void addRecipeView(String msg) {
 		System.out.println("레시피 등록 실패 : " + msg);
 	}
+	
+	public void modifyRecipeView(String msg) {
+		System.out.println("레시피 수정 실패 : " + msg);
+	}
 }

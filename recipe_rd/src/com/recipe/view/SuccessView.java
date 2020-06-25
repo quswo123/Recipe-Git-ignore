@@ -19,4 +19,8 @@ public class SuccessView {
 	public void addRecipeView() {
 		System.out.println("레시피가 등록되었습니다");
 	}
+	public void modifyRecipeView() {
+		System.out.println("레시피가 수정되었습니다");
+	}
+	
 }

@@ -25,7 +25,7 @@ public class RdFrontThread implements Runnable{
 	private Socket client;
 	private DataIO dio;
 	private RecipeMarketControl control;
-	
+
 	public RdFrontThread(Socket s) {
 		client = s;
 		try {
@@ -35,7 +35,7 @@ public class RdFrontThread implements Runnable{
 		}
 		control = RecipeMarketControl.getInstance();
 	}
-	
+
 	/**
 	 * 전달받은 메뉴 번호에 해당하는 절차를 수행한다.
 	 */
@@ -50,7 +50,16 @@ public class RdFrontThread implements Runnable{
 					loginFront();
 					break;
 				case Menu.ADD_RECIPE: // 레시피 등록
-					addRecipeFont();
+					addRecipeFront();
+					break;
+				case Menu.MODIFY_RECIPE: // 레시피 등록
+					modifyRecipeFront();
+					break;
+				case Menu.DELETE_RECIPE: // 레시피 등록
+					removeRecipeFront();
+					break;				
+				case Menu.RECIPE_ALL: // 레시피 등록
+					viewAllRecipeFront();
 					break;
 				case Menu.RECOMMENDED_RECIPE: // 추천 레시피
 					recommendRecipeFront();
@@ -80,7 +89,7 @@ public class RdFrontThread implements Runnable{
 				}
 			} while (menu != -1);
 		} catch (EOFException e) {
-			
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -101,7 +110,7 @@ public class RdFrontThread implements Runnable{
 			dio.sendFail(e.getMessage());
 		}
 	}
-	
+
 	/**
 	 * 로그아웃에 필요한 아이디를 전달받아 로그아웃 절차를 수행한다.
 	 * @throws IOException
@@ -110,10 +119,10 @@ public class RdFrontThread implements Runnable{
 	public void logoutFront() throws IOException {
 		String rdId = dio.receiveId();
 		RDShare.removeSession(rdId);
-		
+
 		dio.sendSuccess();
 	}
-	
+
 	/**
 	 * 클라이언트에게 추천 레시피를 탐색하여 전송한다
 	 * @throws IOException
@@ -130,7 +139,7 @@ public class RdFrontThread implements Runnable{
 			dio.sendFail(e.getMessage());
 		}
 	}
-	
+
 	/**
 	 * 레시피 과정 정보를 클라이언트에 전송한다
 	 * @throws IOException
@@ -157,10 +166,10 @@ public class RdFrontThread implements Runnable{
 				}
 			}
 		}
-		
+
 		dio.send(result);
 	}
-	
+
 	/**
 	 * 레시피 코드를 전달받아 해당하는 레시피의 좋아요 개수를 증가시킨다
 	 * @throws IOException
@@ -177,7 +186,7 @@ public class RdFrontThread implements Runnable{
 			dio.sendFail(e.getMessage());
 		}
 	}
-	
+
 	/**
 	 * 레시피 코드를 전달받아 해당하는 레시피의 싫어요 개수를 증가시킨다
 	 * @throws IOException
@@ -193,7 +202,7 @@ public class RdFrontThread implements Runnable{
 			e.printStackTrace();
 		}
 	}
-		public void selectByIngFront() throws IOException {
+	public void selectByIngFront() throws IOException {
 		List<String> recipeInfo = dio.receiveListString();
 		List<RecipeInfo> searchedRecipeInfo = null;		
 		try {
@@ -235,7 +244,7 @@ public class RdFrontThread implements Runnable{
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void viewAllRdFront() throws IOException {
 		try {
 			dio.sendSuccess();
@@ -245,17 +254,43 @@ public class RdFrontThread implements Runnable{
 		}
 	}
 
-	public void addRecipeFont()throws IOException{
+	public void addRecipeFront()throws IOException{
+		String rdId = dio.receiveId();
 		RecipeInfo recipeInfo = dio.receiveRecipeInfo();
 		String ingInfo = dio.receive();
 		List<Ingredient> ingList = dio.receiveIngredientList();
 		String process = dio.receive();
 		try {
-			control.addRecipe(recipeInfo, ingInfo, ingList, process);
+			control.addRecipe(rdId, recipeInfo, ingInfo, ingList, process);
 			dio.sendSuccess();
 		} catch (DuplicatedException e) {
 			e.printStackTrace();
 			dio.sendFail(e.getMessage());
 		}
 	}
+
+	public void modifyRecipeFront()throws IOException{
+		String rdId = dio.receiveId();
+		RecipeInfo recipeInfo = dio.receiveRecipeInfo();
+		String ingInfo = dio.receive();
+		List<Ingredient> ingList = dio.receiveIngredientList();
+		String process = dio.receive();
+		try {
+			control.modifyRecipe(rdId, recipeInfo, ingInfo, ingList, process);
+			dio.sendSuccess();
+		} catch (ModifyException e) {
+			e.printStackTrace();
+			dio.sendFail(e.getMessage());
+		}
+
+	}
+	
+	public void removeRecipeFront() throws IOException{
+		
+	}
+	
+	public void viewAllRecipeFront()throws IOException{
+		
+	}
+	
 }
