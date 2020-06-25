@@ -168,6 +168,7 @@ public class FavoriteDAO {
 
  		String customerId = f.getCustomerId();
 		int recipeCode = f.getRecipeInfo().getRecipeCode();
+		System.out.println("recipeCode : " + recipeCode);
 		
 		try {
 			pstmt = con.prepareStatement(deleteSQL);

@@ -16,24 +16,29 @@ import com.recipe.service.PurchaseService;
 import com.recipe.service.RDAccountService;
 import com.recipe.service.RecipeService;
 import com.recipe.service.ReviewService;
+import com.recipe.share.RDShare;
 import com.recipe.vo.Customer;
 import com.recipe.vo.Favorite;
 import com.recipe.vo.Ingredient;
 import com.recipe.vo.Purchase;
+import com.recipe.vo.RD;
+import com.recipe.vo.Postal;
+import com.recipe.vo.Point;
+import com.recipe.vo.Review;
 import com.recipe.vo.RecipeInfo;
 import com.recipe.vo.Review;
 
 public class RecipeMarketControl {
 	private static RecipeMarketControl control = new RecipeMarketControl();
 
-	AccountService accountService;
-	FavoriteService favoriteService;
-	PostService postService;
-	PurchaseService purchaseService;
-	RDAccountService rdAccountService;
-	RecipeService recipeService;
-	ReviewService reviewService;
-	AdminAccountService adminAccountService;
+	private AccountService accountService;
+	private FavoriteService favoriteService;
+	private PostService postService;
+	private PurchaseService purchaseService;
+	private RDAccountService rdAccountService;
+	private RecipeService recipeService;
+	private ReviewService reviewService;
+	private AdminAccountService adminAccountService;
 
 	private RecipeMarketControl() {
 		accountService = new AccountService();
@@ -243,7 +248,7 @@ public class RecipeMarketControl {
 	}
 
 	/*
-	 * Control에서 accountService의 removeMyAccount
+	 * Control에서 accountService의 removeMyAccount 호출
 	 * 
 	 * @param Cusotomer c
 	 * 
@@ -252,16 +257,76 @@ public class RecipeMarketControl {
 	public void removeMyAccount(Customer c) throws RemoveException {
 		accountService.remove(c);
 	}
+	/*
+	 * control에서 PostService의 findMyDoro 호출
+	 * @param String doro
+	 * @author 영민
+	 */
+	public List<Postal> searchByDoro(String doro) throws FindException{
+		PostService service = new PostService();
+		return service.findByDoro(doro);
+	}
 
 	/**
 	 * 추천 레시피 탐색 절차를 위한 메소드
 	 * @return 추천 레시피 정보를 가진 RecipeInfo
 	 * @throws FindException
+	 * @author 최종국
 	 */
 	public RecipeInfo searchRecommended() throws FindException {
 		return recipeService.findRecommended();
 	}
 	
+
+	/**
+	 * 포인트 수정 절차를 위한 메소드
+	 * @param p 수정할 레시피 코드와 좋아요, 싫어요 개수를 포함한 Point 객체
+	 * @throws ModifyException
+	 * @author 최종국
+	 */
+	public void modifyPoint(Point p) throws ModifyException{
+		recipeService.modifyPoint(p);
+	}
+	
+	/**
+	 * R&D 계정 전체 조회 절차를 위한 메소드
+	 * @return RD 객체 리스트
+	 * @throws FindException
+	 * @author 최종국
+	 */
+	public List<RD> viewAllRd() throws FindException {
+		return rdAccountService.findAll();
+	}
+	
+	/**
+	 * R&D 계정 추가 절차를 위한 메소드
+	 * @param r 추가할 R&D 계정 정보를 가진 RD
+	 * @throws AddException
+	 * @throws DuplicatedException 아이디가 중복되면 발생
+	 * @author 최종국
+	 */
+	public void addRd(RD r) throws AddException, DuplicatedException {
+		rdAccountService.add(r);
+	}
+	
+	/**
+	 * R&D 계정 수정 절차를 위한 메소드
+	 * @param r 수정할 R&D 계정 정보를 가진 RD
+	 * @throws ModifyException 수정하려는 R&D 계정이 존재하지 않으면 발생
+	 * @author 최종국
+	 */
+	public void modifyRd(RD r) throws ModifyException {
+		rdAccountService.modify(r);
+	}
+	
+	/**
+	 * R&D 계정 삭제(비활성화) 절차를 위한 메소드
+	 * @param rdId 삭제할 아이디
+	 * @throws RemoveException 삭제하려는 R&D 계정이 존재하지 않으면 발생
+	 */
+	public void removeRd(String rdId) throws RemoveException {
+		rdAccountService.remove(rdId);
+	}
 	public void addRecipe(RecipeInfo recipeInfo, String ingInfo, List<Ingredient> ingList, String process) {
 		
 	}

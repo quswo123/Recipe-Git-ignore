@@ -11,6 +11,7 @@ import com.recipe.exception.AddException;
 import com.recipe.exception.DuplicatedException;
 import com.recipe.exception.FindException;
 import com.recipe.jdbc.MyConnection;
+import com.recipe.vo.Point;
 import com.recipe.vo.RecipeInfo;
 import com.recipe.vo.Review;
 /**
@@ -21,8 +22,8 @@ public class ReviewDAO {
 	
 	public static void main(String[] args) {
 		//test_review_selectByCode();
-		//test_review_selectById();
-		test_review_insert();
+		test_review_selectById();
+		//test_review_insert();
 	}//end method main();
 	
 	/**
@@ -36,9 +37,17 @@ public class ReviewDAO {
 		ResultSet rs = null;
 		List<Review> reviewList = null;
 
-		String selectSQL = "SELECT * "
-				+ "	FROM REVIEW "
-				+ " WHERE RECIPE_CODE = ? ";
+		String selectSQL = "SELECT CUSTOMER_ID " + 
+				", REVIEW_COMMENT " + 
+				", REVIEW_DATE " + 
+				", r.RECIPE_CODE " + 
+				", LIKE_COUNT " + 
+				", DISLIKE_COUNT " + 
+				", info.RECIPE_NAME "+
+				"  FROM REVIEW r "
+				+ " LEFT JOIN POINT p ON r.recipe_code = p.recipe_code "
+				+ " JOIN RECIPE_INFO info ON info.recipe_code = r.recipe_code "
+				+ " WHERE p.RECIPE_CODE = ?";
 		
 		try {
 			con = MyConnection.getConnection();
@@ -58,9 +67,15 @@ public class ReviewDAO {
 				r.setCustomerId(rs.getString("CUSTOMER_ID"));
 				r.setReviewComment(rs.getString("REVIEW_COMMENT"));
 				r.setReviewDate(rs.getDate("REVIEW_DATE"));
-
+				
+				Point p = new Point();
+				p.setRecipeCode(rs.getInt("RECIPE_CODE"));
+				p.setLikeCount(rs.getInt("LIKE_COUNT"));
+				p.setDisLikeCount(rs.getInt("DISLIKE_COUNT"));
+				
 				RecipeInfo info = new RecipeInfo();
 				info.setRecipeCode(rs.getInt("RECIPE_CODE"));
+				info.setPoint(p);
 				r.setRecipeInfo(info);
 				
 				reviewList.add(r);
@@ -133,13 +148,19 @@ public class ReviewDAO {
 			
 		} catch (ClassNotFoundException | SQLException e) {
 			e.getStackTrace();
-			
 		}
 		
-		String selectSQL = "SELECT CUSTOMER_ID, REVIEW_COMMENT, REVIEW_DATE, RECIPE_CODE "
-				+ "FROM REVIEW " 
-				+ "WHERE CUSTOMER_ID = ?";
-
+		String selectSQL = "SELECT CUSTOMER_ID"
+				+ ", REVIEW_COMMENT"
+				+ ", REVIEW_DATE"
+				+ ", r.RECIPE_CODE"
+				+ ", LIKE_COUNT"
+				+ ", DISLIKE_COUNT"
+				+ ", info.RECIPE_NAME"
+				+ "  FROM REVIEW r "
+				+ " LEFT JOIN POINT p ON r.recipe_code = p.recipe_code"
+				+ " JOIN RECIPE_INFO info ON info.recipe_code = r.recipe_code "
+				+ " WHERE r.CUSTOMER_ID = ?";
 		try {
 			pstmt = con.prepareStatement(selectSQL);
 			pstmt.setString(1, customerId);
@@ -151,9 +172,16 @@ public class ReviewDAO {
 				r.setCustomerId(rs.getString("CUSTOMER_ID"));
 				r.setReviewComment(rs.getString("REVIEW_COMMENT"));
 				r.setReviewDate(rs.getDate("REVIEW_DATE"));
+				
+				Point p = new Point();
+				p.setRecipeCode(rs.getInt("RECIPE_CODE"));
+				p.setLikeCount(rs.getInt("LIKE_COUNT"));
+				p.setDisLikeCount(rs.getInt("DISLIKE_COUNT"));
 
 				RecipeInfo info = new RecipeInfo();
+				info.setPoint(p);
 				info.setRecipeCode(rs.getInt("RECIPE_CODE"));
+				info.setRecipeName(rs.getString("RECIPE_NAME"));
 				r.setRecipeInfo(info);
 				
 				reviewList.add(r);
@@ -161,7 +189,7 @@ public class ReviewDAO {
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new FindException ("Fail : 후기 목록 조회에ㄴ 실패하였습니다.");
+			throw new FindException ("Fail : 후기 목록 조회에 실패하였습니다.");
 			
 		} finally {
 			MyConnection.close(rs, pstmt, con);

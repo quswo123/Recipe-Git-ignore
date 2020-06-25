@@ -12,17 +12,20 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.recipe.exception.AddException;
 import com.recipe.exception.FindException;
+import com.recipe.exception.ModifyException;
+import com.recipe.exception.RemoveException;
 import com.recipe.io.DataIO;
 import com.recipe.io.Menu;
-import com.recipe.vo.Favorite;
 import com.recipe.share.CustomerShare;
-import com.recipe.vo.Purchase;
 import com.recipe.vo.Customer;
+import com.recipe.vo.Favorite;
+import com.recipe.vo.Point;
+import com.recipe.vo.Postal;
+import com.recipe.vo.Purchase;
 import com.recipe.vo.RecipeInfo;
 import com.recipe.vo.Review;
-
-
 
 public class CustomerFrontThread implements Runnable {
 	private Socket client;
@@ -50,6 +53,7 @@ public class CustomerFrontThread implements Runnable {
 			do {
 				menu = dio.receiveMenu();
 				switch (menu) {
+				//내 정보 보기 . 영민
 				case Menu.CUSTOMER_INFO: // 내 정보 보기
 					String id = dio.receiveId();
 					try {
@@ -66,8 +70,33 @@ public class CustomerFrontThread implements Runnable {
 					loginFront();
 					break;
 				case Menu.CUSTOMER_REGISTER: // 회원가입
-					// TO DO
 					break;
+				//내 정보 수정 .영민
+				case Menu.CUSTOMER_MODIFY: //내 정보 수정
+					Customer c2 = dio.receiveCustomer();
+					try {
+						control.modifyMyAccount(c2);
+						dio.sendSuccess();
+					} catch (ModifyException e) {
+						e.printStackTrace();
+						dio.sendFail(e.getMessage());
+					}
+					break;
+				case Menu.SEARCH_POSTAL:
+					String doro = dio.receive();
+					List<Postal> list;
+					try {
+						list = control.searchByDoro(doro);
+						dio.sendSuccess();
+						dio.send("" + list.size());
+						for(Postal p : list) {
+							dio.send(p);
+						}
+					} catch (FindException e) {
+						e.printStackTrace();
+						dio.sendFail(e.getMessage());
+					}
+					
 				case Menu.RECOMMENDED_RECIPE: // 추천 레시피
 					recommendRecipeFront();
 					break;
@@ -83,6 +112,12 @@ public class CustomerFrontThread implements Runnable {
 				case Menu.RECIPE_PROCESS: //레시피 과정 정보
 					recipeProcessFront();
 					break;
+				case Menu.LIKE: //좋아요
+					likeRecipeFront();
+					break;
+				case Menu.DISLIKE: //싫어요
+					disLikeRecipeFront();
+					break;
 				case Menu.PURCHASE_LIST: // 구매 내역
 					purchaseList();
 					break;
@@ -92,6 +127,16 @@ public class CustomerFrontThread implements Runnable {
 				case Menu.SEARCH_FAVORITE_BY_CUSTOMERID: //로그인한 사용자 즐겨찾기 목록 보기
 					favoriteByCustomerIdFront();
 					break;
+				case Menu.REMOVE_FAVORITE: //로그인한 사용자 즐겨찾기 목록 보기
+					favoriteRemove();
+					break;
+				case Menu.PURCHASE: //레시피구매하기
+					purchaseRecipe();
+				case Menu.SEARCH_REVIEW_BY_CUSTOMERID: //로그인한 사용자 즐겨찾기 목록 보기
+					reviewByCustomerIdFront();
+					break;
+				case Menu.SEARCH_REVIEW_BY_RECIPECODE: //로그인한 사용자 즐겨찾기 목록 보기
+					reviewByRecipeCodeFront();
 				default:
 					break;
 				}
@@ -101,6 +146,8 @@ public class CustomerFrontThread implements Runnable {
 			e.printStackTrace();
 		}
 	}
+	
+	
 
 	/**
 	 * 로그인에 필요한 ID, 패스워드를 Client로부터 전달받아 로그인 절차를 수행한다
@@ -126,7 +173,7 @@ public class CustomerFrontThread implements Runnable {
 	 */
 	public void favoriteByCustomerIdFront() throws IOException {
 		String customerId = dio.receive();
-		List<Favorite> list = new ArrayList<>();
+		List<Favorite> list = null;
 		try {
 			list = control.viewFavorite(customerId);
 			dio.sendFavorites(list);
@@ -155,19 +202,35 @@ public class CustomerFrontThread implements Runnable {
 		List<Purchase> list = null;
 		List<Review> rlist = null;
 		try {
-			System.out.println("보냄");
 			list = control.viewMyPurchase(customerId);
 			rlist = control.viewMyReview(customerId);
 			
-			System.out.println("보냄1");
-			dio.sendReviews(rlist);
 			dio.sendPurchase(list);
-			System.out.println("보냄2");
+			dio.sendReviews(rlist);
+			
 		} catch (FindException e) {
 			e.printStackTrace();
 			dio.sendFail(e.getMessage());
 		}
 	}
+	
+	/**
+	 * 해당되는 레시피 구매하기
+	 * @throws IOException
+	 */
+	public void purchaseRecipe() throws IOException{
+		Purchase purchase = null;
+		String customerId = dio.receiveId();
+		try {
+			control.buyRecipe(purchase);
+			
+			dio.send(purchase);
+			dio.sendSuccess();
+		} catch (IOException | AddException e) {
+			dio.sendFail(e.getMessage());
+		} 
+	}
+	
 	/**
 	 * 레시피이름에 해당하는 레시피목록을 클라이언트부터 전달받음
 	 * @throws IOException
@@ -238,7 +301,87 @@ public class CustomerFrontThread implements Runnable {
 			dio.send(searchedRecipeInfo);
 			//dio.sendSuccess();
 		} catch (FindException e) {
+		}
+	}
+	
+	/**
+	 * 레시피 코드를 전달받아 해당하는 레시피의 좋아요 개수를 증가시킨다
+	 * @throws IOException
+	 * @author 최종국
+	 */
+	public void likeRecipeFront() throws IOException {
+		Point p = dio.receivePoint();
+		p.like();
+		try {
+			control.modifyPoint(p);
+			dio.sendSuccess();
+		} catch (ModifyException e) {
+			e.printStackTrace();
 			dio.sendFail(e.getMessage());
+		}
+	}
+	
+	/**
+	 * favorite 삭제
+	 * @throws IOException
+	 * @author 고수정
+	 */
+	public void favoriteRemove() throws IOException {
+		Favorite f = new Favorite();
+		f = dio.receiveFavorite();
+		try {
+			control.removeFavorite(f);
+		} catch (RemoveException e) {
+			e.printStackTrace();
+		}
+	}
+
+	 /* 레시피 코드를 전달받아 해당하는 레시피의 싫어요 개수를 증가시킨다
+	 * @throws IOException
+	 * @author 최종국
+	 */
+	public void disLikeRecipeFront() throws IOException {
+		Point p = dio.receivePoint();
+		p.disLike();
+		try {
+			control.modifyPoint(p);
+			dio.sendSuccess();
+		} catch (ModifyException e) {
+			e.printStackTrace();
+			dio.sendFail(e.getMessage());
+		}
+	}
+	
+	/**
+	 * customerId에 해당하는 즐겨찾기 목록을 조회한 후 반환한다.
+	 * @throws IOException
+	 * @author 고수정
+	 */
+	public void reviewByCustomerIdFront() throws IOException {
+		String customerId = dio.receive();
+		List<Review> list = new ArrayList<>();
+		
+		try {
+			list = control.viewMyReview(customerId);
+			dio.sendReviews(list);
+		} catch (FindException e) {
+			e.printStackTrace();
+		}
+	}
+	/**
+	 * customerId에 해당하는 즐겨찾기 목록을 조회한 후 반환한다.
+	 * @throws IOException
+	 * @author 고수정
+	 */
+	public void reviewByRecipeCodeFront() throws IOException {
+		int recipeCode = dio.receiveMenu();
+		List<Review> list = new ArrayList<>();
+		
+		try {
+			list = control.viewRecipeReview(recipeCode);
+			dio.sendReviews(list);
+		} catch (FindException e) {
+			e.printStackTrace();
 		}
 	}
 }

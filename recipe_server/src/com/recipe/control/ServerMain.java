@@ -15,5 +15,4 @@ public class ServerMain {
 		rdAcceptThread.start();
 		adminAcceptThread.start();
 	}
-
 }

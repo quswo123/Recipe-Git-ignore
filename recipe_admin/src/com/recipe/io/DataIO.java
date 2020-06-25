@@ -2,7 +2,6 @@ package com.recipe.io;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -63,6 +62,14 @@ public class DataIO {
     */
    public void send(String str) throws IOException {
       dos.writeUTF(str);
+   }
+   /**
+    * 숫자를 전송한다
+    * @param num 보낼 숫자
+    * @throws IOException
+    */
+   public void send(int num) throws IOException {
+	  dos.writeInt(num);
    }
    /**
     * 메뉴 번호를 전송한다
@@ -143,6 +150,15 @@ public class DataIO {
       dos.writeUTF(strNullCheck(r.getRdManagerName()));
       dos.writeUTF(strNullCheck(r.getRdTeamName()));
       dos.writeUTF(strNullCheck(r.getRdPhone()));
+   }
+   /**
+    * RD List를 전송한다
+    * @param list 보낼 RD들을 가진 List
+    * @throws IOException
+    */
+   public void sendRDList(List<RD> list) throws IOException {
+	   dos.writeInt(list.size());
+	   for(RD r : list) send(r);
    }
    /**
     * VO 객체 Purchase의 내용들을 전송한다
@@ -316,21 +332,22 @@ public class DataIO {
       return dis.readUTF();
    }
    /**
-    * VO 객체 Customer의 내용들을 전달받는다
-    * @return 전달받은 내용들로 구성한 Customer
-    * @throws IOException
-    */
-   public Customer receiveCustomer() throws IOException {
-      String id = dis.readUTF();
-      String pwd = dis.readUTF();
-      String name = dis.readUTF();
-      String email = dis.readUTF();
-      String phone = dis.readUTF();
-      Postal postal = receivePostal(); 
-      String addr = dis.readUTF();
-      
-      return new Customer(id, pwd, name, email, phone, postal, addr);
-   }
+	 * VO 객체 Customer의 내용들을 전달받는다
+	 * @return 전달받은 내용들로 구성한 Customer
+	 * @throws IOException
+	 */
+	public Customer receiveCustomer() throws IOException {
+		String id = dis.readUTF();
+		String pwd = dis.readUTF();
+		String name = dis.readUTF();
+		String email = dis.readUTF();
+		String phone = dis.readUTF();
+		//Postal postal = receivePostal();
+		String addr = dis.readUTF();
+		
+		//return new Customer(id, pwd, name, email, phone, postal, addr);
+		return new Customer(id, pwd, name, email, phone, null, addr);
+	}
    /**
     * Customer List를 전달받는다
     * @return 전달받은 Customer들의 List
@@ -372,6 +389,18 @@ public class DataIO {
       return new RD(rdId, rdPwd, rdManagerName, rdTeamName, rdPhone);
    }
    /**
+    * RD List를 전달받는다
+    * @return 전달받은 RD들의 List
+    * @throws IOException
+    */
+   public List<RD> receiveRDList() throws IOException {
+	   List<RD> result = new ArrayList<RD>();
+	   int size = dis.readInt();
+	   for(int i = 0; i < size; i++) result.add(receiveRd());
+	   
+	   return result;
+   }
+   /**
     * VO 객체 Purchase의 내용들을 전달받는다
     * @return 전달받은 내용들로 구성한 Purchase
     * @throws IOException
@@ -379,7 +408,7 @@ public class DataIO {
    public Purchase receivePurchase() throws IOException, ParseException {
       int purchaseCode = dis.readInt();
       String customerId = dis.readUTF();
-      Date purchaseDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(dis.readUTF());
+      Date purchaseDate = new SimpleDateFormat("yyyy-MM-dd").parse(dis.readUTF());
       PurchaseDetail purchaseDetail = receivePurchaseDetail();
       
       return new Purchase(purchaseCode, customerId, purchaseDate, purchaseDetail);
@@ -519,7 +548,7 @@ public class DataIO {
    public Review receiveReview() throws IOException, ParseException {
       String customerId = dis.readUTF();
       String reviewComment = dis.readUTF();
-      Date reviewDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(dis.readUTF());
+      Date reviewDate = new SimpleDateFormat("yyyy-MM-dd").parse(dis.readUTF());
       RecipeInfo recipeInfo = receiveRecipeInfo();
       
       return new Review(customerId, reviewComment, reviewDate, recipeInfo);

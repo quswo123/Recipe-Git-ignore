@@ -32,6 +32,8 @@ public class MainView {
 				menu = Integer.parseInt(sc.nextLine());
 				switch (menu) {
 				case 1:
+					RecipeSearchView recipeSearchView = new RecipeSearchView(dio);
+					recipeSearchView.showRecipeInfoView();
 					break;
 				case 2:
 					RecommendedRecipeView recommendedRecipeView = new RecommendedRecipeView(dio);

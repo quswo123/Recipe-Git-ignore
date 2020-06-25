@@ -41,8 +41,7 @@ public class RecipeSearchView {
 			list.add(c);
 		}	
 		findByIngName(list);
-		sc.close();
-		
+				
 	}
 	public void findByIngName(List<String> ingName) {
 		List<RecipeInfo> recipeInfo = null;
@@ -51,7 +50,7 @@ public class RecipeSearchView {
 			dio.sendListString(ingName);
 			recipeInfo = dio.receiveRecipeInfos();
 			RecipeListView listView = new RecipeListView(dio);
-			listView.searchedRecipeList(recipeInfo);
+			listView.showAllRecipeListView(recipeInfo);
 			//레시피 상세뷰 들어올자리
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -69,19 +68,16 @@ public class RecipeSearchView {
 		List<RecipeInfo> recipeInfo = null;
 		try {
 			dio.sendMenu(Menu.SEARCH_RECIPE_NAME);
-
 			dio.send(recipeName);		
 			recipeInfo = dio.receiveRecipeInfos();		
-			dio.receiveStatus();
+			//dio.receiveStatus();
 			RecipeListView listView = new RecipeListView(dio);
-			listView.searchedRecipeList(recipeInfo);
+			listView.showAllRecipeListView(recipeInfo);
 
 		} catch (IOException e) {		
 			e.printStackTrace();
 		}
 		
-	}
-	
-	
+	}	
 	
 }

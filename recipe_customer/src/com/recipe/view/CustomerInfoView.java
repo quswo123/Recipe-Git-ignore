@@ -1,3 +1,7 @@
+/*
+ * 내 정보 보기
+ * @author 영민
+ */
 package com.recipe.view;
 
 import java.io.DataInputStream;
@@ -16,6 +20,9 @@ public class CustomerInfoView {
 	private Socket s;
 	private Scanner sc;
 
+	/*
+	 * IO연결
+	 */
 	public CustomerInfoView() throws UnknownHostException, IOException {
 		sc = new Scanner(System.in);
 		s = new Socket("localhost", 1025);
@@ -24,6 +31,9 @@ public class CustomerInfoView {
 		dataio = new DataIO(dos, dis);
 	}
 
+	/*
+	 * 입력받은 ID를 통해 고객정보 보여주기
+	 */
 	public void viewMyAccount() {
 		String customerId = "kosj";
 		try {
@@ -34,12 +44,13 @@ public class CustomerInfoView {
 			// 응답
 			if ("success".equals(dataio.receiveStatus())) {
 				Customer receiveCustomer = dataio.receiveCustomer();
-				System.out.println(receiveCustomer.getCustomerName());
-				System.out.println(receiveCustomer.getCustomerId());
-				System.out.println(receiveCustomer.getCustomerPwd());
-				System.out.println(receiveCustomer.getCustomerEmail());
-				System.out.println(receiveCustomer.getPostal().getCity() + receiveCustomer.getPostal().getDoro());
-				System.out.println(receiveCustomer.getCustomerPhone());
+				System.out.println("이름 :" + receiveCustomer.getCustomerName());
+				System.out.println("ID :" + receiveCustomer.getCustomerId());
+				System.out.println("비밀번호 : " + receiveCustomer.getCustomerPwd());
+				System.out.println("e-mail :" + receiveCustomer.getCustomerEmail());
+				System.out.println(
+						"주소 :" + receiveCustomer.getPostal().getCity() + receiveCustomer.getPostal().getDoro());
+				System.out.println("핸드폰 번호 :" + receiveCustomer.getCustomerPhone());
 				customerInfoMenu();
 			} else {
 				String failMsg = dataio.receive();
@@ -51,12 +62,9 @@ public class CustomerInfoView {
 	}
 
 	/*
-	 * public static void main(String[] args) { CustomerInfoView view = null; try {
-	 * view = new CustomerInfoView(); view.viewMyAccount(); } catch
-	 * (UnknownHostException e) { e.printStackTrace(); } catch (IOException e) {
-	 * e.printStackTrace(); } finally { if (view != null) try { view.s.close(); }
-	 * catch (IOException e) { // TODO Auto-generated catch block
-	 * e.printStackTrace(); } } }
+	 * 메뉴 화면 구현, 1번 선택 시 modifyinfoview 연결, 2번 선택 시 deleteinfoview 연결, 3."-" 선택 시
+	 * 이전화면
+	 *
 	 */
 	public void customerInfoMenu() {
 		String menu = null;
@@ -64,7 +72,12 @@ public class CustomerInfoView {
 		menu = sc.nextLine();
 		do {
 			if (menu.equals("1")) {
-				ModifyCustomerInfoView modifyinfoview = new ModifyCustomerInfoView();
+				try {
+					ModifyCustomerInfoView modifyinfoview = new ModifyCustomerInfoView();
+					modifyinfoview.modifyMyAccount();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			} else if (menu.equals("2")) {
 				DeleteCustomerInfoView deleteinfoview = new DeleteCustomerInfoView();
 			}

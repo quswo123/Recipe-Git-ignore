@@ -21,7 +21,47 @@ public class FailView {
 	 * 추천 레시피 실패 메시지를 출력한다
 	 * @author 최종국
 	 */
-	public void recommendedRecipe() {
-		System.out.println("추천 레시피 실패");
+	public void recommendedRecipe(String msg) {
+		System.out.println("추천 레시피 실패 : " + msg);
+	}
+	
+	/**
+	 * 좋아요 실패 메시지를 출력한다
+	 * @author 최종국
+	 */
+	public void likeRecipe(String msg) {
+		System.out.println("좋아요 실패 : " + msg);
+	}
+	
+	/**
+	 * R&D 계정 추가 실패 메시지를 출력한다
+	 * @author 최종국
+	 */
+	public void addRdView(String msg) {
+		System.out.println("R&D 계정 추가 실패 : " + msg);
+	}
+	
+	/**
+	 * R&D 계정 수정 실패 메시지를 출력한다
+	 * @author 최종국
+	 */
+	public void modifyRdView(String msg) {
+		System.out.println("R&D 계정 수정 실패 : " + msg);
+	}
+	
+	/**
+	 * R&D 계정 삭제 실패 메시지를 출력한다
+	 * @author 최종국
+	 */
+	public void removeRdView(String msg) {
+		System.out.println("R&D 계정 삭제 실패 : " + msg);
+	}
+	
+	/**
+	 * R&D 계정 전체 조회 실패 메시지를 출력한다
+	 * @param msg
+	 */
+	public void allRdView(String msg) {
+		System.out.println("계정 전체 조회 실패 : " + msg);
 	}
 }

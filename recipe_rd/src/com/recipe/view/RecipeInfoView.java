@@ -15,8 +15,7 @@ public class RecipeInfoView {
 	public RecipeInfoView(DataIO dio) {
 		sc = new Scanner(System.in);
 		this.dio = dio;
-	}
-	
+	}	
 	/**
 	 * 레시피 정보를 화면에 출력하는 메소드. 이때 레시피 과정 정보를 서버에서 전달받아 화면에 출력한다.
 	 * @param info 화면에 보여줄 레시피 정보
@@ -32,9 +31,9 @@ public class RecipeInfoView {
 			e.printStackTrace();
 		}
 		if(RDShare.loginedId.equals("")) {
-			basicMenu();
+			basicMenu(info);
 		} else {
-			rdMenu();
+			rdMenu(info);
 		}
 	}
 	
@@ -42,29 +41,33 @@ public class RecipeInfoView {
 	 * 로그인하지 않은 상태에서 보여줄 메뉴를 출력
 	 * @author 최종국
 	 */
-	private void basicMenu() {
+	private void basicMenu(RecipeInfo info) {
 		String menu = null;
-		do {
-			System.out.println("1.좋아요 2.싫어요 3.후기목록보기 0.목록으로 *초기화면");
-			menu = sc.nextLine();
-			if(menu.equals("1")) {
-				
-			} else if(menu.equals("2")) {
-				
-			} else if(menu.equals("3")) {
-				
-			}
-		}while(menu.equals("0") || menu.equals("*")); //초기화면으로 가는 처리는 아직 고민중
+		try {
+			do {
+				System.out.println("1.좋아요 2.싫어요 3.후기목록보기 0.이전화면");
+				menu = sc.nextLine();
+				if (menu.equals("1")) {
+					likeThisRecipe(info);
+				} else if (menu.equals("2")) {
+					disLikeThisRecipe(info);
+				} else if (menu.equals("3")) {
+
+				}
+			} while (!menu.equals("0")); // 초기화면으로 가는 처리는 아직 고민중
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/**
 	 * 로그인한 상태에서 보여줄 메뉴를 출력
 	 * @author 최종국
 	 */
-	private void rdMenu() {
+	private void rdMenu(RecipeInfo info) {
 		String menu = null;
 		do {
-			System.out.println("1.후기목록보기 2.수정하기 3.삭제하기 0.목록으로 *초기화면");
+			System.out.println("1.후기목록보기 2.수정하기 3.삭제하기 0.이전화면");
 			menu = sc.nextLine();
 			if(menu.equals("1")) {
 				//레시피 후기 목록
@@ -73,6 +76,38 @@ public class RecipeInfoView {
 			} else if(menu.equals("3")) {
 				//레시피 삭제
 			}
-		}while(menu.equals("0") || menu.equals("*"));
+		}while(!menu.equals("0"));
+	}
+	
+	/**
+	 * 현재 레시피의 좋아요 개수를 하나 증가한다
+	 * @param info 현재 레시피 정보를 가진 RecipeInfo 객체
+	 * @author 최종국
+	 * @throws IOException 
+	 */
+	private void likeThisRecipe(RecipeInfo info) throws IOException {
+		dio.sendMenu(Menu.LIKE);
+		dio.send(info.getPoint());
+		
+		if(dio.receiveStatus().equals("fail")) {
+			FailView fail = new FailView();
+			fail.likeRecipe(dio.receive());
+		}
+	}
+	
+	/**
+	 * 현재 레시피의 싫어요 개수를 하나 증가한다
+	 * @param info 현재 레시피 정보를 가진 RecipeInfo 객체
+	 * @author 최종국
+	 * @throws IOException 
+	 */
+	private void disLikeThisRecipe(RecipeInfo info) throws IOException {
+		dio.sendMenu(Menu.DISLIKE);
+		dio.send(info.getPoint());
+		
+		if(dio.receiveStatus().equals("fail")) {
+			FailView fail = new FailView();
+			fail.likeRecipe(dio.receive());
+		}
 	}
 }

@@ -5,17 +5,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import com.recipe.exception.AddException;
 import com.recipe.exception.FindException;
 import com.recipe.jdbc.MyConnection;
-import com.recipe.vo.Customer;
+import com.recipe.vo.Point;
 import com.recipe.vo.Purchase;
 import com.recipe.vo.PurchaseDetail;
 import com.recipe.vo.RecipeInfo;
-import com.recipe.vo.Review;
 
 public class PurchaseDAO {
 	/**
@@ -44,12 +42,16 @@ public class PurchaseDAO {
 				"    i.recipe_name,\r\n" + 
 				"    i.recipe_summ,\r\n" + 
 				"    i.recipe_price,\r\n" + 
-				"    i.recipe_process\r\n" + 
-				" from\r\n" + 
+				"    i.recipe_process,\r\n" + 
+				"    po.like_count,\r\n" + 
+				"    po.dislike_count\r\n" + 
+				"from\r\n" + 
 				"    purchase p\r\n" + 
 				"    join purchase_detail pd on ( p.purchase_code = pd.purchase_code)\r\n" + 
-				"    left join review r on ( p.customer_id = r.customer_id and pd.recipe_code = r.recipe_code)\r\n" + 
-				"    join recipe_info i on( pd.recipe_code = i.recipe_code ) where p.customer_id=?";
+				"    left join review r on ( p.customer_id = r.customer_id and pd.recipe_code = r.recipe_code and p.PURCHASE_DATE = r.REVIEW_DATE)\r\n" + 
+				"    join recipe_info i on( pd.recipe_code = i.recipe_code ) \r\n" + 
+				"    join point po on(i.recipe_code= po.recipe_code)\r\n" + 
+				"    where p.customer_id =?";
 		try {
 			ps = con.prepareStatement(detailSQL);
 			
@@ -61,7 +63,11 @@ public class PurchaseDAO {
 				Purchase p = new Purchase();
 				RecipeInfo r = new RecipeInfo();
 				PurchaseDetail pd = new PurchaseDetail();
-				
+				Point po = new Point();
+			
+				po.setLikeCount(rs.getInt("like_count"));
+				po.setDisLikeCount(rs.getInt("dislike_count"));
+				r.setPoint(po);
 				//레시피정보 가져오기
 				r.setRecipeCode(rs.getInt("recipe_code"));
 				r.setRecipeName(rs.getString("recipe_name"));
@@ -121,7 +127,6 @@ public class PurchaseDAO {
 			
 			//현재 사용자ID를 추가
 			ps.setString(1, p.getCustomerId());
-			
 			ps.executeUpdate();
 			
 			//위 쿼리문을 PurchaseDetail에 추가

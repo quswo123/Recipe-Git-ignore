@@ -36,12 +36,16 @@ public class RecipeIngredientDAO {
 				"LEFT JOIN POINT PT ON RIN.RECIPE_CODE = PT.RECIPE_CODE\r\n" +
 				"WHERE RI.recipe_code IN \r\n" + 
 				"(select ring.recipe_code FROM Ingredient ig JOIN recipe_ingredient ring on ig.ing_code = ring.ing_code Where ig.ing_name LIKE ?) INTERSECT  ";
+		
 		for (int i = 1; i < ingName.size(); i++ ) {
 			newSQL += selectByIngNameSQL;	
 			//리스트 사이즈만큼 돌면서 쿼리가 더해지고, 마지막줄은 INTERSECT 를 서브스트링해 더해짐
 			if (i == ingName.size() -1) {
 				newSQL += selectByIngNameSQL.substring(0, selectByIngNameSQL.length() -11);
 			}			
+		}
+		if (ingName.size() == 1) {
+			newSQL = selectByIngNameSQL.substring(0, selectByIngNameSQL.length() -11);
 		}
 		try {
 			pstmt = con.prepareStatement(newSQL);
@@ -110,7 +114,7 @@ public class RecipeIngredientDAO {
 //		
 		List<String> ingrList = new ArrayList<>();
 		ingrList.add("김치");
-		ingrList.add("바지락");	
+		//ingrList.add("바지락");	
 		try {
 			List<RecipeInfo> list2 = dao.selectByIngName(ingrList);
 			for(RecipeInfo ri : list2) {

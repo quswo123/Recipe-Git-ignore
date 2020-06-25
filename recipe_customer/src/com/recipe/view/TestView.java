@@ -20,9 +20,17 @@ public class TestView {
 		try {
 			s = new Socket("127.0.0.1", 1025);
 			dio = new DataIO(new DataOutputStream(s.getOutputStream()), new DataInputStream(s.getInputStream()));
-			FavoriteListView view = new FavoriteListView(dio);
 			String customerId = "tester";
+			int recipeCode = 134;
+			/*test_favorite*/
+			FavoriteListView view = new FavoriteListView(dio);
 			view.showFavoriteListView(customerId);
+			
+			/*test_review*/
+			//ReviewListView view = new ReviewListView(dio);
+			//view.showReviewListView(customerId);
+			//view.showReviewListByRecipeCodeView(134);
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
