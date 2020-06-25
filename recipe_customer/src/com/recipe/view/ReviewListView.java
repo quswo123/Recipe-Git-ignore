@@ -44,7 +44,7 @@ public class ReviewListView {
 				System.out.println(
 						r.getRecipeInfo().getRecipeName()
 						+ " | " + sdf.format(r.getReviewDate())
-						+ " | " + r.getReviewComment() 
+						+ " | " + r.getReviewComment()                                                           
 				);
 			}
 		}
@@ -75,7 +75,7 @@ public class ReviewListView {
 	/**
 	 * 초기화면(메인메뉴)으로 이동
 	 */
-	public void goBackMainView() {
+	private void goBackMainView() {
 		System.out.println("아직 PL님이 고민중인 기능입니다!");
 	}
 	
