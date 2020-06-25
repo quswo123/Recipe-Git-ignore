@@ -173,7 +173,6 @@ public class RecipeInfoDAO {
 						"   ON (ING_NAME = ?) " + 
 						"WHEN NOT MATCHED THEN " + 
 						"    INSERT (ING_CODE, ING_NAME) " + 
-						//"    VALUES ((SELECT ING_CODE_SEQ.NEXTVAL FROM DUAL), ?)";		//INGREDIENT테이블에서 ING_NAME을 검색하여 값이 없으면 시퀀스값을 ING_CODE_SEQ에 넣고, 재료명을 ING_NAME에 넣는다.
 						"VALUES ((SELECT MAX(ING_CODE) + 1 FROM INGREDIENT), ?)";
 				pstmt = con.prepareStatement(quary);
 				pstmt.setString(1, ingredientVO.getIngName());
@@ -224,16 +223,16 @@ public class RecipeInfoDAO {
 			pstmt.executeUpdate();
 			pstmt.close();
 
-//			String fileOutputMessage = "";		//파일에 넣을 문자열 선언 및 초기화
-//			for(Ingredient ingredientVO2 : ingList) {
-//				fileOutputMessage += ingredientVO2.getIngName() + " " + ingredientVO2.getIngCpcty() + " ";		//재료명과 용량을 fileOutputMessage에 넣어준다.
-//			}
-//			fileOutputMessage += "\n" + recipe_InfoVo.getRecipeSumm();		//한칸 넘겨서 요리설명을 넣어준다.
+			//			String fileOutputMessage = "";		//파일에 넣을 문자열 선언 및 초기화
+			//			for(Ingredient ingredientVO2 : ingList) {
+			//				fileOutputMessage += ingredientVO2.getIngName() + " " + ingredientVO2.getIngCpcty() + " ";		//재료명과 용량을 fileOutputMessage에 넣어준다.
+			//			}
+			//			fileOutputMessage += "\n" + recipe_InfoVo.getRecipeSumm();		//한칸 넘겨서 요리설명을 넣어준다.
 
-//			new FileService().FileOutput(recipe_InfoVo.getRecipeProcess(), fileOutputMessage);		//파일생성 및 내용 넣는 FileService메서드 호출
+			//			new FileService().FileOutput(recipe_InfoVo.getRecipeProcess(), fileOutputMessage);		//파일생성 및 내용 넣는 FileService메서드 호출
 
 			fileOutput(recipe_InfoVo.getRecipeProcess(), ingInfo + "\n" + process);
-			
+
 			quary = "INSERT INTO POINT VALUES(?, 0, 0)";		//좋아요싫어요 초기값설정해주는 쿼리문
 			pstmt = con.prepareStatement(quary);
 			pstmt.setInt(1, recipe_InfoVo.getRecipeCode());
@@ -267,7 +266,7 @@ public class RecipeInfoDAO {
 		Connection con = null; // DB연결된 상태(세션)을 담은 객체
 		PreparedStatement pstmt = null;  // SQL 문을 나타내는 객체
 		ResultSet rs = null;  // 쿼리문을 날린것에 대한 반환값을 담을 객체
-		
+
 		//-----------------------ingList에서 IngName,IngCpcty를 나눠줘야 함.
 		String ing_name = "";
 		for(Ingredient ingredientVO : ingList) {		//ingList에 있는 객체들을 ingredientVO에 넣으면서 반복문 실행
@@ -292,7 +291,7 @@ public class RecipeInfoDAO {
 			}
 			rs.close();
 			pstmt.close();
-			
+
 			//레시피코드로 연결된 RECIPE_INGREDIENT테이블의 재료코드값을 삭제한다.
 			quary = "DELETE FROM RECIPE_INGREDIENT WHERE RECIPE_CODE = ?";
 			pstmt = con.prepareStatement(quary);
@@ -344,7 +343,7 @@ public class RecipeInfoDAO {
 
 			pstmt.executeUpdate();
 			pstmt.close();
-			
+
 			fileOutput(recipe_InfoVo.getRecipeProcess(), ingInfo + "\n" + process);
 
 			for(Ingredient ingredientVO : ing_codeList) {			//ing_codeList에 있는것들을 ingredientVO에 넣으면서 반복문 돌림.
@@ -359,17 +358,38 @@ public class RecipeInfoDAO {
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}finally{
-			// DB 연결을 종료한다.
 			try{
 				MyConnection.close(rs, pstmt, con);
 			}catch(Exception e){
 				throw new RuntimeException(e.getMessage());
 			}
 		}
-
 	}
 
-	
+	public void remove(String rdId, RecipeInfo recipeInfo) throws ModifyException {
+		Connection con = null; // DB연결된 상태(세션)을 담은 객체
+		PreparedStatement pstmt = null;  // SQL 문을 나타내는 객체
+		ResultSet rs = null;  // 쿼리문을 날린것에 대한 반환값을 담을 객체
+
+		//레시피 활성화여부를 0으로 업데이트
+		String quary ="UPDATE RECIPE_INFO SET RECIPE_STATUS = 0 WHERE RECIPE_CODE = ?";
+		try {
+			con = MyConnection.getConnection();
+			pstmt = con.prepareStatement(quary);
+			pstmt.setInt(1, recipeInfo.getRecipeCode());
+
+			pstmt.executeUpdate();
+			pstmt.close();
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}finally{
+			try{
+				MyConnection.close(rs, pstmt, con);
+			}catch(Exception e){
+				throw new RuntimeException(e.getMessage());
+			}
+		}
+	}
 	/*
 	-------------
 	-- 레시피 삭제
@@ -382,7 +402,7 @@ public class RecipeInfoDAO {
 
 	-- 2. 레시피 삭제
 	DELETE FROM RECIPE_INFO WHERE RECIPE_CODE = 49;
-		 */
+	 */
 	/*
 		//입력받은 레시피명의 레시피코드를 조회한다.
 		quary = "SELECT RECIPE_CODE FROM RECIPE_INFO WHERE RECIPE_NAME = ?";
@@ -420,16 +440,33 @@ public class RecipeInfoDAO {
 			throw new RuntimeException(e.getMessage());
 		}
 	}
-	*/
-	public String selectAll(List<RecipeInfo> recipeInfoList) {
+	 */
+	public List<RecipeInfo> selectAll(List<RecipeInfo> recipeInfoList) throws FindException {
 		Connection con = null; // DB연결된 상태(세션)을 담은 객체
 		PreparedStatement pstmt = null;  // SQL 문을 나타내는 객체
 		ResultSet rs = null;  // 쿼리문을 날린것에 대한 반환값을 담을 객체
 
+		List<RecipeInfo> recipeInfoList1 = new ArrayList<>();
+		RecipeInfo recipeInfo2 = new RecipeInfo();
 		String quary = "SELECT RECIPE_CODE, RECIPE_NAME FROM RECIPE_INFO";
 		try {
 			con = MyConnection.getConnection();
 			pstmt = con.prepareStatement(quary);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+//				ingredientVo = new Ingredient();
+				recipeInfo2.setRecipeCode(rs.getInt(1));		//첫번째 값은 재료코드값으로
+				recipeInfo2.setRecipeName(rs.getString(2));		//두번째값은 재료이름값으로
+				recipeInfoList1.add(recipeInfo2);		//인덱스 하나하나 ing_codeList에 넣어준다.
+			}
+			rs.close();
+			pstmt.close();
+			
+			if (recipeInfo2.getRecipeName() == null) {
+				throw new FindException("찾은 레시피가 없습니다");
+			}
 
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
@@ -441,13 +478,7 @@ public class RecipeInfoDAO {
 				throw new RuntimeException(e.getMessage());
 			}
 		}
-		/*
-		-------------
-		-- 레시피 목록보기
-		-------------
-		SELECT recipe_code 코드번호, recipe_name 레시피명 FROM RECIPE_INFO;
-		 */
-		return null;
+		return recipeInfoList1;
 	}
 
 	/**
@@ -504,13 +535,13 @@ public class RecipeInfoDAO {
 	}
 	private boolean fileOutput(String fileFullPath, String message) {
 		try {
-			
+
 			@SuppressWarnings("resource")
 			OutputStream output = new FileOutputStream(fileFullPath);		//파일경로명을  output에 넣는다.
-		    String str = message;
-		    byte[] by=str.getBytes();			//메시지들을 바이트배열에 넣는다
-		    output.write(by);			//그것들을 쓴다.
-		    
+			String str = message;
+			byte[] by=str.getBytes();			//메시지들을 바이트배열에 넣는다
+			output.write(by);			//그것들을 쓴다.
+
 		} catch (Exception e) {
 			System.out.println("FileOutput Failure");
 			e.printStackTrace();
@@ -518,5 +549,5 @@ public class RecipeInfoDAO {
 		}
 		return true;
 	}
-	
+
 }

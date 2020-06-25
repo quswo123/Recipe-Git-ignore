@@ -55,7 +55,7 @@ public class RdFrontThread implements Runnable{
 				case Menu.MODIFY_RECIPE: // 레시피 등록
 					modifyRecipeFront();
 					break;
-				case Menu.DELETE_RECIPE: // 레시피 등록
+				case Menu.REMOVE_RECIPE: // 레시피 등록
 					removeRecipeFront();
 					break;				
 				case Menu.RECIPE_ALL: // 레시피 등록
@@ -283,13 +283,28 @@ public class RdFrontThread implements Runnable{
 			dio.sendFail(e.getMessage());
 		}
 	}
-	
+
 	public void removeRecipeFront() throws IOException{
-		
+		String rdId = dio.receiveId();
+		RecipeInfo recipeInfo = dio.receiveRecipeInfo();
+		try {
+			control.removeRecipe(rdId, recipeInfo);
+			dio.sendSuccess();
+		} catch (ModifyException e) {
+			e.printStackTrace();
+			dio.sendFail(e.getMessage());
+		}
 	}
-	
+
 	public void viewAllRecipeFront()throws IOException{
-		
+		List<RecipeInfo> recipeInfoList = dio.receiveRecipeInfos();
+		try {
+			control.viewAllRecpe(recipeInfoList);
+			dio.sendSuccess();
+		} catch (FindException e) {
+			e.printStackTrace();
+			dio.sendFail(e.getMessage());
+		}
 	}
-	
+
 }

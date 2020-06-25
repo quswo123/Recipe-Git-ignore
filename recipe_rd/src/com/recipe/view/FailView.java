@@ -40,4 +40,8 @@ public class FailView {
 	public void modifyRecipeView(String msg) {
 		System.out.println("레시피 수정 실패 : " + msg);
 	}
+	
+	public void removeRecipeView(String msg) {
+		System.out.println("레시피 삭제 실패 : " + msg);
+	}
 }

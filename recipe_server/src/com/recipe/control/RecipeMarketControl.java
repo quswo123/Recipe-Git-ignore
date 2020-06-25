@@ -334,10 +334,10 @@ public class RecipeMarketControl {
 	public void modifyRecipe(String rdId, RecipeInfo recipeInfo, String ingInfo, List<Ingredient> ingList, String process) throws ModifyException {
 		recipeService.modifyRecipe(rdId, recipeInfo, ingInfo, ingList, process);
 	}
-	public void removeRecipe() {
-		
+	public void removeRecipe(String rdId, RecipeInfo recipeInfo) throws ModifyException {
+		recipeService.removeRecipe(rdId, recipeInfo);
 	}
-	public void viewAllRecpe(){
-		
+	public List<RecipeInfo> viewAllRecpe(List<RecipeInfo> recipeInfoList) throws FindException{
+		return recipeService.findAll(recipeInfoList);
 	}
 }

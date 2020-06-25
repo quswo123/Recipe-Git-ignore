@@ -76,6 +76,8 @@ public class RecipeInfoView {
 				modifyRecipeView.showModifyRecipeView(info);
 				//레시피 수정
 			} else if(menu.equals("3")) {
+				RemoveRecipeView removeRecipeView = new RemoveRecipeView(dio);
+				removeRecipeView.showRemoveRecipeView();
 				//레시피 삭제
 			}
 		}while(!menu.equals("0"));
