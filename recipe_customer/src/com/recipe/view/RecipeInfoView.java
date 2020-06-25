@@ -79,7 +79,7 @@ public class RecipeInfoView {
 				} else if (menu.equals("2")) {
 
 				} else if (menu.equals("3")) {
-
+					addFavorite(info);
 				} else if (menu.equals("4")) {
 					likeThisRecipe(info);
 				} else if (menu.equals("5")) {
@@ -90,7 +90,14 @@ public class RecipeInfoView {
 			e.printStackTrace();
 		}
 	}
-	
+	private void addFavorite(RecipeInfo info) throws IOException {
+		dio.sendMenu(Menu.ADD_FAVORITE);
+		dio.send(info);
+		if (dio.receiveStatus().equals("fail")) {
+			FailView fail = new FailView();
+			fail.favoriteListView("즐겨찾기 추가 실패");
+		}
+	}
 	/**
 	 * 현재 레시피의 좋아요 개수를 하나 증가한다
 	 * @param info 현재 레시피 정보를 가진 RecipeInfo 객체
