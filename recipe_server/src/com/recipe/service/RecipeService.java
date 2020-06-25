@@ -35,8 +35,8 @@ public class RecipeService {
 	public RecipeInfo findRecommended() throws FindException {
 		return dao.selectByRank();
 	}
-	public void addRecipe(RecipeInfo recipeInfo, String ingInfo, List<Ingredient> ingList, String process) throws DuplicatedException {
-		dao.insert(recipeInfo, ingInfo, ingList, process);
+	public void addRecipe(String rdId, RecipeInfo recipeInfo, String ingInfo, List<Ingredient> ingList, String process) throws DuplicatedException {
+		dao.insert(rdId, recipeInfo, ingInfo, ingList, process);
 	}
 	
 	/**

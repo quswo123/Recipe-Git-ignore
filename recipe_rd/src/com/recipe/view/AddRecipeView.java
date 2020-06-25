@@ -7,6 +7,7 @@ import java.util.Scanner;
 
 import com.recipe.io.DataIO;
 import com.recipe.io.Menu;
+import com.recipe.share.RDShare;
 import com.recipe.vo.Ingredient;
 import com.recipe.vo.RecipeInfo;
 
@@ -90,7 +91,7 @@ public class AddRecipeView {
 		
 		try {
 			dio.sendMenu(Menu.ADD_RECIPE);
-			
+			dio.sendId(RDShare.loginedId);
 			dio.send(recipeInfoVo);
 			dio.send(ingInfo);
 			dio.sendIngredientList(ingList);

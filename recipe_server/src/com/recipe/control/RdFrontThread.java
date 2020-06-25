@@ -246,12 +246,13 @@ public class RdFrontThread implements Runnable{
 	}
 
 	public void addRecipeFont()throws IOException{
+		String rdId = dio.receiveId();
 		RecipeInfo recipeInfo = dio.receiveRecipeInfo();
 		String ingInfo = dio.receive();
 		List<Ingredient> ingList = dio.receiveIngredientList();
 		String process = dio.receive();
 		try {
-			control.addRecipe(recipeInfo, ingInfo, ingList, process);
+			control.addRecipe(rdId, recipeInfo, ingInfo, ingList, process);
 			dio.sendSuccess();
 		} catch (DuplicatedException e) {
 			e.printStackTrace();

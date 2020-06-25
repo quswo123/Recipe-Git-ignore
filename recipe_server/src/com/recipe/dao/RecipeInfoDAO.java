@@ -137,7 +137,7 @@ public class RecipeInfoDAO {
 		return recipeInfo;
 	}
 
-	public void insert(RecipeInfo recipe_InfoVo,String ingInfo ,List<Ingredient> ingList, String process) throws DuplicatedException{
+	public void insert(String rdId, RecipeInfo recipe_InfoVo,String ingInfo ,List<Ingredient> ingList, String process) throws DuplicatedException{
 		//입력받아온 recipe_InfoVo,ingList
 		Connection con = null; // DB연결된 상태(세션)을 담은 객체
 		PreparedStatement pstmt = null;  // SQL 문을 나타내는 객체
@@ -218,7 +218,7 @@ public class RecipeInfoDAO {
 			pstmt.setDouble(4, recipe_InfoVo.getRecipePrice());
 			pstmt.setString(5, recipe_InfoVo.getRecipeProcess());
 			pstmt.setString(6, ("1"));		//status는 1로 고정
-			pstmt.setString(7, "id9");		//일단 rd아이디는 id9로 고정
+			pstmt.setString(7, rdId);		//일단 rd아이디는 id9로 고정
 
 			pstmt.executeUpdate();
 			pstmt.close();
