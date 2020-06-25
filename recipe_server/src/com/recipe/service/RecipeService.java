@@ -38,6 +38,9 @@ public class RecipeService {
 	public void addRecipe(String rdId, RecipeInfo recipeInfo, String ingInfo, List<Ingredient> ingList, String process) throws DuplicatedException {
 		dao.insert(rdId, recipeInfo, ingInfo, ingList, process);
 	}
+	public void modifyRecipe(String rdId, RecipeInfo recipeInfo, String ingInfo, List<Ingredient> ingList, String process) throws ModifyException {
+		dao.update(rdId, recipeInfo, ingInfo, ingList, process);
+	}
 	
 	/**
 	 * 포인트 수정 절차를 위한 메소드
