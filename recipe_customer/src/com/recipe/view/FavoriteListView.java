@@ -6,7 +6,9 @@ import java.util.Scanner;
 
 import com.recipe.io.DataIO;
 import com.recipe.io.Menu;
+import com.recipe.share.CustomerShare;
 import com.recipe.vo.Favorite;
+import com.recipe.vo.RecipeInfo;
 
 /**
  * @author Soojeong
@@ -15,7 +17,7 @@ import com.recipe.vo.Favorite;
 public class FavoriteListView {
 	private DataIO dio;
 	private Scanner sc;
-	private String customerId;
+	private String customerId = CustomerShare.loginedId;
 	//private String customerId = "tester";
 
 	public FavoriteListView(DataIO dio) {
@@ -26,6 +28,7 @@ public class FavoriteListView {
 	 * 즐겨찾기 로그인 한 customerId로 목록조회
 	 */
 	public void showFavoriteListView(String customerId) {
+		System.out.println("showFavoriteListView" + customerId);
 		System.out.println("===== 즐겨찾기 목록 보기 =====");
 		List<Favorite> favoriteList = searchFavoriteList(customerId);
 		/*목록 출력*/
@@ -76,7 +79,7 @@ public class FavoriteListView {
 	/**
 	 * 초기화면(메인메뉴)으로 이동
 	 */
-	public void goBackMainView() {
+	private void goBackMainView() {
 		System.out.println("아직 PL님이 고민중인 기능입니다!");
 	}
 	
@@ -99,7 +102,7 @@ public class FavoriteListView {
 				break;
 			}
 		}
-		
+		System.out.println("REMOVE_FAVORITE : " + f);
 		dio.sendMenu(Menu.REMOVE_FAVORITE); //Menu.java에 추가할 것 
 		dio.send(f);
 		SuccessView success = new SuccessView();
@@ -126,6 +129,22 @@ public class FavoriteListView {
 			e.printStackTrace();
 		}
 		return favoriteList;
+	}
+	
+	/**
+	 * 즐겨찾기 추가시 Favorite 객체 정보로 추가  조회한 결과값 status 반환한다.
+	 * @param customerId 로그인한 사용자의 ID
+	 */
+	public void insertFavorite(Favorite f) {
+		try {
+			//전송받은 데이터
+			dio.sendMenu(Menu.ADD_FAVORITE);
+			dio.send(f);
+			//client측으로 전송할 데이터
+			dio.receiveStatus();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 } // end class FavoriteListView

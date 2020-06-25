@@ -133,6 +133,7 @@ public class RecipeMarketControl {
 	public List<Favorite> viewFavorite(String customerId) throws FindException {
 		List<Favorite> list = new ArrayList<>();
 		list = favoriteService.findById(customerId);
+		System.out.println("viewFavorite : " + list.size());
 		return list;
 	}
 

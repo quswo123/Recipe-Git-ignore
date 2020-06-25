@@ -9,10 +9,12 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.recipe.exception.AddException;
+import com.recipe.exception.DuplicatedException;
 import com.recipe.exception.FindException;
 import com.recipe.exception.ModifyException;
 import com.recipe.exception.RemoveException;
@@ -137,6 +139,18 @@ public class CustomerFrontThread implements Runnable {
 					break;
 				case Menu.SEARCH_REVIEW_BY_RECIPECODE: //로그인한 사용자 즐겨찾기 목록 보기
 					reviewByRecipeCodeFront();
+				case Menu.ADD_FAVORITE: // 즐겨찾기 추가
+					try {
+						insertFavorite();
+					} catch (AddException e) {
+						e.printStackTrace();
+					}
+				case Menu.ADD_REVIEW: //후기 등록 
+					try {
+						reviewInsert();
+					} catch (AddException e) {
+						e.printStackTrace();
+					}
 				default:
 					break;
 				}
@@ -384,4 +398,43 @@ public class CustomerFrontThread implements Runnable {
 			e.printStackTrace();
 		}
 	}
-}
+	/**
+	 * customerId에 해당하는 즐겨찾기 목록을 조회한 후 반환한다.
+	 * @throws IOException
+	 * @author 고수정
+	 */
+	public void reviewInsert() throws IOException, AddException, DuplicatedException {
+		Review r;
+		try {
+			r = dio.receiveReview();
+			control.addReview(r);
+			System.out.println("CustomerFrontThread : 후기 등록 성공!");
+		} catch (IOException | ParseException e) {
+			e.printStackTrace();
+		
+		} catch (DuplicatedException e) {
+			throw new DuplicatedException(e.getMessage());
+		
+		} catch (AddException e) {
+			throw new AddException(e.getMessage());
+		}
+	}
+	/**
+	 * customerId에 해당하는 즐겨찾기 목록을 조회한 후 반환한다.
+	 * @throws IOException
+	 * @author 고수정
+	 */
+	public void insertFavorite() throws IOException, AddException, DuplicatedException {
+		Favorite f;
+		try {
+			f = dio.receiveFavorite(); 
+			control.addFavorite(f);
+			dio.sendSuccess("즐겨찾기추가성공!");
+		} catch (DuplicatedException e) {
+			throw new DuplicatedException(e.getMessage());
+			
+		} catch (AddException e) {
+			throw new AddException(e.getMessage());
+		}
+	}
+} //end class CustomerFrontThread
