@@ -65,6 +65,7 @@ public class RdFrontThread implements Runnable{
 					recommendRecipeFront();
 					break;
 				case Menu.SEARCH_RECIPE_CODE: // 레시피 코드 검색
+					selectByRecipeCode();
 					break;
 				case Menu.SEARCH_RECIPE_NAME: // 레시피 제목 검색
 					selectByNameFront();
