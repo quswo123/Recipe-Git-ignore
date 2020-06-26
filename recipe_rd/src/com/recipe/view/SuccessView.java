@@ -25,5 +25,7 @@ public class SuccessView {
 	public void removeRecipeView() {
 		System.out.println("레시피가 삭제되었습니다");
 	}
-	
+	public void viewAllRecipeView() {
+		System.out.println("레시피 전체조회되었습니다");
+	}
 }

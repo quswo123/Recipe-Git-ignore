@@ -54,12 +54,13 @@ public class RecipeSearchView {
 		try {
 			dio.sendMenu(Menu.SEARCH_RECIPE_INGREDIENTS);
 			dio.sendListString(ingName);
+
+			recipeInfo = dio.receiveRecipeInfos();
+			RecipeListView listView = new RecipeListView(dio);
 			if (dio.receiveStatus().equals("fail")) {
 				FailView fail = new FailView();
-				fail.recipeList(dio.receive());
+				fail.likeRecipe("해당되는 레시피 없음");
 			} else {
-				recipeInfo = dio.receiveRecipeInfos();
-				RecipeListView listView = new RecipeListView(dio);
 				listView.showAllRecipeListView(recipeInfo);
 			}
 		} catch (IOException e) {
@@ -82,15 +83,15 @@ public class RecipeSearchView {
 
 			dio.sendMenu(Menu.SEARCH_RECIPE_NAME);
 			dio.send(recipeName);
+			// dio.receiveStatus();
+			RecipeListView listView = new RecipeListView(dio);
 			if (dio.receiveStatus().equals("fail")) {
 				FailView fail = new FailView();
-				fail.recipeList(dio.receive());
+				fail.likeRecipe("해당되는 레시피 없음");
 			} else {
 				recipeInfo = dio.receiveRecipeInfos();
-				RecipeListView listView = new RecipeListView(dio);
 				listView.showAllRecipeListView(recipeInfo);
 			}
-
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

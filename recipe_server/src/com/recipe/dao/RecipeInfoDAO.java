@@ -137,19 +137,16 @@ public class RecipeInfoDAO {
 
 		return recipeInfo;
 	}
-
 	public void insert(String rdId, RecipeInfo recipe_InfoVo,String ingInfo ,List<Ingredient> ingList, String process) throws DuplicatedException{
 		//입력받아온 recipe_InfoVo,ingList
 		Connection con = null; // DB연결된 상태(세션)을 담은 객체
 		PreparedStatement pstmt = null;  // SQL 문을 나타내는 객체
 		ResultSet rs = null;  // 쿼리문을 날린것에 대한 반환값을 담을 객체
 
-		//-----------------------ingList에서 IngName,IngCpcty를 나눠줘야 함.
 		String ing_name = "";
 		for(Ingredient ingredientVO : ingList) {		//ingList에 있는 객체들을 ingredientVO에 넣으면서 반복문 실행
 			ing_name +=", '" + ingredientVO.getIngName() + "'";			//", '재료1', '재료2', '재료3', ....식으로 문자넣음. // 사과1개
 		}
-		//-----------------------
 		String quary = "SELECT COUNT(1) AS CNT FROM RECIPE_INFO WHERE RECIPE_NAME = ?";		//레시피명이 존재하는것이라면 1이나옴. 없다면 0.
 		try {
 			con = MyConnection.getConnection();
@@ -223,14 +220,6 @@ public class RecipeInfoDAO {
 			pstmt.executeUpdate();
 			pstmt.close();
 
-			//			String fileOutputMessage = "";		//파일에 넣을 문자열 선언 및 초기화
-			//			for(Ingredient ingredientVO2 : ingList) {
-			//				fileOutputMessage += ingredientVO2.getIngName() + " " + ingredientVO2.getIngCpcty() + " ";		//재료명과 용량을 fileOutputMessage에 넣어준다.
-			//			}
-			//			fileOutputMessage += "\n" + recipe_InfoVo.getRecipeSumm();		//한칸 넘겨서 요리설명을 넣어준다.
-
-			//			new FileService().FileOutput(recipe_InfoVo.getRecipeProcess(), fileOutputMessage);		//파일생성 및 내용 넣는 FileService메서드 호출
-
 			fileOutput(recipe_InfoVo.getRecipeProcess(), ingInfo + "\n" + process);
 
 			quary = "INSERT INTO POINT VALUES(?, 0, 0)";		//좋아요싫어요 초기값설정해주는 쿼리문
@@ -241,7 +230,6 @@ public class RecipeInfoDAO {
 			pstmt.close();
 
 			for(Ingredient ingredientVO : ing_codeList) {			//ing_codeList에 있는것들을 ingredientVO에 넣으면서 반복문 돌림.
-				//				quary = "INSERT INTO RECIPE_INGREDIENT VALUES (?, ?, ?)";		//리세피코드, 재료코드, 용량 insert 해주는 쿼리
 				quary = "INSERT INTO RECIPE_INGREDIENT VALUES (?, ?)";		//리세피코드, 재료코드, 용량 insert 해주는 쿼리
 				pstmt = con.prepareStatement(quary);
 				pstmt.setInt(1, recipe_InfoVo.getRecipeCode());
@@ -290,6 +278,22 @@ public class RecipeInfoDAO {
 				throw new ModifyException("해당 레시피 이름이 이미 존재합니다");
 			}
 			rs.close();
+			pstmt.close();
+
+			quary = "SELECT RD_ID FROM RECIPE_INFO WHERE RECIPE_CODE = ?";
+			pstmt = con.prepareStatement(quary);
+			pstmt.setInt(1, recipe_InfoVo.getRecipeCode());
+
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				String selectedRdId = rs.getString("rd_Id");
+				if(!selectedRdId.equals(rdId)) {
+					throw new ModifyException("이 레시피의 작성자가 아닙니다"); 
+				}
+			}
+
+
+
 			pstmt.close();
 
 			//레시피코드로 연결된 RECIPE_INGREDIENT테이블의 재료코드값을 삭제한다.
@@ -365,16 +369,30 @@ public class RecipeInfoDAO {
 			}
 		}
 	}
-
 	public void remove(String rdId, RecipeInfo recipeInfo) throws ModifyException {
 		Connection con = null; // DB연결된 상태(세션)을 담은 객체
 		PreparedStatement pstmt = null;  // SQL 문을 나타내는 객체
 		ResultSet rs = null;  // 쿼리문을 날린것에 대한 반환값을 담을 객체
 
-		//레시피 활성화여부를 0으로 업데이트
-		String quary ="UPDATE RECIPE_INFO SET RECIPE_STATUS = 0 WHERE RECIPE_CODE = ?";
+		//선택한 레시피의 rd_id값이 로그인한 rd_id값과 같은지 확인
+		String quary = "SELECT RD_ID FROM RECIPE_INFO WHERE RECIPE_CODE = ?";
 		try {
 			con = MyConnection.getConnection();
+			pstmt = con.prepareStatement(quary);
+			pstmt.setInt(1, recipeInfo.getRecipeCode());
+
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				String selectedRdId = rs.getString("rd_Id");
+				if(!selectedRdId.equals(rdId)) {
+					throw new ModifyException("이 레시피의 작성자가 아닙니다"); 
+				}
+			}
+			pstmt.close();
+
+			//레시피코드를 기준으로 레시피 활성화여부값을 0으로 수정
+			quary ="UPDATE RECIPE_INFO SET RECIPE_STATUS = '0' WHERE RECIPE_CODE = ?";
+
 			pstmt = con.prepareStatement(quary);
 			pstmt.setInt(1, recipeInfo.getRecipeCode());
 
@@ -390,95 +408,49 @@ public class RecipeInfoDAO {
 			}
 		}
 	}
-	/*
-	-------------
-	-- 레시피 삭제
-	-------------
-	SELECT * FROM RECIPE_INFO WHERE RECIPE_NAME = '돈까스';
-	RECIPE_CODE : 49
-
-	-- 1. 레시피 재료 데이터 삭제 (수정하려는 레시피 코드 기준으로)
-	DELETE FROM RECIPE_INGREDIENT WHERE RECIPE_CODE = 49;
-
-	-- 2. 레시피 삭제
-	DELETE FROM RECIPE_INFO WHERE RECIPE_CODE = 49;
-	 */
-	/*
-		//입력받은 레시피명의 레시피코드를 조회한다.
-		quary = "SELECT RECIPE_CODE FROM RECIPE_INFO WHERE RECIPE_NAME = ?";
-		pstmt = con.prepareStatement(quary);
-		pstmt.setString(1, recipe_InfoVo.getRecipeName());
-		rs = pstmt.executeQuery();
-
-		while(rs.next()){
-			recipe_InfoVo.setRecipeCode(rs.getInt(1));//setRecipe_code메소드를 이용해서 recipe_InfoVo의 Recipe_code에 넣어준다
-		}
-
-		quary = "DELETE FROM RECIPE_INGREDIENT WHERE RECIPE_CODE = ?";
-		pstmt = con.prepareStatement(quary);
-		pstmt.setString(1, recipe_InfoVo.getRecipeName());
-
-		pstmt.executeUpdate();
-
-		pstmt.close();
-
-		quary = "DELETE FROM RECIPE_INFO WHERE RECIPE_CODE = ?";
-		pstmt = con.prepareStatement(quary);
-		pstmt.setString(1, recipe_InfoVo.getRecipeName());
-
-		pstmt.executeUpdate();
-
-		pstmt.close();
-
-	} catch (SQLException e) {
-		e.printStackTrace();
-	}finally{
-		// DB 연결을 종료한다.
-		try{
-			MyConnection.close(rs, pstmt, con);
-		}catch(Exception e){
-			throw new RuntimeException(e.getMessage());
-		}
-	}
-	 */
-	public List<RecipeInfo> selectAll(List<RecipeInfo> recipeInfoList) throws FindException {
+	public List<RecipeInfo> selectAll() throws FindException {
 		Connection con = null; // DB연결된 상태(세션)을 담은 객체
 		PreparedStatement pstmt = null;  // SQL 문을 나타내는 객체
 		ResultSet rs = null;  // 쿼리문을 날린것에 대한 반환값을 담을 객체
 
-		List<RecipeInfo> recipeInfoList1 = new ArrayList<>();
-		RecipeInfo recipeInfo2 = new RecipeInfo();
-		String quary = "SELECT RECIPE_CODE, RECIPE_NAME FROM RECIPE_INFO WHERE RECIPE_STATUS = 1";
+
+		List<RecipeInfo> recipeInfoList = new ArrayList<>();
+
+		String quary = "SELECT i.recipe_code, i.recipe_name, i.recipe_summ, i.recipe_price, i.recipe_process, p.like_count, p.dislike_count FROM recipe_info i JOIN POINT p ON i.recipe_code = p.recipe_code";
+
 		try {
 			con = MyConnection.getConnection();
 			pstmt = con.prepareStatement(quary);
-			
-			rs = pstmt.executeQuery();
-			
-			while(rs.next()) {
-//				ingredientVo = new Ingredient();
-				recipeInfo2.setRecipeCode(rs.getInt(1));		//첫번째 값은 재료코드값으로
-				recipeInfo2.setRecipeName(rs.getString(2));		//두번째값은 재료이름값으로
-				recipeInfoList1.add(recipeInfo2);		//인덱스 하나하나 ing_codeList에 넣어준다.
-			}
-			rs.close();
-			pstmt.close();
-			
-			if (recipeInfo2.getRecipeName() == null) {
-				throw new FindException("찾은 레시피가 없습니다");
-			}
 
+			rs = pstmt.executeQuery();
+
+			while(rs.next()) {
+				RecipeInfo recipeInfo = new RecipeInfo();
+				Point point = new Point();
+				recipeInfo.setRecipeCode(rs.getInt(1));		//첫번째 값은 레시피코드값으로
+				recipeInfo.setRecipeName(rs.getString(2));		//두번째값은 레시피이름값으로
+				recipeInfo.setRecipeSumm(rs.getString(3));		//세번째값은 레시피요약값으로
+				recipeInfo.setRecipePrice(rs.getInt(4));		//네번째값은 레시피가격값으로
+				recipeInfo.setRecipeProcess(rs.getString(5));		//다섯번째값은 경로값으로
+				point.setLikeCount(rs.getInt(6));		//여섯번째값은 좋아요값으로
+				point.setDisLikeCount(rs.getInt(7));		//일곱번째값은 싫어요값으로
+				recipeInfo.setPoint(point);					//좋아요,싫어요 값을 Point에 넣는다.
+
+				recipeInfoList.add(recipeInfo);		//인덱스 하나하나 recipeInfoList에 넣어준다.
+			}
+			if(recipeInfoList.isEmpty()) {
+				throw new FindException("레시피가 하나도 없습니다");
+			}
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}finally{
-			// DB 연결을 종료한다.
 			try{
 				MyConnection.close(rs, pstmt, con);
 			}catch(Exception e){
 				throw new RuntimeException(e.getMessage());
 			}
 		}
-		return recipeInfoList1;
+		return recipeInfoList;
 	}
 
 	/**

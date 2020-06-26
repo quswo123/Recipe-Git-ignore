@@ -32,6 +32,8 @@ public class RdMainView {
 					recipeSearchView.showRecipeInfoView();
 					break;
 				case 3:
+					AllRecipeListView allRecipeListVew = new AllRecipeListView(dio);
+					allRecipeListVew.showAllRecipeListView();
 					break;
 				case 4:
 					RecommendedRecipeView recommendedRecipeView = new RecommendedRecipeView(dio);

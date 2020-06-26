@@ -59,17 +59,6 @@ public class AddRecipeView {
 		System.out.println("레시피 한줄 소개를 입력해주세요: ");
 		recipeInfoVo.setRecipeSumm(sc.nextLine());
 
-		//		while (true) {		//여러줄 레시피 요약설명적기
-		//			sc = new Scanner(System.in);
-		//			System.out.println("요리 설명을 입력해주세요(종료는 exit입력): ");
-		//			ing_summ = "\n" + sc.nextLine();
-		//			recipe_InfoVo.setRecipeSumm(ing_summ);			//setRecipe_summ에 입력받은값을 넣는다.
-		//
-		//			if("exit".equals(ing_summ.toLowerCase())) {
-		//				break;
-		//			}
-		//		}
-
 		System.out.println("------------------------------");
 		System.out.println("가격을 입력해주세요.: ");
 		recipeInfoVo.setRecipePrice(Integer.parseInt(sc.nextLine()));		//입력받은값을 Integer형식으로 바꿔서 setRecipe_price에 넣는다.

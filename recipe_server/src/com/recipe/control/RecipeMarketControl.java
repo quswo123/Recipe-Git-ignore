@@ -335,7 +335,7 @@ public class RecipeMarketControl {
 	public void removeRecipe(String rdId, RecipeInfo recipeInfo) throws ModifyException {
 		recipeService.removeRecipe(rdId, recipeInfo);
 	}
-	public List<RecipeInfo> viewAllRecpe(List<RecipeInfo> recipeInfoList) throws FindException{
-		return recipeService.findAll(recipeInfoList);
+	public List<RecipeInfo> viewAllRecipe() throws FindException{
+		return recipeService.findAll();
 	}
 }
