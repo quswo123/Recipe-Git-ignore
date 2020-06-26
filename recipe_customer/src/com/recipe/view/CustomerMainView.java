@@ -55,7 +55,7 @@ public class CustomerMainView {
 					System.exit(0);
 					break;
 				}
-			} while (menu != -1);
+			} while (menu != -1 && !CustomerShare.loginedId.equals(""));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

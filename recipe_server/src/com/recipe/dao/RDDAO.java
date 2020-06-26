@@ -101,7 +101,7 @@ public class RDDAO {
 			e.printStackTrace();
 		}
 		
-		String selectByIdSQL = "SELECT rd_pwd, rd_manager_name, rd_team_name, rd_phone FROM rd WHERE rd_id = ?";
+		String selectByIdSQL = "SELECT rd_pwd, rd_manager_name, rd_team_name, rd_phone FROM rd WHERE rd_id = ? and rd_status = '1'";
 		try {
 			pstmt = con.prepareStatement(selectByIdSQL);
 			pstmt.setString(1, rdId);

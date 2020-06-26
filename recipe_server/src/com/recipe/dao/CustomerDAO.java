@@ -78,7 +78,7 @@ public class CustomerDAO {
 				+ "      ,sido ||' ' || NVL(p.sigungu, ' ') ||' ' || NVL(p.eupmyun, ' ')  city    \r\n"
 				+ "      ,doro || ' ' || DECODE(p.building2, '0' , p.building1, p.building1 ||'-' || p.building2) doro\r\n"
 				+ "      ,p.building      \r\n"
-				+ "FROM customer c LEFT JOIN postal p ON (c.buildingno = p.buildingno)\r\n" + "WHERE customer_id=?";
+				+ "FROM customer c LEFT JOIN postal p ON (c.buildingno = p.buildingno)\r\n" + "WHERE customer_id=? and customer_status='1'";
 		try {
 			pstmt = con.prepareStatement(selectByIdSQL);
 			pstmt.setString(1, id);
