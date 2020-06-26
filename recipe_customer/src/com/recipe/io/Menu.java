@@ -19,6 +19,7 @@ public class Menu {
 	public static final int RD_LOGOUT = 71; //R&D 로그아웃
 	public static final int CUSTOMER_LOGOUT = 72; //Customer 로그아웃
 	public static final int CUSTOMER_INFO = 14; //Customer 내 정보 보기
+	public static final int CUSTOMER_REMOVE = 17; //Customer 회원 탈퇴
 	public static final int SEARCH_FAVORITE_BY_CUSTOMERID = 30; //Favorite customerID로 목록 조회
 	public static final int SEARCH_FAVORITE_BY_RECIPECODE = 31; //Favorite recipeCode로 조회
 	public static final int REMOVE_FAVORITE = 32; //Favorite 즐겨찾기해제
@@ -36,4 +37,5 @@ public class Menu {
 	public static final int RD_ADD = 104; //R&D 계정 추가
 	public static final int RD_MODIFY = 105; //R&D 계정 수정
 	public static final int RD_REMOVE = 106; //R&D 계정 삭제
+	
 }

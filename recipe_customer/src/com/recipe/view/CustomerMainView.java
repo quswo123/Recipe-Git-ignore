@@ -44,6 +44,8 @@ public class CustomerMainView {
 					reviewListView.showReviewListView(CustomerShare.loginedId);
 					break;
 				case 6:
+					CustomerInfoView customerInfoView = new CustomerInfoView(dio);
+					customerInfoView.viewMyAccount();
 					break;
 				case 7:
 					menu = -1;

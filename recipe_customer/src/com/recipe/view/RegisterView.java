@@ -16,18 +16,14 @@ import com.recipe.vo.Postal;
 
 public class RegisterView {
 	private DataIO dataio;
-	private Socket s;
 	private Scanner sc;
 
 	/*
 	 * IO연결
 	 */
-	public RegisterView() throws UnknownHostException, IOException {
+	public RegisterView(DataIO dio) throws UnknownHostException, IOException {
 		sc = new Scanner(System.in);
-		s = new Socket("localhost", 1025);
-		DataInputStream dis = new DataInputStream(s.getInputStream());
-		DataOutputStream dos = new DataOutputStream(s.getOutputStream());
-		dataio = new DataIO(dos, dis);
+		dataio = dio;
 	}
 
 	public void addMyAccount() {
@@ -119,25 +115,25 @@ public class RegisterView {
 		return c;
 	}
 	
-	public static void main(String[] args) {
-		RegisterView view2 = null;
-		try {
-			view2 = new RegisterView();
-			view2.addMyAccount();
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			if (view2 != null)
-				try {
-					view2.s.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-		}
-
-	}
+//	public static void main(String[] args) {
+//		RegisterView view2 = null;
+//		try {
+//			view2 = new RegisterView();
+//			view2.addMyAccount();
+//		} catch (UnknownHostException e) {
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		} finally {
+//			if (view2 != null)
+//				try {
+//					view2.s.close();
+//				} catch (IOException e) {
+//					e.printStackTrace();
+//				}
+//		}
+//
+//	}
 
 }
 
