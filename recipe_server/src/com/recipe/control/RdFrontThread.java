@@ -301,7 +301,6 @@ public class RdFrontThread implements Runnable{
 			dio.sendFail(e.getMessage());
 		}
 	}
-
 	public void viewAllRecipeFront()throws IOException{
 		try {
 			dio.send(control.viewAllRecipe());
