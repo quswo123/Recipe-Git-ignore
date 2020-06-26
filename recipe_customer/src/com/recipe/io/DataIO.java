@@ -174,15 +174,6 @@ public class DataIO {
    }
    
    /**
-    * int 전달받는다
-    * @return 전달받은 메뉴 번호
-    * @throws IOException
-    */
-   public int receiveInt() throws IOException{
-      return dis.readInt();
-   }
-   
-   /**
     * VO 객체 PurchaseDetail의 내용들을 전송한다
     * @param pd 정보를 전송할 PurchaseDetail
     * @throws IOException
@@ -288,7 +279,8 @@ public class DataIO {
    public void send(Review r) throws IOException {
       dos.writeUTF(strNullCheck(r.getCustomerId()));
       dos.writeUTF(strNullCheck(r.getReviewComment()));
-      dos.writeUTF(strNullCheck(r.getReviewDate().toString()));
+      if(r.getReviewDate() == null) dos.writeUTF("1900-00-00");
+      else dos.writeUTF(strNullCheck(r.getReviewDate().toString()));
       send(r.getRecipeInfo());
    }
    
@@ -523,6 +515,15 @@ public class DataIO {
       int disLikeCount = dis.readInt();
       
       return new Point(recipeCode, likeCount, disLikeCount);
+   }
+   
+   /**
+    * int 전달받는다
+    * @return 전달받은 메뉴 번호
+    * @throws IOException
+    */
+   public int receiveInt() throws IOException{
+      return dis.readInt();
    }
    
    /**

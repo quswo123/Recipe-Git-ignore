@@ -39,9 +39,16 @@ public class CustomerMainView {
 					FavoriteListView favoriteListView = new FavoriteListView(dio);
 					favoriteListView.showFavoriteListView(CustomerShare.loginedId);
 					break;
+<<<<<<< HEAD
 	            case 5:
 	                
 	                break;
+=======
+				case 5:
+					MyReviewListView myReviewListView = new MyReviewListView(dio);
+		             myReviewListView.showMyReviewListView(CustomerShare.loginedId);
+					break;
+>>>>>>> 74e5239fef0d56e6bd4e036c6194775ca6d081a1
 				case 6:
 					CustomerInfoView customerInfoView = new CustomerInfoView(dio);
 					customerInfoView.viewMyAccount();

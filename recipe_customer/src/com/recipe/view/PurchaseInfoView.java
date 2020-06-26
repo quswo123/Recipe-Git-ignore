@@ -49,6 +49,9 @@ public class PurchaseInfoView {
 				System.out.println("1.상세레시피로가기  | 2.후기등록하기 | 0.이전화면");
 				System.out.println("메뉴 번호를 입력해주세요 : ");
 				menu = sc.nextLine();
+				
+				
+				
 				if (menu.equals("2")) {
 					AddReviewView addView = new AddReviewView(dio);
 					RecipeInfo info = p.getPurchaseDetail().getRecipeInfo();
@@ -57,12 +60,16 @@ public class PurchaseInfoView {
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
+					menu="0";
+					
+					
 				} else if (menu.equals("1")) {
 					int n = Integer.parseInt(menu);
 					System.out.println(menu);
 					RecipeInfo info = p.getPurchaseDetail().getRecipeInfo();
 					RecipeInfoView view = new RecipeInfoView(dio);
 					view.showRecipeInfoView(info);
+					menu="0";
 				}
 			}
 

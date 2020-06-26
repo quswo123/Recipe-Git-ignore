@@ -9,6 +9,7 @@ import com.recipe.io.DataIO;
 import com.recipe.io.Menu;
 import com.recipe.share.RDShare;
 import com.recipe.vo.Ingredient;
+import com.recipe.vo.Point;
 import com.recipe.vo.RecipeInfo;
 
 public class AddRecipeView {
@@ -25,7 +26,9 @@ public class AddRecipeView {
 
 		RecipeInfo recipeInfoVo = new RecipeInfo();
 		List<Ingredient> ingList = new ArrayList<Ingredient>();
+		Point point = new Point();
 
+		recipeInfoVo.setPoint(point);
 		System.out.println("레시피등록");
 		System.out.println("레시피명을 입력해주세요: ");
 		recipeInfoVo.setRecipeName(sc.nextLine());		//입력받은 레시피명을 setRecipe_name에 넣는다.
@@ -58,17 +61,6 @@ public class AddRecipeView {
 
 		System.out.println("레시피 한줄 소개를 입력해주세요: ");
 		recipeInfoVo.setRecipeSumm(sc.nextLine());
-
-		//		while (true) {		//여러줄 레시피 요약설명적기
-		//			sc = new Scanner(System.in);
-		//			System.out.println("요리 설명을 입력해주세요(종료는 exit입력): ");
-		//			ing_summ = "\n" + sc.nextLine();
-		//			recipe_InfoVo.setRecipeSumm(ing_summ);			//setRecipe_summ에 입력받은값을 넣는다.
-		//
-		//			if("exit".equals(ing_summ.toLowerCase())) {
-		//				break;
-		//			}
-		//		}
 
 		System.out.println("------------------------------");
 		System.out.println("가격을 입력해주세요.: ");

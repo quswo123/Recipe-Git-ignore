@@ -98,13 +98,12 @@ public class ReviewDAO {
 	 * @param Review r
 	 */
 	public void insert(Review r) throws AddException, DuplicatedException {
-		System.out.println("Review ::::" + r);
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		
 		String insertSQL = "INSERT INTO REVIEW(customer_id,recipe_code,review_comment,review_date)"
 				+ " values (?,?,?,sysdate)"; 
-		
+
 		try {
 			con = MyConnection.getConnection();
 			
@@ -120,7 +119,6 @@ public class ReviewDAO {
 			pstmt.executeUpdate();
 			
 		} catch (SQLException e) {
-			//e.printStackTrace();
 			if ( e.getErrorCode() == 1 ) { // SQLException errorCode == 1 )  
 				throw new DuplicatedException("Fail : 이미 후기가 추가되어 있는 레시피 입니다.");
 			} else { 
