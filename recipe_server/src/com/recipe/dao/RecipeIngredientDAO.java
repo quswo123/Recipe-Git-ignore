@@ -113,7 +113,7 @@ public class RecipeIngredientDAO {
 //		}
 //		
 		List<String> ingrList = new ArrayList<>();
-		ingrList.add("김치");
+		ingrList.add("어피치");
 		//ingrList.add("바지락");	
 		try {
 			List<RecipeInfo> list2 = dao.selectByIngName(ingrList);

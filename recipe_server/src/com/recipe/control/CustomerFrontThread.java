@@ -316,9 +316,13 @@ public class CustomerFrontThread implements Runnable {
 		List<RecipeInfo> searchedRecipeInfo = null;		
 		try {
 			searchedRecipeInfo = control.searchByIngName(recipeInfo);
+//			if (searchedRecipeInfo.size() == 0) {
+//				dio.sendFail();
+//			}
 			dio.send(searchedRecipeInfo);
 			dio.sendSuccess();
 		} catch (FindException e) {
+			dio.sendFail(e.getMessage());
 		}
 	}
 	

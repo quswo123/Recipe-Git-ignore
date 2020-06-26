@@ -32,6 +32,12 @@ public class FailView {
 	public void recommendedRecipe(String msg) {
 		System.out.println("추천 레시피 실패 : " + msg);
 	}
+	 /* 추천 레시피 실패 메시지를 출력한다
+		 * @author 최종국
+		 */
+	public void recipeList(String msg) {
+		System.out.println(msg);
+	}
 	
 	/**
 	 * 좋아요 실패 메시지를 출력한다
