@@ -164,10 +164,16 @@ public class RecipeInfoView {
 			if(dio.receiveStatus().equals("success")){
 				SuccessView success = new SuccessView();
 				success.purchaseView("구매가성공되었습니다");
-			}else {
+			} else {
 				FailView fail = new FailView();
 				fail.purchaseView(dio.receive());
 			}
+		} else if (purchaseLine.equals("n")){
+			FailView fail = new FailView();
+			fail.purchaseView("구매를 취소하셨음");
+		} else {
+			FailView fail = new FailView();
+			fail.purchaseView("구매 오류남");
 		}
 	}
 }
