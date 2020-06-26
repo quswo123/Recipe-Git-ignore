@@ -9,6 +9,7 @@ import com.recipe.io.DataIO;
 import com.recipe.io.Menu;
 import com.recipe.share.RDShare;
 import com.recipe.vo.Ingredient;
+import com.recipe.vo.Point;
 import com.recipe.vo.RecipeInfo;
 
 public class AddRecipeView {
@@ -25,7 +26,9 @@ public class AddRecipeView {
 
 		RecipeInfo recipeInfoVo = new RecipeInfo();
 		List<Ingredient> ingList = new ArrayList<Ingredient>();
+		Point point = new Point();
 
+		recipeInfoVo.setPoint(point);
 		System.out.println("레시피등록");
 		System.out.println("레시피명을 입력해주세요: ");
 		recipeInfoVo.setRecipeName(sc.nextLine());		//입력받은 레시피명을 setRecipe_name에 넣는다.
