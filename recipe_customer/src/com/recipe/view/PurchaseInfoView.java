@@ -26,6 +26,7 @@ public class PurchaseInfoView {
 		
 		System.out.println("레시피명 : " + p.getPurchaseDetail().getRecipeInfo().getRecipeName());
 		System.out.println("구매일자 : " + sdf.format(p.getPurchaseDate()));
+		//BooleanList를 받은 b를 비교 
 		String temp = b == true ? "YES" : "NO";
 		System.out.println("후기등록여부 : " + temp);
 		System.out.println("구매수량 : " + p.getPurchaseDetail().getPurchaseDetailQuantity());
