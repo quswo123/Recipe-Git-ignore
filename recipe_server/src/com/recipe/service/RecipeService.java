@@ -44,8 +44,8 @@ public class RecipeService {
 	public void removeRecipe(String rdId, RecipeInfo recipeInfo) throws ModifyException {
 		dao.remove(rdId, recipeInfo);
 	}
-	public List<RecipeInfo> findAll(List<RecipeInfo> recipeInfoList) throws FindException {
-		return dao.selectAll(recipeInfoList);
+	public List<RecipeInfo> findAll() throws FindException {
+		return dao.selectAll();
 	}
 	/**
 	 * 포인트 수정 절차를 위한 메소드

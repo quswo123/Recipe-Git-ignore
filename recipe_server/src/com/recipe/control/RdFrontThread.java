@@ -55,10 +55,10 @@ public class RdFrontThread implements Runnable{
 				case Menu.MODIFY_RECIPE: // 레시피 등록
 					modifyRecipeFront();
 					break;
-				case Menu.REMOVE_RECIPE: // 레시피 등록
+				case Menu.REMOVE_RECIPE: // 레시피 삭제
 					removeRecipeFront();
 					break;				
-				case Menu.RECIPE_ALL: // 레시피 등록
+				case Menu.RECIPE_ALL: // 레시피 전체조회
 					viewAllRecipeFront();
 					break;
 				case Menu.RECOMMENDED_RECIPE: // 추천 레시피
@@ -222,8 +222,8 @@ public class RdFrontThread implements Runnable{
 		String recipeName = dio.receive();
 		try {
 			recipeInfo = control.searchByName(recipeName);
-			dio.send(recipeInfo);
 			dio.sendSuccess();
+			dio.send(recipeInfo);
 		} catch (FindException e) {
 			dio.sendFail(e.getMessage());
 		}
@@ -297,9 +297,8 @@ public class RdFrontThread implements Runnable{
 	}
 
 	public void viewAllRecipeFront()throws IOException{
-		List<RecipeInfo> recipeInfoList = dio.receiveRecipeInfos();
 		try {
-			control.viewAllRecpe(recipeInfoList);
+			dio.send(control.viewAllRecipe());
 			dio.sendSuccess();
 		} catch (FindException e) {
 			e.printStackTrace();

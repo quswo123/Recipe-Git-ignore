@@ -48,35 +48,15 @@ public class ModifyRecipeView {
 			ingList.add(ingredientVo);					//입력받은 VO를 ingList에 넣는다.
 		}
 
-		//레시피 용량(ingcpcty) VO 객체를 삭제 --완료
-		//문자열에 재료명, 재료용량 순으로 리스트를 만들고, 스플릿을 이용하여 용량은 파일에만 적는걸로.
-
-		System.out.println("ingList: " + ingList.toString());		//현재 담겨져 있는것을 출력test
 		System.out.println("------------------------------");
-
 		System.out.println("레시피 한줄 소개를 입력해주세요: ");
 		recipeInfo.setRecipeSumm(sc.nextLine());
-
-		//		while (true) {		//여러줄 레시피 요약설명적기
-		//			sc = new Scanner(System.in);
-		//			System.out.println("요리 설명을 입력해주세요(종료는 exit입력): ");
-		//			ing_summ = "\n" + sc.nextLine();
-		//			recipe_InfoVo.setRecipeSumm(ing_summ);			//setRecipe_summ에 입력받은값을 넣는다.
-		//
-		//			if("exit".equals(ing_summ.toLowerCase())) {
-		//				break;
-		//			}
-		//		}
 
 		System.out.println("------------------------------");
 		System.out.println("가격을 입력해주세요.: ");
 		recipeInfo.setRecipePrice(Integer.parseInt(sc.nextLine()));		//입력받은값을 Integer형식으로 바꿔서 setRecipe_price에 넣는다.
-
-		System.out.println("recipe_InfoVo: " + recipeInfo.toString());
-		System.out.println("ingList: " + ingList.toString());		//현재 담겨져 있는것을 출력test
 		
 		System.out.println("------------------------------");
-
 		String process="";
 		while (true) {
 			System.out.println("과정을 입력해주세요(종료는 exit입력): ");

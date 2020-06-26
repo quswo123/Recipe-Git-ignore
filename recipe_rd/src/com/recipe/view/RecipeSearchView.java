@@ -32,7 +32,6 @@ public class RecipeSearchView {
 		} else {
 			showRecipeInfoView();
 		}
-
 	}
 
 	private void showFindbyIngNameView() {
@@ -58,10 +57,11 @@ public class RecipeSearchView {
 			dio.sendListString(ingName);
 			recipeInfo = dio.receiveRecipeInfos();
 			RecipeListView listView = new RecipeListView(dio);
-			listView.showAllRecipeListView(recipeInfo);
 			if (dio.receiveStatus().equals("fail")) {
 				FailView fail = new FailView();
 				fail.likeRecipe("해당되는 레시피 없음");
+			} else {
+				listView.showAllRecipeListView(recipeInfo);
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -83,15 +83,15 @@ public class RecipeSearchView {
 
 			dio.sendMenu(Menu.SEARCH_RECIPE_NAME);
 			dio.send(recipeName);
-			recipeInfo = dio.receiveRecipeInfos();
 			// dio.receiveStatus();
 			RecipeListView listView = new RecipeListView(dio);
-			listView.showAllRecipeListView(recipeInfo);
 			if (dio.receiveStatus().equals("fail")) {
 				FailView fail = new FailView();
 				fail.likeRecipe("해당되는 레시피 없음");
+			} else {
+				recipeInfo = dio.receiveRecipeInfos();
+				listView.showAllRecipeListView(recipeInfo);
 			}
-
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
