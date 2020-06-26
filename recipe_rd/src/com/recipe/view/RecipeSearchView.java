@@ -52,7 +52,6 @@ public class RecipeSearchView {
 	public void findByIngName(List<String> ingName) {
 		List<RecipeInfo> recipeInfo = null;
 		try {
-
 			dio.sendMenu(Menu.SEARCH_RECIPE_INGREDIENTS);
 			dio.sendListString(ingName);
 			if (dio.receiveStatus().equals("fail")) {

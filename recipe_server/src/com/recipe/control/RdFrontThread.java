@@ -242,6 +242,7 @@ public class RdFrontThread implements Runnable{
 			dio.send(recipeInfo);
 			dio.sendSuccess();
 		}catch (FindException e) {
+			dio.sendFail(e.getMessage());
 			e.printStackTrace();
 		}
 	}
