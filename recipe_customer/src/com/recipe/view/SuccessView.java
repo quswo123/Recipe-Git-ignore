@@ -23,7 +23,6 @@ public class SuccessView {
 	public void favoriteDeleteView(String msg) {
 		System.out.println(msg);
 	}
-	
 	/**
 	 * 구매하기 성공 메시지를 출력한다
 	 * @param msg
@@ -37,7 +36,6 @@ public class SuccessView {
 	 * @author 고수정
 	 */	
 	public void reviewInsertView(String msg) {
-
 		System.out.println(msg);
 	}
 }

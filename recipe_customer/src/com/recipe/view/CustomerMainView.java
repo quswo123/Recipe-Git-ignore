@@ -40,8 +40,8 @@ public class CustomerMainView {
 					favoriteListView.showFavoriteListView(CustomerShare.loginedId);
 					break;
 				case 5:
-					ReviewListView reviewListView = new ReviewListView(dio);
-					reviewListView.showReviewListView(CustomerShare.loginedId);
+					MyReviewListView myReviewListView = new MyReviewListView(dio);
+		             myReviewListView.showMyReviewListView(CustomerShare.loginedId);
 					break;
 				case 6:
 					CustomerInfoView customerInfoView = new CustomerInfoView(dio);

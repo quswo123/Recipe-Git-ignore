@@ -1,7 +1,6 @@
 package com.recipe.view;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.Scanner;
 
 import com.recipe.io.DataIO;
@@ -78,6 +77,9 @@ public class RecipeInfoView {
 				menu = sc.nextLine();
 				if (menu.equals("1")) {
 					purchaseRecipe(info);
+					PurchaseListVIew pview = new PurchaseListVIew(dio);
+					pview.purchaseView();
+					menu="0";
 				} else if (menu.equals("2")) {
 
 				} else if (menu.equals("3")) {
