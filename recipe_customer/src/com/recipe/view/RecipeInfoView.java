@@ -136,8 +136,12 @@ public class RecipeInfoView {
 		}
 	}
 	
+	/**
+	 * 현재레시피의 수량을 
+	 * @param info
+	 * @throws IOException
+	 */
 	private void purchaseRecipe(RecipeInfo info) throws IOException{
-		
 		System.out.println("수량을 입력해주세요");
 		int line = Integer.parseInt(sc.nextLine());
 		System.out.println("총가격은"+ line*info.getRecipePrice()+"입니다 구매하시겠습니까?(Y/N)");
