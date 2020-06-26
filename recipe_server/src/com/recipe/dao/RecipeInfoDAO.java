@@ -35,7 +35,7 @@ public class RecipeInfoDAO {
 				"JOIN INGREDIENT ING ON RI.ing_code = ING.ing_code\r\n" + 
 				"left JOIN POINT PT ON RI.RECIPE_CODE = PT.RECIPE_CODE\r\n" + 
 				"WHERE RIN.recipe_Code IN\r\n" + 
-				"(select recipe_code FROM recipe_info WHERE recipe_code = ?)";
+				"(select recipe_code FROM recipe_info WHERE recipe_code = ? AND recipe_status = 1)";
 		List<RecipeIngredient> ingList = new ArrayList<>();
 		RecipeInfo recipeInfo = new RecipeInfo();
 		int prevCode = 0; //
@@ -92,7 +92,7 @@ public class RecipeInfoDAO {
 				"LEFT JOIN RECIPE_INFO RIN ON RI.recipe_code = RIN.recipe_code\r\n" + 
 				"LEFT JOIN INGREDIENT ING ON RI.ing_code = ING.ing_code\r\n" + 
 				"LEFT JOIN POINT PT ON RIN.RECIPE_CODE = PT.RECIPE_CODE\r\n" + 
-				"WHERE rin.recipe_name LIKE ?";
+				"WHERE rin.recipe_name LIKE ? AND RIN.RECIPE_STATUS = 1";
 		try {
 			pstmt = con.prepareStatement(selectByNameSQL);
 			pstmt.setString(1, "%" + recipeName + "%");
@@ -448,7 +448,7 @@ public class RecipeInfoDAO {
 
 		List<RecipeInfo> recipeInfoList1 = new ArrayList<>();
 		RecipeInfo recipeInfo2 = new RecipeInfo();
-		String quary = "SELECT RECIPE_CODE, RECIPE_NAME FROM RECIPE_INFO";
+		String quary = "SELECT RECIPE_CODE, RECIPE_NAME FROM RECIPE_INFO WHERE RECIPE_STATUS = 1";
 		try {
 			con = MyConnection.getConnection();
 			pstmt = con.prepareStatement(quary);

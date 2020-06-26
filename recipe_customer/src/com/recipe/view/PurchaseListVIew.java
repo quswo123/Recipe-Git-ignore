@@ -68,11 +68,11 @@ public class PurchaseListVIew {
 							if (list.get(i).getPurchaseDate().equals(r.getReviewDate())
 									&& list.get(i).getPurchaseDetail().getRecipeInfo().getRecipeCode() == r
 											.getRecipeInfo().getRecipeCode()) {
-								System.out.println("No");
-								blist.add(false);
-							} else {
 								System.out.println("Yes");
 								blist.add(true);
+							} else {
+								System.out.println("No");
+								blist.add(false);
 							}
 						}
 					}

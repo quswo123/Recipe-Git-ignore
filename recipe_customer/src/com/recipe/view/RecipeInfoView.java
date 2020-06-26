@@ -143,37 +143,37 @@ public class RecipeInfoView {
 	 * @author 변재원
 	 */
 	private void purchaseRecipe(RecipeInfo info) throws IOException{
-	      System.out.println("수량을 입력해주세요");
-	      int line = Integer.parseInt(sc.nextLine());
-	      System.out.println("총가격은"+ line*info.getRecipePrice()+"입니다 구매하시겠습니까?(Y/N)");
-	      String purchaseLine = sc.nextLine();
-	      if(purchaseLine.equals("y")) {
-	         Purchase p = new Purchase();
-	         PurchaseDetail pd = new PurchaseDetail();
-	         //현재아이디 전송
-	         p.setCustomerId(CustomerShare.loginedId);
-	         //수량입력받기
-	         pd.setPurchaseDetailQuantity(line);
-	         pd.setRecipeInfo(info);
-	         
-	         //purchase에 pd담기
-	         p.setPurchaseDetail(pd);
-	         
-	         dio.sendMenu(Menu.PURCHASE);
-	         dio.send(p);
-	         if(dio.receiveStatus().equals("success")){
-	            SuccessView success = new SuccessView();
-	            success.purchaseView("구매가성공되었습니다");
-	         } else {
-	            FailView fail = new FailView();
-	            fail.purchaseView(dio.receive());
-	         }
-	      } else if (purchaseLine.equals("n")){
-	         FailView fail = new FailView();
-	         fail.purchaseView("구매를 취소하셨습니다");
-	      } else {
-	         FailView fail = new FailView();
-	         fail.purchaseView("구매 오류입니다 다시 시도해주세요");
-	      }
-	   }
+		System.out.println("수량을 입력해주세요");
+		int line = Integer.parseInt(sc.nextLine());
+		System.out.println("총가격은"+ line*info.getRecipePrice()+"입니다 구매하시겠습니까?(Y/N)");
+		String purchaseLine = sc.nextLine();
+		if(purchaseLine.equals("y")) {
+			Purchase p = new Purchase();
+			PurchaseDetail pd = new PurchaseDetail();
+			//현재아이디 전송
+			p.setCustomerId(CustomerShare.loginedId);
+			//수량입력받기
+			pd.setPurchaseDetailQuantity(line);
+			pd.setRecipeInfo(info);
+			
+			//purchase에 pd담기
+			p.setPurchaseDetail(pd);
+			
+			dio.sendMenu(Menu.PURCHASE);
+			dio.send(p);
+			if(dio.receiveStatus().equals("success")){
+				SuccessView success = new SuccessView();
+				success.purchaseView("구매가성공되었습니다");
+			} else {
+				FailView fail = new FailView();
+				fail.purchaseView(dio.receive());
+			}
+		} else if (purchaseLine.equals("n")){
+			FailView fail = new FailView();
+			fail.purchaseView("구매를 취소하셨음");
+		} else {
+			FailView fail = new FailView();
+			fail.purchaseView("구매 오류남");
+		}
+	}
 }
