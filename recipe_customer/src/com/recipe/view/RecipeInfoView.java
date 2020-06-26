@@ -57,7 +57,8 @@ public class RecipeInfoView {
 				} else if (menu.equals("2")) {
 					disLikeThisRecipe(info);
 				} else if (menu.equals("3")) {
-
+					ReviewListView rlview = new ReviewListView(dio);
+					rlview.showReviewListByRecipeCodeView(info.getRecipeCode());
 				}
 			} while (!menu.equals("0")); // 초기화면으로 가는 처리는 아직 고민중
 		} catch (IOException e) {
@@ -81,7 +82,8 @@ public class RecipeInfoView {
 					pview.purchaseView();
 					menu="0";
 				} else if (menu.equals("2")) {
-
+					ReviewListView rlview = new ReviewListView(dio);
+					rlview.showReviewListByRecipeCodeView(info.getRecipeCode());
 				} else if (menu.equals("3")) {
 					addFavorite(info);
 				} else if (menu.equals("4")) {
