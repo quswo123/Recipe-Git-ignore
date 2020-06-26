@@ -102,7 +102,7 @@ public class RecipeSearchView {
 		Scanner sc = new Scanner(System.in);
 		System.out.println("코드로 검색");
 		System.out.println("코드를 입력하세요:");
-		int s = sc.nextInt();
+		int s = Integer.parseInt(sc.nextLine());
 		findByCode(s);
 	}
 
@@ -120,7 +120,6 @@ public class RecipeSearchView {
 				infoView.showRecipeInfoView(recipeInfo);
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

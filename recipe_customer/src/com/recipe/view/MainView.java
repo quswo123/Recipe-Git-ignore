@@ -44,6 +44,8 @@ public class MainView {
 					loginView.showLoginView();
 					break;
 				case 4:
+					RegisterView registerView = new RegisterView();
+					registerView.addMyAccount();
 					break;
 				case 5:
 					break;

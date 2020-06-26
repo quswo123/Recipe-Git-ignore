@@ -238,11 +238,11 @@ public class RdFrontThread implements Runnable{
 		RecipeInfo recipeInfo = null;
 		int recipeCode = dio.receiveMenu();
 		try {
+			dio.sendSuccess();
 			recipeInfo = control.searchByCode(recipeCode);
 			dio.send(recipeInfo);
-			dio.sendSuccess();
 		}catch (FindException e) {
-			e.printStackTrace();
+			dio.sendFail(e.getMessage());
 		}
 	}
 
