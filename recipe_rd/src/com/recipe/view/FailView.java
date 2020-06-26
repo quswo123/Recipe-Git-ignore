@@ -16,6 +16,10 @@ public class FailView {
 	public void logoutRdView() {
 		System.out.println("로그아웃 실패");
 	}
+	public void recipeList(String msg) {
+		System.out.println(msg);
+	}
+	
 	
 	/**
 	 * 추천 레시피 실패 메시지를 출력한다

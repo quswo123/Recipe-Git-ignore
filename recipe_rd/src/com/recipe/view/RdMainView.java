@@ -28,6 +28,8 @@ public class RdMainView {
 					addRecipeView.AddRecipeFormView();
 					break;
 				case 2:
+					RecipeSearchView recipeSearchView = new RecipeSearchView(dio);
+					recipeSearchView.showRecipeInfoView();
 					break;
 				case 3:
 					break;
