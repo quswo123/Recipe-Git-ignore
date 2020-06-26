@@ -222,11 +222,15 @@ public class CustomerFrontThread implements Runnable {
 			list = control.viewMyPurchase(customerId);
 			rlist = control.viewMyReview(customerId);
 			
+			dio.sendSuccess();
+			
 			dio.sendPurchase(list);
+			System.out.println("list테스트");
 			dio.sendReviews(rlist);
+			System.out.println("rlist테스트");
 			
 		} catch (FindException e) {
-			e.printStackTrace();
+			System.out.println("test");
 			dio.sendFail(e.getMessage());
 		}
 	}

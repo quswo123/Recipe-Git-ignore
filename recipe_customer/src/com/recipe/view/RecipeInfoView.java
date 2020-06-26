@@ -137,9 +137,10 @@ public class RecipeInfoView {
 	}
 	
 	/**
-	 * 현재레시피의 수량을 
+	 * 현재레시피의 수량을 입력하여 구매한다 
 	 * @param info
 	 * @throws IOException
+	 * @author 변재원
 	 */
 	private void purchaseRecipe(RecipeInfo info) throws IOException{
 		System.out.println("수량을 입력해주세요");
@@ -149,19 +150,20 @@ public class RecipeInfoView {
 		if(purchaseLine.equals("y")) {
 			Purchase p = new Purchase();
 			PurchaseDetail pd = new PurchaseDetail();
+			//현재아이디 전송
 			p.setCustomerId(CustomerShare.loginedId);
-			
+			//수량입력받기
 			pd.setPurchaseDetailQuantity(line);
 			pd.setRecipeInfo(info);
 			
+			//purchase에 pd담기
 			p.setPurchaseDetail(pd);
 			
 			dio.sendMenu(Menu.PURCHASE);
 			dio.send(p);
-			System.out.println("send");
 			if(dio.receiveStatus().equals("success")){
 				SuccessView success = new SuccessView();
-				success.purchaseView("구매성공");
+				success.purchaseView("구매가성공되었습니다");
 			}else {
 				FailView fail = new FailView();
 				fail.purchaseView(dio.receive());

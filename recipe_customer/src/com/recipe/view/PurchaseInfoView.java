@@ -23,7 +23,7 @@ public class PurchaseInfoView {
 	public void searchPurchaseInfoView(Purchase p, boolean b) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yy-MM-dd");
 		String menu = null;
-
+		
 		System.out.println("레시피명 : " + p.getPurchaseDetail().getRecipeInfo().getRecipeName());
 		System.out.println("구매일자 : " + sdf.format(p.getPurchaseDate()));
 		String temp = b == true ? "YES" : "NO";
@@ -35,6 +35,7 @@ public class PurchaseInfoView {
 		do {
 			if (b == true) {
 				System.out.println("1.레시피로가기  | 0.이전화면");
+				System.out.println("메뉴 번호를 입력해주세요 : ");
 				menu = sc.nextLine();
 				if (menu.equals("1")) {
 					int n = Integer.parseInt(menu);
@@ -45,9 +46,16 @@ public class PurchaseInfoView {
 				}
 			} else {
 				System.out.println("1.상세레시피로가기  | 2.후기등록하기 | 0.이전화면");
+				System.out.println("메뉴 번호를 입력해주세요 : ");
 				menu = sc.nextLine();
 				if (menu.equals("2")) {
-
+					AddReviewView addView = new AddReviewView(dio);
+					RecipeInfo info = p.getPurchaseDetail().getRecipeInfo();
+					try {
+						addView.insertReviewView(info);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
 				} else if (menu.equals("1")) {
 					int n = Integer.parseInt(menu);
 					System.out.println(menu);

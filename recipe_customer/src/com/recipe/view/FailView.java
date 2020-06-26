@@ -56,4 +56,11 @@ public class FailView {
 	public void purchaseView(String msg) {
 		System.out.println(msg);
 	}
+	
+	/**
+	 * 
+	 */
+	public void myPurchaseView(String msg) {
+		System.out.println(msg);
+	}
 }
