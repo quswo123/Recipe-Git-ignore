@@ -72,7 +72,16 @@ public class CustomerFrontThread implements Runnable {
 					loginFront();
 					break;
 				case Menu.CUSTOMER_REGISTER: // 회원가입
-					break;
+					Customer c3 = dio.receiveCustomer();
+					try {
+						control.addAccount(c3);
+						dio.sendSuccess();
+					} catch (AddException e1) {
+						e1.printStackTrace();
+						dio.sendFail(e1.getMessage());
+					}
+					
+				break;
 				//내 정보 수정 .영민
 				case Menu.CUSTOMER_MODIFY: //내 정보 수정
 					Customer c2 = dio.receiveCustomer();
@@ -98,7 +107,7 @@ public class CustomerFrontThread implements Runnable {
 						e.printStackTrace();
 						dio.sendFail(e.getMessage());
 					}
-					
+					break;
 				case Menu.RECOMMENDED_RECIPE: // 추천 레시피
 					recommendRecipeFront();
 					break;

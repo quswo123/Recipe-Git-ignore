@@ -353,11 +353,11 @@ public class DataIO {
 		String name = dis.readUTF();
 		String email = dis.readUTF();
 		String phone = dis.readUTF();
-		//Postal postal = receivePostal();
+		Postal postal = receivePostal();
 		String addr = dis.readUTF();
 		
-		//return new Customer(id, pwd, name, email, phone, postal, addr);
-		return new Customer(id, pwd, name, email, phone, null, addr);
+		return new Customer(id, pwd, name, email, phone, postal, addr);
+//		return new Customer(id, pwd, name, email, phone, null, addr);
 	}
    /**
     * Customer List를 전달받는다

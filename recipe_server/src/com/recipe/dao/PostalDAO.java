@@ -49,7 +49,7 @@ public class PostalDAO {
 				String city = rs.getString("city");
 				String doro1 = rs.getString("doro");
 				String building = rs.getString("building");
-				Postal p = new Postal(zipcode, buildingno, city, doro1, building);
+				Postal p = new Postal(buildingno, zipcode, city, doro1, building);
 				list.add(p);
 			}
 			if(list.size() == 0) {
