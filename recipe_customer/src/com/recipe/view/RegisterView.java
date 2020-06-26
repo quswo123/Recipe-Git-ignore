@@ -92,8 +92,6 @@ public class RegisterView {
 						return null;
 					}
 					Postal modifyPostal = list.get(index);
-					System.out.println("postal" + modifyPostal);
-					System.out.println("buildingno" + modifyPostal.getBuildingno());
 					c.setPostal(modifyPostal);
 				} else {
 					String failMsg = dataio.receive();
