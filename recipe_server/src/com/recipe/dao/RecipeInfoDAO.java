@@ -552,15 +552,17 @@ public class RecipeInfoDAO {
 	public static void main(String[] args) {
 		RecipeInfoDAO dao = new RecipeInfoDAO();
 		int code = 10;
-		try {
-			RecipeInfo info = dao.selectByCode(code);
-			
-			System.out.println(info.getRecipeName());
-		} catch (FindException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+		System.out.println(10%5);
+//		
+//		try {
+//			RecipeInfo info = dao.selectByCode(code);
+//			
+//			System.out.println(info.getRecipeName());
+//		} catch (FindException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		
 	}
 
 }

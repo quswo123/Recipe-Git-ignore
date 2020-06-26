@@ -122,9 +122,6 @@ public class CustomerFrontThread implements Runnable {
 				case Menu.RECOMMENDED_RECIPE: // 추천 레시피
 					recommendRecipeFront();
 					break;
-				case Menu.SEARCH_RECIPE_CODE: // 레시피 코드 검색
-					// TO DO
-					break;
 				case Menu.SEARCH_RECIPE_NAME: //레시피 제목 검색
 					selectByNameFront();
 					break;
@@ -276,10 +273,11 @@ public class CustomerFrontThread implements Runnable {
 	 */
 	public void selectByNameFront() throws IOException {
 		List<RecipeInfo> recipeInfo = null;
+		
 		String recipeName = dio.receive();
 		try {
-			dio.sendSuccess();
 			recipeInfo = control.searchByName(recipeName);
+			dio.sendSuccess();
 			dio.send(recipeInfo);
 			
 		} catch (FindException e) {
@@ -337,11 +335,12 @@ public class CustomerFrontThread implements Runnable {
 		List<String> recipeInfo = dio.receiveListString();
 		List<RecipeInfo> searchedRecipeInfo = null;		
 		try {
-			dio.sendSuccess();
+			
 			searchedRecipeInfo = control.searchByIngName(recipeInfo);
 //			if (searchedRecipeInfo.size() == 0) {
 //				dio.sendFail();
 //			}
+			dio.sendSuccess();
 			dio.send(searchedRecipeInfo);
 			
 		} catch (FindException e) {
