@@ -56,4 +56,12 @@ public class FailView {
 	public void purchaseView(String msg) {
 		System.out.println(msg);
 	}
+	/**
+	 * 리뷰등록 실패메시지를 출력한다
+	 * @param msg
+	 * @author 고수정
+	 */
+	public void reviewInsertView(String msg) {
+		System.out.println(msg);
+	}
 }

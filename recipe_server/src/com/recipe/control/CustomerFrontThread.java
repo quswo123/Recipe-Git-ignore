@@ -141,19 +141,9 @@ public class CustomerFrontThread implements Runnable {
 				case Menu.SEARCH_REVIEW_BY_RECIPECODE: //로그인한 사용자 즐겨찾기 목록 보기
 					reviewByRecipeCodeFront();
 				case Menu.ADD_FAVORITE: // 즐겨찾기 추가
-					try {
 						insertFavorite();
-					} catch (AddException e) {
-						e.printStackTrace();
-						dio.sendFail(e.getMessage());
-					}
 				case Menu.ADD_REVIEW: //후기 등록 
-					try {
 						insertReview();
-					} catch (AddException e) {
-						e.printStackTrace();
-						dio.sendFail(e.getMessage());
-					}
 				default:
 					break;
 				}
@@ -164,8 +154,6 @@ public class CustomerFrontThread implements Runnable {
 		}
 	}
 	
-	
-
 	/**
 	 * 로그인에 필요한 ID, 패스워드를 Client로부터 전달받아 로그인 절차를 수행한다
 	 * 
@@ -408,20 +396,22 @@ public class CustomerFrontThread implements Runnable {
 	 * @throws IOException
 	 * @author 고수정
 	 */
-	public void insertReview() throws IOException, AddException, DuplicatedException {
+	public void insertReview() throws IOException {
 		Review r;
 		try {
 			r = dio.receiveReview();
-			System.out.println( r );
 			control.addReview(r);
-			
-			int select = dio.receiveInt();
-			if ( select == Menu.LIKE ) {
-				likeRecipeFront();
-			} else  {
-				disLikeRecipeFront();
-			} 
 			dio.sendSuccess();
+			int select = dio.receiveInt();
+			switch (select) {
+			case Menu.LIKE:
+				likeRecipeFront();
+				break;
+			case Menu.DISLIKE:
+				disLikeRecipeFront();
+				break;
+			}
+
 			
 		} catch (IOException | ParseException e) {
 			e.printStackTrace();
@@ -441,12 +431,12 @@ public class CustomerFrontThread implements Runnable {
 	 * @throws IOException
 	 * @author 고수정
 	 */
-	public void insertFavorite() throws IOException, AddException, DuplicatedException {
+	public void insertFavorite() throws IOException {
 		Favorite f;
 		try {
 			f = dio.receiveFavorite(); 
 			control.addFavorite(f);
-			dio.sendSuccess("즐겨찾기추가성공!");
+			dio.sendSuccess();
 
 		} catch (DuplicatedException e) {
 			e.printStackTrace();

@@ -279,7 +279,8 @@ public class DataIO {
    public void send(Review r) throws IOException {
       dos.writeUTF(strNullCheck(r.getCustomerId()));
       dos.writeUTF(strNullCheck(r.getReviewComment()));
-      dos.writeUTF(strNullCheck(r.getReviewDate().toString()));
+      if(r.getReviewDate() == null) dos.writeUTF("1900-00-00");
+      else dos.writeUTF(strNullCheck(r.getReviewDate().toString()));
       send(r.getRecipeInfo());
    }
    

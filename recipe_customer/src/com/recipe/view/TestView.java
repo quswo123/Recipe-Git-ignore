@@ -22,18 +22,18 @@ public class TestView {
 		try {
 			s = new Socket("127.0.0.1", 1025);
 			dio = new DataIO(new DataOutputStream(s.getOutputStream()), new DataInputStream(s.getInputStream()));
-			CustomerShare.loginedId = "tester";
+			CustomerShare.loginedId = "backym";
 			RecipeInfo info = new RecipeInfo();
 			info.setRecipeCode(135);
 			info.setIngredients(null);
-			info.setRecipeName(" ");
-			info.setRecipePrice(0);
-			info.setRecipeProcess("adasdad");
-			info.setRecipeSumm("asdasdasd");
+			info.setRecipeName("유부계란찜");
+			info.setRecipePrice(3000);
+			info.setRecipeProcess("C:/project/recipeMakret_server/resource/recipeProcess/135.txt");
+			info.setRecipeSumm("유부에 넣어 달걀찜을 하면 도시락 반찬으로 모양도 예쁘고 맛도 있는 센스만점 반찬이 된답니다~");
 
 			Point p = new Point();
-			p.setDisLikeCount(3151);
-			p.setLikeCount(32125);
+			p.setLikeCount(71);
+			p.setDisLikeCount(52);
 			p.setRecipeCode(135);
 			info.setPoint(p);
 
