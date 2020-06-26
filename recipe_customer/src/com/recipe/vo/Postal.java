@@ -50,9 +50,15 @@ public class Postal {
 		this.building = building;
 	}
 	
+
+
 	@Override
+	/**
+	 * 영민
+	 */
 	public String toString() {
-		return "";
+		return "Postal [buildingno=" + buildingno + ", zipcode=" + zipcode + ", city=" + city + ", doro=" + doro
+				+ ", building=" + building + "]";
 	}
 
 	public String getCity() {

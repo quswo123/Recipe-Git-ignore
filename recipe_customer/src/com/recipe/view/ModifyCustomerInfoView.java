@@ -34,7 +34,7 @@ public class ModifyCustomerInfoView {
 
 	public void modifyMyAccount() {
 	   Customer c = modifyInfoMenu();
-	   if(c == null) {
+	   if(c != null) {
 		try {
 			// 내정보수정을 요청
 			dataio.sendMenu(Menu.CUSTOMER_MODIFY);
@@ -67,12 +67,12 @@ public class ModifyCustomerInfoView {
 		System.out.print("2.이름을 입력해주세요  : ");
 		String customerName = sc.nextLine();
 		if(!"".equals(customerName)) {
-			c.setCustomerPwd(customerName);
+			c.setCustomerName(customerName);
 		}
 		System.out.print("3.이메일을 입력해주세요  : ");
 		String customerEmail = sc.nextLine();
 		if(!"".equals(customerEmail)) {
-			c.setCustomerPwd(customerEmail);
+			c.setCustomerEmail(customerEmail);
 		}
 		System.out.print("4.도로명 주소를 입력해주세요  : ");
 		String doro = sc.nextLine();
@@ -108,7 +108,10 @@ public class ModifyCustomerInfoView {
 			
 		}
 		System.out.print("5.핸드폰 번호를 입력해주세요  : ");
-		String customerphone = sc.nextLine();
+		String customerPhone = sc.nextLine();
+		if(!"".equals(customerPhone)) {
+			c.setCustomerPhone(customerPhone);
+		}
 		return c;
 	}
 

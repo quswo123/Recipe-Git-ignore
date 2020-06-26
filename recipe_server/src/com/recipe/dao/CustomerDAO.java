@@ -32,7 +32,7 @@ public class CustomerDAO {
 			e.printStackTrace();
 			throw new AddException(e.getMessage());
 		}
-		String insertSQL = "INSERT INTO customer(customer_id, customer_pwd, customer_email, customer_name, customer_phone, buildingno, customer_addr) VALUES (?,?,?,?,?,?,?)";
+		String insertSQL = "INSERT INTO customer(customer_id, customer_pwd, customer_email, customer_name, customer_phone, buildingno, customer_addr, customer_status) VALUES (?,?,?,?,?,?,?,1)";
 		try {
 			pstmt = con.prepareStatement(insertSQL);
 			pstmt.setString(1, c.getCustomerId());
