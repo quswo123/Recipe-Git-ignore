@@ -13,34 +13,31 @@ import java.util.Scanner;
 
 import com.recipe.io.DataIO;
 import com.recipe.io.Menu;
+import com.recipe.share.CustomerShare;
 import com.recipe.vo.Customer;
 
 public class CustomerInfoView {
 	private DataIO dataio;
-	private Socket s;
 	private Scanner sc;
 
 	/*
 	 * IO연결
 	 */
-	public CustomerInfoView() throws UnknownHostException, IOException {
+	public CustomerInfoView(DataIO dio) throws UnknownHostException, IOException {
 		sc = new Scanner(System.in);
-		s = new Socket("localhost", 1025);
-		DataInputStream dis = new DataInputStream(s.getInputStream());
-		DataOutputStream dos = new DataOutputStream(s.getOutputStream());
-		dataio = new DataIO(dos, dis);
+		dataio = dio;
 	}
 
 	/*
 	 * 입력받은 ID를 통해 고객정보 보여주기
 	 */
 	public void viewMyAccount() {
-		String customerId = "kosj";
+		
 		try {
 			// 내정보보기를 요청
 			dataio.sendMenu(Menu.CUSTOMER_INFO);
-			// id를 송신
-			dataio.sendId(customerId);
+			// Customer_status를 송신
+			dataio.sendId(CustomerShare.loginedId);
 			// 응답
 			if ("success".equals(dataio.receiveStatus())) {
 				Customer receiveCustomer = dataio.receiveCustomer();
@@ -68,39 +65,44 @@ public class CustomerInfoView {
 	 */
 	public void customerInfoMenu() {
 		String menu = null;
-		System.out.print("메뉴 번호를 입력하세요 : ");
-		menu = sc.nextLine();
-		do {
-			if (menu.equals("1")) {
-				try {
-					ModifyCustomerInfoView modifyinfoview = new ModifyCustomerInfoView();
-					modifyinfoview.modifyMyAccount();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			} else if (menu.equals("2")) {
-				DeleteCustomerInfoView deleteinfoview = new DeleteCustomerInfoView();
-			}
-		} while (menu.equals("-"));
-
-	}
-
-	public static void main(String[] args) {
-		CustomerInfoView view = null;
+		
 		try {
-			view = new CustomerInfoView();
-			view.viewMyAccount();
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
+			do {
+				System.out.println("1.내 정보 수정하기  2.탈퇴하기 0.이전화면 ");
+				System.out.print("메뉴 번호를 입력하세요 : ");
+				menu = sc.nextLine();
+				if (menu.equals("1")) {
+
+					ModifyCustomerInfoView modifyinfoview = new ModifyCustomerInfoView(dataio);
+					modifyinfoview.modifyMyAccount();
+
+				} else if (menu.equals("2")) {
+					DeleteCustomerInfoView deleteinfoview = new DeleteCustomerInfoView(dataio);
+					deleteinfoview.deleteMyAccount();
+				}
+			} while (!menu.equals("0"));
+
 		} catch (IOException e) {
 			e.printStackTrace();
-		} finally {
-			if (view != null)
-				try {
-					view.s.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
 		}
 	}
+
+//	public static void main(String[] args) {
+//		CustomerInfoView view = null;
+//		try {
+//			view = new CustomerInfoView();
+//			view.viewMyAccount();
+//		} catch (UnknownHostException e) {
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		} finally {
+//			if (view != null)
+//				try {
+//					view.s.close();
+//				} catch (IOException e) {
+//					e.printStackTrace();
+//				}
+//		}
+//	}
 }

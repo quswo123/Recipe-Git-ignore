@@ -82,6 +82,17 @@ public class CustomerFrontThread implements Runnable {
 					}
 					
 				break;
+				case Menu.CUSTOMER_REMOVE: // 회원탈퇴
+					Customer c = new Customer();
+					c.setCustomerId(dio.receiveId());
+					try {
+						control.removeMyAccount(c);
+						dio.sendSuccess();
+					} catch (RemoveException e1) {
+						e1.printStackTrace();
+						dio.sendFail(e1.getMessage());
+					}
+					break;
 				//내 정보 수정 .영민
 				case Menu.CUSTOMER_MODIFY: //내 정보 수정
 					Customer c2 = dio.receiveCustomer();
