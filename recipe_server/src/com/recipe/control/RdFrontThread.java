@@ -226,10 +226,6 @@ public class RdFrontThread implements Runnable{
 		try {
 			
 			recipeInfo = control.searchByName(recipeName);
-<<<<<<< HEAD
-=======
-
->>>>>>> 74e5239fef0d56e6bd4e036c6194775ca6d081a1
 			dio.sendSuccess();
 			dio.send(recipeInfo);
 		} catch (FindException e) {
@@ -304,7 +300,6 @@ public class RdFrontThread implements Runnable{
 			dio.sendFail(e.getMessage());
 		}
 	}
-
 	public void viewAllRecipeFront()throws IOException{
 		try {
 			dio.send(control.viewAllRecipe());
