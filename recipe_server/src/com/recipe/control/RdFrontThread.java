@@ -226,6 +226,10 @@ public class RdFrontThread implements Runnable{
 		try {
 			
 			recipeInfo = control.searchByName(recipeName);
+<<<<<<< HEAD
+=======
+
+>>>>>>> 8f9fb8c0290f7a7007969d5506786cf41df4de29
 			dio.sendSuccess();
 			dio.send(recipeInfo);
 		} catch (FindException e) {

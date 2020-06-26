@@ -204,7 +204,7 @@ public class RecipeInfoDAO {
 			while(rs.next()){
 				recipe_InfoVo.setRecipeCode(rs.getInt(1));//setRecipe_code메소드를 이용해서 recipe_InfoVo의 Recipe_code에 넣어준다
 			}
-			recipe_InfoVo.setRecipeProcess("/Users/Shared/recipeProcess/" + recipe_InfoVo.getRecipeCode() + ".txt");		//recipeprocess에 레시피코드를 파일명으로 한 파일생성경로를 넣어준다.
+			recipe_InfoVo.setRecipeProcess("c:/project/recipe_server/resource/recipeProcess/" + recipe_InfoVo.getRecipeCode() + ".txt");		//recipeprocess에 레시피코드를 파일명으로 한 파일생성경로를 넣어준다.
 			rs.close();
 			pstmt.close();
 			quary = "INSERT INTO RECIPE_INFO VALUES(?, ?, ?, ?, ?, ?, ?)";		//RECIPE_INFO 에 값들을 넣어주는 쿼리문
@@ -416,7 +416,7 @@ public class RecipeInfoDAO {
 
 		List<RecipeInfo> recipeInfoList = new ArrayList<>();
 
-		String quary = "SELECT i.recipe_code, i.recipe_name, i.recipe_summ, i.recipe_price, i.recipe_process, p.like_count, p.dislike_count FROM recipe_info i JOIN POINT p ON i.recipe_code = p.recipe_code";
+		String quary = "SELECT i.recipe_code, i.recipe_name, i.recipe_summ, i.recipe_price, i.recipe_process, p.like_count, p.dislike_count FROM recipe_info i JOIN POINT p ON i.recipe_code = p.recipe_code where i.recipe_status=1";
 
 		try {
 			con = MyConnection.getConnection();

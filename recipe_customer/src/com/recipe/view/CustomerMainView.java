@@ -40,15 +40,21 @@ public class CustomerMainView {
 					favoriteListView.showFavoriteListView(CustomerShare.loginedId);
 					break;
 <<<<<<< HEAD
+<<<<<<< HEAD
 	            case 5:
 	                
 	                break;
 =======
+=======
+>>>>>>> 8f9fb8c0290f7a7007969d5506786cf41df4de29
 				case 5:
 					MyReviewListView myReviewListView = new MyReviewListView(dio);
 		             myReviewListView.showMyReviewListView(CustomerShare.loginedId);
 					break;
+<<<<<<< HEAD
 >>>>>>> 74e5239fef0d56e6bd4e036c6194775ca6d081a1
+=======
+>>>>>>> 8f9fb8c0290f7a7007969d5506786cf41df4de29
 				case 6:
 					CustomerInfoView customerInfoView = new CustomerInfoView(dio);
 					customerInfoView.viewMyAccount();
