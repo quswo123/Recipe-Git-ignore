@@ -549,5 +549,18 @@ public class RecipeInfoDAO {
 		}
 		return true;
 	}
+	public static void main(String[] args) {
+		RecipeInfoDAO dao = new RecipeInfoDAO();
+		int code = 10;
+		try {
+			RecipeInfo info = dao.selectByCode(code);
+			
+			System.out.println(info.getRecipeName());
+		} catch (FindException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 
 }

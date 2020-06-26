@@ -1,7 +1,6 @@
 package com.recipe.control;
 
 public class ServerMain {
-
 	/**
 	 * main에서는 각 클라이언트와의 연결을 생성하는 Thread들을 생성한다.
 	 * @param args

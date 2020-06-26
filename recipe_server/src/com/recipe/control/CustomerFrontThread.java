@@ -234,10 +234,7 @@ public class CustomerFrontThread implements Runnable {
 			dio.sendSuccess();
 			
 			dio.sendPurchase(list);
-			System.out.println("list테스트");
 			dio.sendReviews(rlist);
-			System.out.println("rlist테스트");
-			
 		} catch (FindException e) {
 			System.out.println("test");
 			dio.sendFail(e.getMessage());
@@ -270,9 +267,10 @@ public class CustomerFrontThread implements Runnable {
 		List<RecipeInfo> recipeInfo = null;
 		String recipeName = dio.receive();
 		try {
+			dio.sendSuccess();
 			recipeInfo = control.searchByName(recipeName);
 			dio.send(recipeInfo);
-			dio.sendSuccess();
+			
 		} catch (FindException e) {
 			dio.sendFail(e.getMessage());
 		}
@@ -328,12 +326,13 @@ public class CustomerFrontThread implements Runnable {
 		List<String> recipeInfo = dio.receiveListString();
 		List<RecipeInfo> searchedRecipeInfo = null;		
 		try {
+			dio.sendSuccess();
 			searchedRecipeInfo = control.searchByIngName(recipeInfo);
 //			if (searchedRecipeInfo.size() == 0) {
 //				dio.sendFail();
 //			}
 			dio.send(searchedRecipeInfo);
-			dio.sendSuccess();
+			
 		} catch (FindException e) {
 			dio.sendFail(e.getMessage());
 		}
