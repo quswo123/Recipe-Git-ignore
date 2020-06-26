@@ -259,14 +259,14 @@ public class CustomerFrontThread implements Runnable {
 	public void purchaseRecipe() throws IOException{
 		Purchase purchase = null;
 		try {
+			
+			
 			purchase = dio.receivePurchase();
 			control.buyRecipe(purchase);
 			dio.sendSuccess();
-		} catch (IOException | ParseException e1) {
-			e1.printStackTrace();
-		} catch (AddException e) {
+		} catch (IOException | ParseException | AddException e) {
 			dio.sendFail(e.getMessage());
-		}
+		} 
 		
 	}
 	
