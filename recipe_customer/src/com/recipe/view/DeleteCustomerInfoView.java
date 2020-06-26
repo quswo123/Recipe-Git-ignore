@@ -1,21 +1,16 @@
 package com.recipe.view;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Scanner;
 
 import com.recipe.io.DataIO;
 import com.recipe.io.Menu;
 import com.recipe.share.CustomerShare;
-import com.recipe.vo.Customer;
 
 public class DeleteCustomerInfoView {
 	private DataIO dataio;
 	private Scanner sc;
-	
 
 	/*
 	 * IO 연결
@@ -35,13 +30,34 @@ public class DeleteCustomerInfoView {
 			// Customer 정보를 송신
 			dataio.sendId(CustomerShare.loginedId);
 			if ("success".equals(dataio.receiveStatus())) {
-				System.out.println("정상적으로 탈퇴되었습니다!");
+				SuccessView success = new SuccessView();
+				success.deleteCustomerView();
+				logout();
 			} else {
 				String failMsg = dataio.receive();
 				System.out.println(failMsg);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * 현재 로그인중인 아이디를 서버로 전송하고 로그아웃 절차를 수행한다
+	 * 
+	 * @throws IOException
+	 */
+	private void logout() throws IOException {
+		dataio.sendMenu(Menu.CUSTOMER_LOGOUT);
+		dataio.sendId(CustomerShare.loginedId);
+
+		if (dataio.receiveStatus().equals("success")) {
+			CustomerShare.loginedId = "";
+			SuccessView success = new SuccessView();
+			success.logoutCustomerView();
+		} else {
+			FailView fail = new FailView();
+			fail.logoutCustomerView();
 		}
 	}
 }

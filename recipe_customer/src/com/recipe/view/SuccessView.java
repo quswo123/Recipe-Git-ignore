@@ -38,4 +38,8 @@ public class SuccessView {
 	public void reviewInsertView(String msg) {
 		System.out.println(msg);
 	}
+
+	public void deleteCustomerView() {
+		System.out.println("정상적으로 탈퇴되었습니다");
+	}
 }

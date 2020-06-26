@@ -72,13 +72,13 @@ public class CustomerInfoView {
 				System.out.print("메뉴 번호를 입력하세요 : ");
 				menu = sc.nextLine();
 				if (menu.equals("1")) {
-
 					ModifyCustomerInfoView modifyinfoview = new ModifyCustomerInfoView(dataio);
 					modifyinfoview.modifyMyAccount();
 
 				} else if (menu.equals("2")) {
 					DeleteCustomerInfoView deleteinfoview = new DeleteCustomerInfoView(dataio);
 					deleteinfoview.deleteMyAccount();
+					menu = "0";
 				}
 			} while (!menu.equals("0"));
 

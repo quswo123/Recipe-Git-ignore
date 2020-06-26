@@ -79,4 +79,8 @@ public class FailView {
 	public void reviewInsertView(String msg) {
 		System.out.println(msg);
 	}
+	
+	public void deleteCustomerView(String msg) {
+		System.out.println("탈퇴 실패 : " + msg);
+	}
 }
