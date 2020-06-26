@@ -85,7 +85,7 @@ public class CustomerDAO {
 			rs = pstmt.executeQuery();
 			if (rs.next()) { // 행이 존재한다
 				Customer c = new Customer();
-				c.setCustomerId("customer_id");
+				c.setCustomerId(rs.getString("customer_id"));
 				c.setCustomerPwd(rs.getString("customer_pwd"));
 				c.setCustomerEmail(rs.getString("customer_email"));
 				c.setCustomerName(rs.getString("customer_name"));
