@@ -42,4 +42,19 @@ public class SuccessView {
 	public void deleteCustomerView() {
 		System.out.println("정상적으로 탈퇴되었습니다");
 	}
+	/**
+	 * 후기 삭제 시 성공메세지를 출력한다.
+	 * @author 고수정
+	 */	
+	public void reviewRemoveView(String msg) {
+		System.out.println(msg);
+	}
+	/**
+	 * 즐겨찾기 추가시 성공메세지를 출력한다.
+	 * @author 고수정
+	 */
+	public void favoriteInsertView(String msg) {
+		System.out.println(msg);
+		
+	}
 }
