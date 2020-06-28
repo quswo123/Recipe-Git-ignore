@@ -26,7 +26,7 @@ public class RecipeListView {
 		int size = list.size();
 		int start_index = 0; //화면에 다섯개씩 보여줄때 사용할 시작 인덱스
 		int end_index = size <= 5 ? size : 5;//화면에 다섯개씩 보여줄때 사용할 끝 인덱스
-											//ListView를 최초로 구성할때, list의 size가 5 이하이면 size만큼 화면에 출력하고, 5를 초과하면 5만큼만 화면에 출력
+											//ListView를 최초로 구성할때, list의 size가 5 이하이면 size만큼 화면에 출력하고,5를 초과하면 5만큼만 화면에 출력
 		System.out.println("[" + size + "개의 건이 조회되었습니다]");
 		do {			
 			for(int i = start_index; i < end_index; i++) {

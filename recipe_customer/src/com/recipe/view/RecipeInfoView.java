@@ -1,6 +1,7 @@
 package com.recipe.view;
 
 import java.io.IOException;
+import java.text.NumberFormat;
 import java.util.Scanner;
 
 import com.recipe.io.DataIO;
@@ -147,9 +148,10 @@ public class RecipeInfoView {
 	 * @author 변재원
 	 */
 	private void purchaseRecipe(RecipeInfo info) throws IOException{
-		System.out.println("수량을 입력해주세요");
+		NumberFormat nf = NumberFormat.getInstance();
+		System.out.print("수량을 입력해주세요 : ");
 		int line = Integer.parseInt(sc.nextLine());
-		System.out.println("총가격은"+ line*info.getRecipePrice()+"입니다 구매하시겠습니까?(Y/N)");
+		System.out.print("총가격은"+  nf.format(line*info.getRecipePrice()) +"원 입니다 구매하시겠습니까?(Y/N) : ");
 		String purchaseLine = sc.nextLine();
 		if(purchaseLine.equals("y")) {
 			Purchase p = new Purchase();
@@ -174,10 +176,10 @@ public class RecipeInfoView {
 			}
 		} else if (purchaseLine.equals("n")){
 			FailView fail = new FailView();
-			fail.purchaseView("구매를 취소하셨음");
+			fail.purchaseView("구매를 취소하셨습니다");
 		} else {
 			FailView fail = new FailView();
-			fail.purchaseView("구매 오류남");
+			fail.purchaseView("구매 오류입니다 다시시도해주세요");
 		}
 	}
 }
