@@ -27,16 +27,15 @@ public class ReviewListView {
 	 */
 	public void showReviewListByRecipeCodeView(int recipeCode) {
 		System.out.println("===== 레시피 후기 목록 보기 =====");
-
-		/*목록 출력*/
         String menu;
         int start_index = 0;
         int end_index = 0;
         do {        
         	List<Review> reviewList = searchByRecipeCodeReviewList(recipeCode);
-	        int size = reviewList.size();
-	        
+    		/*목록 출력*/
+        	int size = reviewList.size();
 	        if (start_index == 0) end_index = size <= 5 ? size : 5;
+	        
 	        SimpleDateFormat sdf = new SimpleDateFormat("yy-MM-dd");
 	        
 	        System.out.println("== ["+size+"]건의 후기 목록이 조회되었습니다 ==");
@@ -80,8 +79,12 @@ public class ReviewListView {
 		try {
 			//favorite 목록을 조회 절차 수행을 위한 customerId와 RecipeInfo객체 전송
 			dio.sendMenu(Menu.SEARCH_REVIEW_BY_RECIPECODE);
-			dio.sendMenu(recipeCode);
+			dio.send(recipeCode);
 			reviewList = dio.receiveReviews();
+
+			if ( reviewList.size() == 0 ) {
+				System.out.println("조회 결과 0");
+			}
 			
 		} catch (IOException e) {
 			e.printStackTrace();
