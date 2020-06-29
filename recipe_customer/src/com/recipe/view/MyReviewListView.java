@@ -31,13 +31,14 @@ public class MyReviewListView {
 	public void showMyReviewListView(String customerId) throws IOException {
 		System.out.println("===== 나의 후기 목록 보기 =====");
 		String menu;
-
+        int start_index = 0;
+        int end_index = 0;
         do {    
     		List<Review> reviewList = searchReviewList(customerId);
     		/*목록 출력*/
             int size = reviewList.size();
-            int start_index = 0;
-            int end_index = size <= 5 ? size : 5;
+            if (start_index == 0) end_index = size <= 5 ? size : 5;
+            
             SimpleDateFormat sdf = new SimpleDateFormat("yy-MM-dd");
             
             System.out.println("== ["+size+"]건의 후기 목록이 조회되었습니다 ==");

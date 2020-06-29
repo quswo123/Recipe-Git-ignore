@@ -32,12 +32,14 @@ public class FavoriteListView {
 	public void showFavoriteListView(String customerId) throws IOException {
 		System.out.println("===== 즐겨찾기 목록 보기 =====");
 		String menu;
+		int start_index = 0;
+		int end_index = 0;
 		do { 
         	List<Favorite> favoriteList = searchFavoriteList(customerId);
         	/*목록 출력*/
         	int size = favoriteList.size();
-        	int start_index = 0;
-        	int end_index = size <= 5 ? size : 5;
+        	if (start_index == 0) end_index = size <= 5 ? size : 5;
+
         	SimpleDateFormat sdf = new SimpleDateFormat("yy-MM-dd");
         	
         	System.out.println("== ["+size+"]건의 등록된 즐겨찾기 목록이 조회되었습니다 ==");

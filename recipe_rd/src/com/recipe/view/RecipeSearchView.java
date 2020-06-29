@@ -7,6 +7,7 @@ import java.util.Scanner;
 
 import com.recipe.io.DataIO;
 import com.recipe.io.Menu;
+import com.recipe.share.RDShare;
 import com.recipe.vo.RecipeInfo;
 
 public class RecipeSearchView {
@@ -18,20 +19,35 @@ public class RecipeSearchView {
 
 	public void showRecipeInfoView() {
 		Scanner sc = new Scanner(System.in);
-		System.out.println("레시피 검색");
-		System.out.println("1. 재료로 레시피 검색");
-		System.out.println("2. 이름으로 레시피 검색");
-		System.out.println("3. 코드로 레시피 검색");
-		int num = Integer.parseInt(sc.nextLine());
-		if (num == 1) {
-			showFindbyIngNameView();
-		} else if (num == 2) {
-			showFindbyName();
-		} else if (num == 3) {
-			showFindbyCodeView();
+		if (RDShare.loginedId.equals("")) {
+			System.out.println("레시피 검색");
+			System.out.println("1. 재료로 레시피 검색");
+			System.out.println("2. 이름으로 레시피 검색");
+			int num = Integer.parseInt(sc.nextLine());
+			if (num == 1) {
+				showFindbyIngNameView();
+			} else if (num == 2) {
+				showFindbyName();
+			} else {
+				showRecipeInfoView();
+			}
 		} else {
-			showRecipeInfoView();
+			System.out.println("레시피 검색");
+			System.out.println("1. 재료로 레시피 검색");
+			System.out.println("2. 이름으로 레시피 검색");
+			System.out.println("3. 코드로 레시피 검색");
+			int num = Integer.parseInt(sc.nextLine());
+			if (num == 1) {
+				showFindbyIngNameView();
+			} else if (num == 2) {
+				showFindbyName();
+			} else if (num == 3) {
+				showFindbyCodeView();
+			} else {
+				showRecipeInfoView();
+			}
 		}
+		
 	}
 
 	private void showFindbyIngNameView() {
