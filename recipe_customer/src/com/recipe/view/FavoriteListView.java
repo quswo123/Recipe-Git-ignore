@@ -55,7 +55,8 @@ public class FavoriteListView {
 	                
 	        if(size < 5) {
 	        	sc = new Scanner(System.in);
-	        	System.out.println("0:뒤로가기 ");
+	        	System.out.println("0:뒤로가기  D:즐겨찾기해제");
+	            System.out.print("상세레시피를 보기 원하시면 번호를 입력하세요 : ");
 	            menu = sc.nextLine();
 	            if(menu.equalsIgnoreCase("D")) {
 	                try {
