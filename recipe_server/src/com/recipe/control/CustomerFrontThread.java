@@ -157,12 +157,16 @@ public class CustomerFrontThread implements Runnable {
 					break;
 				case Menu.SEARCH_REVIEW_BY_RECIPECODE: //로그인한 사용자 즐겨찾기 목록 보기
 					reviewByRecipeCodeFront();
+					break;
 				case Menu.ADD_FAVORITE: // 즐겨찾기 추가
 					insertFavorite();
+					break;
 				case Menu.ADD_REVIEW: //후기 등록 
 					insertReview();
+					break;
 				case Menu.REMOVE_REVIEW: //후기 등록 
 					removeReview();
+					break;
 				default:
 					break;
 				}

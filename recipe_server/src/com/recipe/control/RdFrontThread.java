@@ -49,6 +49,9 @@ public class RdFrontThread implements Runnable{
 				case Menu.RD_LOGIN: // 로그인
 					loginFront();
 					break;
+				case Menu.RD_INFO: //R&D 내 정보 보기
+					viewRdInfo();
+					break;
 				case Menu.ADD_RECIPE: // 레시피 등록
 					addRecipeFront();
 					break;
@@ -301,7 +304,7 @@ public class RdFrontThread implements Runnable{
 			dio.sendFail(e.getMessage());
 		}
 	}
-	public void viewAllRecipeFront()throws IOException{
+	public void viewAllRecipeFront() throws IOException{
 		try {
 			dio.send(control.viewAllRecipe());
 			dio.sendSuccess();
@@ -311,4 +314,14 @@ public class RdFrontThread implements Runnable{
 		}
 	}
 
+	public void viewRdInfo() throws IOException{
+		String rdId = dio.receiveId();
+		try {
+			dio.sendSuccess();
+			dio.send(control.viewRdAccount(rdId));
+		} catch (FindException e) {
+			e.printStackTrace();
+			dio.sendFail(e.getMessage());
+		}
+	}
 }

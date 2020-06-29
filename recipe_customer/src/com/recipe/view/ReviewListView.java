@@ -8,8 +8,6 @@ import java.util.Scanner;
 
 import com.recipe.io.DataIO;
 import com.recipe.io.Menu;
-import com.recipe.share.CustomerShare;
-import com.recipe.vo.RecipeInfo;
 import com.recipe.vo.Review;
 
 /**
@@ -52,7 +50,7 @@ public class ReviewListView {
             }
 	                
 	        if(size < 5) {
-	        	System.out.print("0:뒤로가기  : ");
+	        	System.out.print("0:뒤로가기 ");
 	        	sc = new Scanner(System.in);
 	            menu = sc.nextLine();
 	        } else {
