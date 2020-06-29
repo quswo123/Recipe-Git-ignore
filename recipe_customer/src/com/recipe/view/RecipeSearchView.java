@@ -34,7 +34,7 @@ public class RecipeSearchView {
 		Scanner sc = new Scanner(System.in);
 		List<String> list = new ArrayList<>();
 		System.out.println("재료로 검색");
-		System.out.println("재료를 입력하세요(하나 이상의 재료는  " + "," + " 로 분리해주세요):");
+		System.out.print("재료를 입력하세요(하나 이상의 재료는  " + "," + " 로 분리해주세요):");
 
 		String[] s = sc.nextLine().split(",");
 		for (String c : s) {
@@ -68,7 +68,7 @@ public class RecipeSearchView {
 	private void showFindbyName() {
 		Scanner sc = new Scanner(System.in);
 		System.out.println("이름으로 검색");
-		System.out.println("이름을 입력하세요: ");
+		System.out.print("이름을 입력하세요: ");
 		String ingName = sc.nextLine();
 		findByName(ingName);
 	}
