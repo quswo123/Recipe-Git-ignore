@@ -36,7 +36,6 @@ public class RecipeListView {
 				System.out.println("0.뒤로가기");
 				System.out.print("상세레시피를 보기 원하시면 번호를 입력하세요:");
 				menu = sc.nextLine();
-				menu = sc.nextLine();
 				if (!menu.equals("0")) {
 					int n = Integer.parseInt(menu);
 					System.out.println(menu);
