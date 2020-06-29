@@ -148,7 +148,7 @@ public class RecipeInfoView {
 		int line = Integer.parseInt(sc.nextLine());
 		System.out.print("총가격은"+  nf.format(line*info.getRecipePrice()) +"원 입니다 구매하시겠습니까?(Y/N) : ");
 		String purchaseLine = sc.nextLine();
-		if(purchaseLine.equals("y")) {
+		if(purchaseLine.equalsIgnoreCase("y")) {
 			Purchase p = new Purchase();
 			PurchaseDetail pd = new PurchaseDetail();
 			//현재아이디 전송
@@ -169,7 +169,7 @@ public class RecipeInfoView {
 				FailView fail = new FailView();
 				fail.purchaseView(dio.receive());
 			}
-		} else if (purchaseLine.equals("n")){
+		} else if (purchaseLine.equalsIgnoreCase("n")){
 			FailView fail = new FailView();
 			fail.purchaseView("구매를 취소하셨습니다");
 		} else {

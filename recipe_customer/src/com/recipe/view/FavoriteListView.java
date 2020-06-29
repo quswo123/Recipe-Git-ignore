@@ -63,9 +63,7 @@ public class FavoriteListView {
 	                    String msg = dio.receive();
 	                    fail.favoriteListView(msg);
 	                }
-                }
-	            
-	            if (!menu.equals("0")) {
+                }else if (!menu.equals("0")) {
 	                int n = Integer.parseInt(menu);
 	                RecipeInfo param = favoriteList.get(n-1).getRecipeInfo();            
 	                RecipeInfoView infoView = new RecipeInfoView(dio);
@@ -114,7 +112,7 @@ public class FavoriteListView {
 		/*삭제할 즐겨찾기 번호 입력*/
 		System.out.print("즐겨찾기 해제를 원하는 번호를 입력해주세요 :");
 		sc = new Scanner(System.in);
-		int selectNum = Integer.parseInt((sc.nextLine()));
+		int selectNum = Integer.parseInt(sc.nextLine());
 		
 		List<Favorite> fList = searchFavoriteList(CustomerShare.loginedId);
 		Favorite f = fList.get(selectNum-1);
@@ -126,7 +124,7 @@ public class FavoriteListView {
 		success.favoriteDeleteView(msg);
 		
 		/*삭제처리 후 목록보기*/
-		showFavoriteListView(CustomerShare.loginedId);
+//		showFavoriteListView(CustomerShare.loginedId);
 	}
 	
 	/**
