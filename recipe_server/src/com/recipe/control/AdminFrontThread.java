@@ -9,6 +9,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.recipe.exception.AddException;
 import com.recipe.exception.DuplicatedException;
@@ -20,6 +22,7 @@ import com.recipe.io.Menu;
 import com.recipe.share.AdminShare;
 import com.recipe.vo.Point;
 import com.recipe.vo.RecipeInfo;
+import com.recipe.vo.Review;
 
 public class AdminFrontThread implements Runnable{
 	private Socket client;
@@ -75,6 +78,10 @@ public class AdminFrontThread implements Runnable{
 					break;
 				case Menu.DISLIKE: //싫어요
 					disLikeRecipeFront();
+					break;
+					
+				case Menu.SEARCH_REVIEW_BY_RECIPECODE: //사용자 즐겨찾기 목록 보기
+					reviewByRecipeCodeFront();
 					break;
 				default:
 					break;
@@ -253,6 +260,23 @@ public class AdminFrontThread implements Runnable{
 		} catch (RemoveException e) {
 			e.printStackTrace();
 			dio.sendFail(e.getMessage());
+		}
+	}
+	
+	/**
+	 * recipeCode에 해당하는 후기 목록을 조회한 후 반환한다.
+	 * @throws IOException
+	 * @author 고수정
+	 */
+	public void reviewByRecipeCodeFront() throws IOException {
+		int recipeCode = dio.receiveInt();
+		List<Review> list = new ArrayList<>();
+		
+		try {
+			list = control.viewRecipeReview(recipeCode);
+			dio.sendReviews(list);
+		} catch (FindException e) {
+			e.printStackTrace();
 		}
 	}
 }
