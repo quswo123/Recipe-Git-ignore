@@ -93,6 +93,7 @@ public class RecipeInfoView {
 			FailView fail = new FailView();
 			fail.likeRecipe(dio.receive());
 		}
+		info.getPoint().setLikeCount(info.getPoint().getLikeCount() + 1);
 	}
 
 	/**
@@ -109,6 +110,7 @@ public class RecipeInfoView {
 			FailView fail = new FailView();
 			fail.likeRecipe(dio.receive());
 		}
+		info.getPoint().setDisLikeCount(info.getPoint().getDisLikeCount() + 1);
 	}
 	
 	/**
