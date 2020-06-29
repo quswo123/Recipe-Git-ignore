@@ -23,6 +23,7 @@ public class PurchaseListVIew {
 		this.dio = dio;
 	}
 	
+	
 	/**
 	 * 나의 구매목록 보기 View
 	 */
@@ -33,6 +34,8 @@ public class PurchaseListVIew {
 		String menu;
 		List<Boolean> blist = new ArrayList<>();
 
+		int start_index = 0;
+		int end_index = 0;
 		try {
 			do {
 				// 현재 아이디전송
@@ -49,8 +52,7 @@ public class PurchaseListVIew {
 				rlist = dio.receiveReviews();
 				
 				int size = list.size();
-				int start_index = 0; // 화면에 다섯개씩 보여줄때 사용할 시작 인덱스
-				int end_index = size <= 5 ? size : 5;// 화면에 다섯개씩 보여줄때 사용할 끝 인덱스
+				if (start_index == 0) end_index = size <= 5 ? size : 5;// 화면에 다섯개씩 보여줄때 사용할 끝 인덱스
 				//ListView를 최초로 구성할때, list의 size가 5 이하이면 size만큼 화면에 출력하고, 5를초과하면 5만큼만화면에 출력
 				
 				System.out.println("나의 구매내역");
