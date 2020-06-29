@@ -68,7 +68,9 @@ public class RecipeInfoView {
 		try {
 			do {
 				printRecipeInfo(info);
+				System.out.println("---------------레시피 상세정보 화면---------------");
 				System.out.println("1.구매하기 2.후기목록보기 3.즐겨찾기추가 4.좋아요 5.싫어요 0.이전화면");
+				System.out.println("-----------------------------------------");
 				menu = sc.nextLine();
 				if (menu.equals("1")) {
 					purchaseRecipe(info);
@@ -97,9 +99,10 @@ public class RecipeInfoView {
 		f.setRecipeInfo(info);
 		dio.send(f);
 	
-		if (dio.receiveStatus().equals("fail")) {
+		if (dio.receive().equals("fail")) {
 			FailView fail = new FailView();
-			fail.favoriteListView("즐겨찾기 추가 실패");
+			String msg = dio.receive();
+			fail.favoriteListView(msg);
 		}
 	}
 	/**
