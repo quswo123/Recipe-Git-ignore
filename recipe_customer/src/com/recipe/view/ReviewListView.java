@@ -20,23 +20,24 @@ public class ReviewListView {
 
 	public ReviewListView(DataIO dio) {
 		this.dio = dio;
+		sc = new Scanner(System.in);
 	}
 	/**
 	 *  로그인 한 recipeCode 로 목록조회
 	 */
 	public void showReviewListByRecipeCodeView(int recipeCode) {
 		System.out.println("===== 레시피 후기 목록 보기 =====");
-		List<Review> reviewList = searchByRecipeCodeReviewList(recipeCode);
 
 		/*목록 출력*/
         String menu;
-        int size = reviewList.size();
-        int start_index = 0;
-        int end_index = size <= 5 ? size : 5;
-        SimpleDateFormat sdf = new SimpleDateFormat("yy-MM-dd");
-        
-        System.out.println("== ["+size+"]건의 후기 목록이 조회되었습니다 ==");
         do {        
+        	List<Review> reviewList = searchByRecipeCodeReviewList(recipeCode);
+	        int size = reviewList.size();
+	        int start_index = 0;
+	        int end_index = size <= 5 ? size : 5;
+	        SimpleDateFormat sdf = new SimpleDateFormat("yy-MM-dd");
+	        
+	        System.out.println("== ["+size+"]건의 후기 목록이 조회되었습니다 ==");
         	if ( size != 0 ) {
             	System.out.println("후기작성일자 | 작성자  | 후기내용 ");
         	}
@@ -51,12 +52,10 @@ public class ReviewListView {
 	                
 	        if(size < 5) {
 	        	System.out.print("0:뒤로가기 ");
-	        	sc = new Scanner(System.in);
 	            menu = sc.nextLine();
 	        } else {
 	            System.out.println("---------------------------------------------");
 	            System.out.println("-:이전페이지 +:다음페이지 0:뒤로가기  : ");
-	            sc = new Scanner(System.in);
 	            menu = sc.nextLine();
 	            
 	            if(menu.equals("-")) {

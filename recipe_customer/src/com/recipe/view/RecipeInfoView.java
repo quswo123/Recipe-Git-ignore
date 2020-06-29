@@ -68,7 +68,9 @@ public class RecipeInfoView {
 		try {
 			do {
 				printRecipeInfo(info);
+				System.out.println("---------------레시피 상세정보 화면---------------");
 				System.out.println("1.구매하기 2.후기목록보기 3.즐겨찾기추가 4.좋아요 5.싫어요 0.이전화면");
+				System.out.println("-----------------------------------------");
 				menu = sc.nextLine();
 				if (menu.equals("1")) {
 					purchaseRecipe(info);
@@ -97,9 +99,10 @@ public class RecipeInfoView {
 		f.setRecipeInfo(info);
 		dio.send(f);
 	
-		if (dio.receiveStatus().equals("fail")) {
+		if (dio.receive().equals("fail")) {
 			FailView fail = new FailView();
-			fail.favoriteListView("즐겨찾기 추가 실패");
+			String msg = dio.receive();
+			fail.favoriteListView(msg);
 		}
 	}
 	/**
@@ -148,7 +151,7 @@ public class RecipeInfoView {
 		int line = Integer.parseInt(sc.nextLine());
 		System.out.print("총가격은"+  nf.format(line*info.getRecipePrice()) +"원 입니다 구매하시겠습니까?(Y/N) : ");
 		String purchaseLine = sc.nextLine();
-		if(purchaseLine.equals("y")) {
+		if(purchaseLine.equalsIgnoreCase("y")) {
 			Purchase p = new Purchase();
 			PurchaseDetail pd = new PurchaseDetail();
 			//현재아이디 전송
@@ -169,7 +172,7 @@ public class RecipeInfoView {
 				FailView fail = new FailView();
 				fail.purchaseView(dio.receive());
 			}
-		} else if (purchaseLine.equals("n")){
+		} else if (purchaseLine.equalsIgnoreCase("n")){
 			FailView fail = new FailView();
 			fail.purchaseView("구매를 취소하셨습니다");
 		} else {

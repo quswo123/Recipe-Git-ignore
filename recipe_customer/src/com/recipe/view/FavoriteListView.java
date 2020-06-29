@@ -20,7 +20,9 @@ public class FavoriteListView {
 	private Scanner sc;
 
 	public FavoriteListView(DataIO dio) {
+		sc = new Scanner(System.in);
 		this.dio = dio;
+		sc = new Scanner(System.in);
 	}
 
 	/**
@@ -29,16 +31,16 @@ public class FavoriteListView {
 	 */
 	public void showFavoriteListView(String customerId) throws IOException {
 		System.out.println("===== 즐겨찾기 목록 보기 =====");
-		List<Favorite> favoriteList = searchFavoriteList(customerId);
-		/*목록 출력*/
-        String menu;
-        int size = favoriteList.size();
-        int start_index = 0;
-        int end_index = size <= 5 ? size : 5;
-        SimpleDateFormat sdf = new SimpleDateFormat("yy-MM-dd");
-		
-        System.out.println("== ["+size+"]건의 등록된 즐겨찾기 목록이 조회되었습니다 ==");
-        do { 
+		String menu;
+		do { 
+        	List<Favorite> favoriteList = searchFavoriteList(customerId);
+        	/*목록 출력*/
+        	int size = favoriteList.size();
+        	int start_index = 0;
+        	int end_index = size <= 5 ? size : 5;
+        	SimpleDateFormat sdf = new SimpleDateFormat("yy-MM-dd");
+        	
+        	System.out.println("== ["+size+"]건의 등록된 즐겨찾기 목록이 조회되었습니다 ==");
         	if ( size != 0 ) {
             	System.out.println("NO. 레시피이름  ");
         	}
@@ -50,11 +52,11 @@ public class FavoriteListView {
             }
 	                
 	        if(size < 5) {
+	        	sc = new Scanner(System.in);
 	        	System.out.println("0:뒤로가기  D:즐겨찾기해제 : ");
 	            System.out.print("상세레시피를 보기 원하시면 번호를 입력하세요 : ");
-	        	sc = new Scanner(System.in);
 	            menu = sc.nextLine();
-	            if(menu.equals("D")) {
+	            if(menu.equalsIgnoreCase("D")) {
 	                try {
 	                    removeFavoriteView();
 	                } catch (IOException e) {
@@ -63,9 +65,7 @@ public class FavoriteListView {
 	                    String msg = dio.receive();
 	                    fail.favoriteListView(msg);
 	                }
-                }
-	            
-	            if (!menu.equals("0")) {
+                } else if (!menu.equals("0")) {
 	                int n = Integer.parseInt(menu);
 	                RecipeInfo param = favoriteList.get(n-1).getRecipeInfo();            
 	                RecipeInfoView infoView = new RecipeInfoView(dio);
@@ -75,7 +75,6 @@ public class FavoriteListView {
 	            System.out.println("---------------------------------------------");
 	            System.out.println("-:이전페이지 +:다음페이지 0:뒤로가기 D:즐겨찾기해제 : ");
 	            System.out.print("상세레시피를 보기 원하시면 번호를 입력하세요 : ");
-	            sc = new Scanner(System.in);
 	            menu = sc.nextLine();
 	            
 	            if(menu.equals("-")) {
@@ -94,7 +93,7 @@ public class FavoriteListView {
 	                    FailView fail = new FailView();
 	                    String msg = dio.receive();
 	                    fail.favoriteListView(msg);
-	                }
+	                } 
 	                
 				}  else if (!menu.equals("0")){
 	                int n = Integer.parseInt(menu);
@@ -113,7 +112,6 @@ public class FavoriteListView {
 	public void removeFavoriteView() throws IOException {
 		/*삭제할 즐겨찾기 번호 입력*/
 		System.out.print("즐겨찾기 해제를 원하는 번호를 입력해주세요 :");
-		sc = new Scanner(System.in);
 		int selectNum = Integer.parseInt((sc.nextLine()));
 		
 		List<Favorite> fList = searchFavoriteList(CustomerShare.loginedId);
@@ -124,9 +122,6 @@ public class FavoriteListView {
 		SuccessView success = new SuccessView();
 		String msg = "즐겨찾기 목록에서 삭제되었습니다.";
 		success.favoriteDeleteView(msg);
-		
-		/*삭제처리 후 목록보기*/
-		showFavoriteListView(CustomerShare.loginedId);
 	}
 	
 	/**
