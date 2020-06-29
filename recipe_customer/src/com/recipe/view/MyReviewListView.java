@@ -8,6 +8,8 @@ import java.util.Scanner;
 
 import com.recipe.io.DataIO;
 import com.recipe.io.Menu;
+import com.recipe.share.CustomerShare;
+import com.recipe.vo.RecipeInfo;
 import com.recipe.vo.Review;
 
 /**
@@ -15,71 +17,86 @@ import com.recipe.vo.Review;
  *
  */
 public class MyReviewListView {
-
-	private String customerId;
-	private int recipeCode;
 	private DataIO dio;
 	private Scanner sc;
-
+	private RemoveReviewView removeReviewView;
 	public MyReviewListView(DataIO dio) {
 		this.dio = dio;
 	}
 	
 	/**
 	 * 로그인 한 customerId로 리뷰 목록조회
+	 * @throws IOException 
 	 */
-	public void showMyReviewListView(String customerId) {
+	public void showMyReviewListView(String customerId) throws IOException {
 		System.out.println("===== 나의 후기 목록 보기 =====");
 		List<Review> reviewList = searchReviewList(customerId);
 		/*목록 출력*/
-		if ( reviewList.size() == 0 ) {
-			FailView fail = new FailView();
-			String msg = "등록된 후기가 없습니다.";
-			fail.reviewListView(msg);
-		} else {
-			SimpleDateFormat sdf = new SimpleDateFormat("yy-MM-dd");
-			System.out.println("== ["+reviewList.size() +"]건의 등록된 즐겨찾기 목록이 조회되었습니다==");
-			System.out.println("레시피상품명 | 후기작성일자 | 후기내용 ");
-			for (Review r : reviewList ) {
-				System.out.println(
-						r.getRecipeInfo().getRecipeName()
-						+ " | " + sdf.format(r.getReviewDate())
-						+ " | " + r.getReviewComment()                                                           
-				);
-			}
-		}
-
-		/*목록 보기 하단 메뉴바*/
-		System.out.println("---------------------------------------------");
-		System.out.println("- 이전페이지 | + 다음페이지 ");
-		sc = new Scanner(System.in);
-		String menuKey = sc.nextLine();
-		switch (menuKey) {
-		case "-":
-			System.out.println("이전페이지로 이동합니다.");
-			break;
-		case "+":
-			System.out.println("다음페이지로 이동합니다.");
-			break;
-		case "*":
-			System.out.println("메인메뉴로 이동합니다.");
-			goBackMainView();
-			break;
-		default:
-			System.out.println("상세페이지로 이동합니다.");
-			break;
-		}
-
+        String menu;
+        int size = reviewList.size();
+        int start_index = 0;
+        int end_index = size <= 5 ? size : 5;
+        SimpleDateFormat sdf = new SimpleDateFormat("yy-MM-dd");
+        
+        System.out.println("== ["+size+"]건의 후기 목록이 조회되었습니다 ==");
+    	if ( size != 0 ) {
+        	System.out.println("레시피상품명 | 후기작성일자 | 후기내용 ");
+    	}
+        do {        
+            for (int i = start_index; i<end_index; i++) {
+                Review r = reviewList.get(i);
+                System.out.println( i+1 + ". "
+                        + r.getRecipeInfo().getRecipeName() +" | "
+                		+ sdf.format(r.getReviewDate()) +" | "
+                		+ r.getReviewComment()
+                );
+            }
+	                
+	        if(size < 5) {
+	        	System.out.print("0:뒤로가기 D:후기삭제 : ");
+	        	sc = new Scanner(System.in);
+	            menu = sc.nextLine();
+	            
+	            if(menu.equals("D")) {
+	                try {
+	                	removeReviewView = new RemoveReviewView(dio);
+	                	removeReviewView.removeReview(reviewList);
+	                	showMyReviewListView(CustomerShare.loginedId);
+	                } catch (IOException e) {
+	                    e.printStackTrace();
+	                    FailView fail = new FailView();
+	                    String msg = dio.receive();
+	                    fail.reviewRemoveView(msg);
+	                }
+				}
+	        } else {
+	            System.out.println("---------------------------------------------");
+	            System.out.println("-:이전페이지 +:다음페이지 0:뒤로가기 D:후기삭제 : ");
+	            sc = new Scanner(System.in);
+	            menu = sc.nextLine();
+	            
+	            if(menu.equals("-")) {
+	                start_index = (start_index - 5) >= 0 ? (start_index - 5) : 0; //이전 페이지를 누르면 시작 인덱스 값을 5 감소시킨다. 이떄, 0보다 작아지면 0으로 설정한다
+	                end_index = start_index + 5; //시작 인덱스부터 다섯개를 출력하기 위해 끝 인덱스는 시작 인덱스에서 5 증가한 값을 갖는다
+				} else if(menu.equals("+")) {
+					end_index = (end_index + 5) <= size ? (end_index + 5) : size; //다음 페이지를 누르면 end_index 값을 5 증가시킨다. 이때, list의 size보다 커지면 size와 같은 값으로 설정한다
+					start_index = (end_index % 5) == 0 ? end_index - 5 : end_index-(end_index%5); //시작 인덱스부터 다섯개를 출력하기 위해 시작 인덱스는 끝 인덱스에서 5 감소한 값을 갖는다
+				} else if(menu.equals("D")) {
+	                try {
+	                	removeReviewView = new RemoveReviewView(dio);
+	                	removeReviewView.removeReview(reviewList);
+	                	showMyReviewListView(CustomerShare.loginedId);
+	                } catch (IOException e) {
+	                    e.printStackTrace();
+	                    FailView fail = new FailView();
+	                    String msg = dio.receive();
+	                    fail.reviewRemoveView(msg);
+	                }
+				}
+	        }
+	    } while (!menu.equals("0"));
 	}
-	
-	/**
-	 * 초기화면(메인메뉴)으로 이동
-	 */
-	private void goBackMainView() {
-		System.out.println("아직 PL님이 고민중인 기능입니다!");
-	}
-	
-	
+		
 	/**
 	 * Review 목록 보기 수행시, 사용자의 customerId로 조회한 결과값 반환한다.
 	 * @param customerId 로그인한 사용자의 ID

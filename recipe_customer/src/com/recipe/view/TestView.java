@@ -4,10 +4,14 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.recipe.io.DataIO;
 import com.recipe.share.CustomerShare;
+import com.recipe.vo.Favorite;
+import com.recipe.vo.Point;
+import com.recipe.vo.RecipeInfo;
 import com.recipe.vo.Review;
 
 /**
@@ -23,45 +27,21 @@ public class TestView {
 			s = new Socket("127.0.0.1", 1025);
 			dio = new DataIO(new DataOutputStream(s.getOutputStream()), new DataInputStream(s.getInputStream()));
 			
+			CustomerShare.loginedId = "tester";
+
 			//test_MyReviewView(dio);
 			//test_MyReviewViewList(dio);
-			test_recipeCodeReviewViewList(dio);
-//			CustomerShare.loginedId = "backym";
-//			RecipeInfo info = new RecipeInfo();
-//			info.setRecipeCode(135);
-//			info.setIngredients(null);
-//			info.setRecipeName("유부계란찜");
-//			info.setRecipePrice(3000);
-//			info.setRecipeProcess("C:/project/recipeMakret_server/resource/recipeProcess/135.txt");
-//			info.setRecipeSumm("유부에 넣어 달걀찜을 하면 도시락 반찬으로 모양도 예쁘고 맛도 있는 센스만점 반찬이 된답니다~");
-//
-//			Point p = new Point();
-//			p.setLikeCount(71);
-//			p.setDisLikeCount(52);
-//			p.setRecipeCode(135);
-//			info.setPoint(p);
-
-			/* test_favorite */
-			// FavoriteListView view = new FavoriteListView(dio);
-			// Favorite f = new Favorite();
-			// f.setCustomerId(CustomerShare.loginedId);
-			// f.setRecipeInfo(info);
-			// view.insertFavorite(f);
-			/* test_review */
-			// ReviewListView view = new ReviewListView(dio);
-			// view.showReviewListView(CustomerShare.loginedId);
-			// view.showReviewListByRecipeCodeView(134);
-
-			/* review insert Test */
-//			AddReviewView view = new AddReviewView(dio);
-//			view.insertReviewView(info);
+			//test_recipeCodeReviewViewList(dio);
+			//test_removeReview(dio);
+			//test_FavoriteListView(dio);
+			
 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	private static void test_MyReviewView (DataIO dio) {
+	private static void test_MyReviewView (DataIO dio) throws IOException {
 		MyReviewListView view = new MyReviewListView(dio);
 		CustomerShare.loginedId = "kosj";
 		view.showMyReviewListView(CustomerShare.loginedId);
@@ -83,6 +63,20 @@ public class TestView {
 		ReviewListView view = new ReviewListView(dio);
 		int recipeCode = 134;
 		view.showReviewListByRecipeCodeView(recipeCode);
+	}
+	private static void test_removeReview (DataIO dio) throws IOException {
+		RemoveReviewView view = new RemoveReviewView(dio);
+		MyReviewListView myView = new MyReviewListView(dio);
+		myView.showMyReviewListView(CustomerShare.loginedId);
+		List<Review> list = myView.searchReviewList(CustomerShare.loginedId);
+		view.removeReview(list);
+		System.out.println("삭제 완료!!!");
+	}
+	
+	private static void test_FavoriteListView(DataIO dio) throws IOException {
+		FavoriteListView listView = new FavoriteListView(dio);
+		List<Favorite> list = new ArrayList<>();
+		listView.showFavoriteListView(CustomerShare.loginedId);
 	}
 
 } // end class TestView()

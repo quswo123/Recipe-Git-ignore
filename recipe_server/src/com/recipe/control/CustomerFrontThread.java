@@ -158,9 +158,11 @@ public class CustomerFrontThread implements Runnable {
 				case Menu.SEARCH_REVIEW_BY_RECIPECODE: //로그인한 사용자 즐겨찾기 목록 보기
 					reviewByRecipeCodeFront();
 				case Menu.ADD_FAVORITE: // 즐겨찾기 추가
-						insertFavorite();
+					insertFavorite();
 				case Menu.ADD_REVIEW: //후기 등록 
-						insertReview();
+					insertReview();
+				case Menu.REMOVE_REVIEW: //후기 등록 
+					removeReview();
 				default:
 					break;
 				}
@@ -472,5 +474,26 @@ public class CustomerFrontThread implements Runnable {
 			dio.sendFail(e.getMessage());
 		}
 	}
+	
+	/**
+	 * review 삭제
+	 * @throws IOException
+	 * @author 고수정
+	 */
+	public void removeReview() throws IOException {
+		Review r = new Review();
+		try {
+			r = dio.receiveReview();
+			control.remove(r);
+			dio.sendSuccess();
+		
+		} catch (IOException | ParseException e) {
+			e.printStackTrace();
+			dio.sendFail(e.getMessage());
 
+		} catch (RemoveException e) {
+			e.printStackTrace();
+			dio.sendFail(e.getMessage());
+		}
+	}
 } //end class CustomerFrontThread

@@ -59,7 +59,8 @@ public class AddReviewView {
 
 		if (dio.receive().equals("success")) {
 			SuccessView success = new SuccessView();
-			success.reviewInsertView("후기를 작성해주셔서 감사합니다.");
+            String msg = "후기를 작성해주셔서 감사합니다.";
+            success.reviewInsertView(msg);
 		} else {
 			FailView fail = new FailView();
 			String msg = dio.receive();
