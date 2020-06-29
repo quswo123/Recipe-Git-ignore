@@ -250,8 +250,6 @@ public class CustomerFrontThread implements Runnable {
 	public void purchaseRecipe() throws IOException{
 		Purchase purchase = null;
 		try {
-			
-			
 			purchase = dio.receivePurchase();
 			control.buyRecipe(purchase);
 			dio.sendSuccess();
@@ -385,7 +383,6 @@ public class CustomerFrontThread implements Runnable {
 			control.modifyPoint(p);
 			dio.sendSuccess();
 		} catch (ModifyException e) {
-			e.printStackTrace();
 			dio.sendFail(e.getMessage());
 		}
 	}
@@ -445,15 +442,12 @@ public class CustomerFrontThread implements Runnable {
 
 			
 		} catch (IOException | ParseException e) {
-			e.printStackTrace();
 			dio.sendFail(e.getMessage());
 		
 		} catch (DuplicatedException e) {
-			e.printStackTrace();
 			dio.sendFail(e.getMessage());
 		
 		} catch (AddException e) {
-			e.printStackTrace();
 			dio.sendFail(e.getMessage());
 		}
 	}
@@ -467,13 +461,16 @@ public class CustomerFrontThread implements Runnable {
 		try {
 			f = dio.receiveFavorite(); 
 			control.addFavorite(f);
+			System.out.println(1);
 			dio.sendSuccess();
 
 		} catch (DuplicatedException e) {
+			System.out.println(2);
 			e.printStackTrace();
 			dio.sendFail(e.getMessage());
 			
 		} catch (AddException e) {
+			System.out.println(3);
 			e.printStackTrace();
 			dio.sendFail(e.getMessage());
 		}

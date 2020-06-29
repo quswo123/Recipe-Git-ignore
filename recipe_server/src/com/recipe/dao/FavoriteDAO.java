@@ -59,11 +59,10 @@ public class FavoriteDAO {
 			pstmt.executeUpdate();
 			
 		} catch (SQLException e) {
-			//e.printStackTrace();
 			if ( e.getErrorCode() == 1 ) { // SQLException errorCode == 1 )  
-				System.out.println("Fail : 이미 즐겨찾기 추가되어 있는 레시피 입니다.");
+				throw new DuplicatedException("Fail : 이미 즐겨찾기 추가되어 있는 레시피 입니다.");
 			} else { 
-				System.out.println("Fail : 즐겨찾기 추가 실패했습니다.");
+				throw new AddException("Fail : 즐겨찾기 추가 실패했습니다.");
 			}
 			
 		} finally {

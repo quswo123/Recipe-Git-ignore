@@ -27,13 +27,15 @@ public class RecipeListView {
 		int start_index = 0; //화면에 다섯개씩 보여줄때 사용할 시작 인덱스
 		int end_index = size <= 5 ? size : 5;//화면에 다섯개씩 보여줄때 사용할 끝 인덱스
 											//ListView를 최초로 구성할때, list의 size가 5 이하이면 size만큼 화면에 출력하고,5를 초과하면 5만큼만 화면에 출력
-		System.out.println("[" + size + "개의 건이 조회되었습니다]");
+		System.out.println("[" + size + "건이 조회되었습니다]");
 		do {			
 			for(int i = start_index; i < end_index; i++) {
 				System.out.println(i+1 + ". " + list.get(i).getRecipeName());
 			}
 			if(size < 5) {
 				System.out.println("0.뒤로가기");
+				System.out.print("상세레시피를 보기 원하시면 번호를 입력하세요:");
+				menu = sc.nextLine();
 				menu = sc.nextLine();
 				if (!menu.equals("0")) {
 					int n = Integer.parseInt(menu);
@@ -45,6 +47,7 @@ public class RecipeListView {
 			}
 			else {
 				System.out.println("-:이전페이지 +:다음페이지 0.뒤로가기");
+				System.out.print("상세레시피를 보기 원하시면 번호를 입력하세요:");
 				menu = sc.nextLine();
 				if(menu.equals("-")) {
 					start_index = (start_index - 5) >= 0 ? (start_index - 5) : 0; //이전 페이지를 누르면 시작 인덱스 값을 5 감소시킨다. 이떄, 0보다 작아지면 0으로 설정한다
