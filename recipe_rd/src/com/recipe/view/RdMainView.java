@@ -20,7 +20,7 @@ public class RdMainView {
 		int menu = -1;
 		try {
 			do {
-				System.out.println("1.레시피등록 2.레시피검색 3.레시피전체보기 4.추천레시피 5.내정보보기 6.로그아웃 7.시스템종료");
+				System.out.println("1.레시피등록 2.레시피검색 3.레시피전체보기 4.추천레시피 5.내정보보기 6.로그아웃 7.프로그램 종료");
 				menu = Integer.parseInt(sc.nextLine());
 				switch (menu) {
 				case 1:

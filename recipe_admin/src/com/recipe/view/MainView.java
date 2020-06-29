@@ -28,7 +28,7 @@ public class MainView {
 		int menu = -1;
 		try {
 			do {
-				System.out.println("1.레시피검색 2.추천레시피 3.로그인 4.회원가입 0.프로그램 종료");
+				System.out.println("1.레시피검색 2.추천레시피 3.로그인 0.프로그램 종료");
 				menu = Integer.parseInt(sc.nextLine());
 				switch (menu) {
 				case 1:
@@ -40,10 +40,6 @@ public class MainView {
 				case 3:
 					LoginView loginView = new LoginView(dio);
 					loginView.showLoginView();
-					break;
-				case 4:
-					break;
-				case 5:
 					break;
 				case 0:
 					System.exit(0);
