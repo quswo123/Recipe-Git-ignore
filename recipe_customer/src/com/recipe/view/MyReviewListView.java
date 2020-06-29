@@ -21,6 +21,7 @@ public class MyReviewListView {
 	private RemoveReviewView removeReviewView;
 	public MyReviewListView(DataIO dio) {
 		this.dio = dio;
+		sc = new Scanner(System.in);
 	}
 	
 	/**
@@ -29,19 +30,21 @@ public class MyReviewListView {
 	 */
 	public void showMyReviewListView(String customerId) throws IOException {
 		System.out.println("===== 나의 후기 목록 보기 =====");
-		List<Review> reviewList = searchReviewList(customerId);
-		/*목록 출력*/
-        String menu;
-        int size = reviewList.size();
-        int start_index = 0;
-        int end_index = size <= 5 ? size : 5;
-        SimpleDateFormat sdf = new SimpleDateFormat("yy-MM-dd");
-        
-        System.out.println("== ["+size+"]건의 후기 목록이 조회되었습니다 ==");
-    	if ( size != 0 ) {
-        	System.out.println("레시피상품명 | 후기작성일자 | 후기내용 ");
-    	}
-        do {        
+		String menu;
+
+        do {    
+    		List<Review> reviewList = searchReviewList(customerId);
+    		/*목록 출력*/
+            int size = reviewList.size();
+            int start_index = 0;
+            int end_index = size <= 5 ? size : 5;
+            SimpleDateFormat sdf = new SimpleDateFormat("yy-MM-dd");
+            
+            System.out.println("== ["+size+"]건의 후기 목록이 조회되었습니다 ==");
+        	if ( size != 0 ) {
+            	System.out.println("레시피상품명 | 후기작성일자 | 후기내용 ");
+        	}
+        	
             for (int i = start_index; i<end_index; i++) {
                 Review r = reviewList.get(i);
                 System.out.println( i+1 + ". "
@@ -53,14 +56,12 @@ public class MyReviewListView {
 	                
 	        if(size < 5) {
 	        	System.out.print("0:뒤로가기 D:후기삭제 : ");
-	        	sc = new Scanner(System.in);
 	            menu = sc.nextLine();
 	            
-	            if(menu.equals("D")) {
+	            if(menu.equalsIgnoreCase("D")) {
 	                try {
 	                	removeReviewView = new RemoveReviewView(dio);
 	                	removeReviewView.removeReview(reviewList);
-	                	showMyReviewListView(CustomerShare.loginedId);
 	                } catch (IOException e) {
 	                    e.printStackTrace();
 	                    FailView fail = new FailView();
@@ -71,7 +72,6 @@ public class MyReviewListView {
 	        } else {
 	            System.out.println("---------------------------------------------");
 	            System.out.println("-:이전페이지 +:다음페이지 0:뒤로가기 D:후기삭제 : ");
-	            sc = new Scanner(System.in);
 	            menu = sc.nextLine();
 	            
 	            if(menu.equals("-")) {
@@ -84,7 +84,7 @@ public class MyReviewListView {
 	                try {
 	                	removeReviewView = new RemoveReviewView(dio);
 	                	removeReviewView.removeReview(reviewList);
-	                	showMyReviewListView(CustomerShare.loginedId);
+	                	
 	                } catch (IOException e) {
 	                    e.printStackTrace();
 	                    FailView fail = new FailView();
