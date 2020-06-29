@@ -250,8 +250,6 @@ public class CustomerFrontThread implements Runnable {
 	public void purchaseRecipe() throws IOException{
 		Purchase purchase = null;
 		try {
-			
-			
 			purchase = dio.receivePurchase();
 			control.buyRecipe(purchase);
 			dio.sendSuccess();
