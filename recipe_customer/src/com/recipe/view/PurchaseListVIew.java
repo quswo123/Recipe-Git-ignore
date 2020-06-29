@@ -30,7 +30,7 @@ public class PurchaseListVIew {
 		List<Purchase> list = null;
 		List<Review> rlist = null;
 		SimpleDateFormat sdf = new SimpleDateFormat("yy-MM-dd");
-		String menu = null;
+		String menu;
 		List<Boolean> blist = new ArrayList<>();
 
 		try {

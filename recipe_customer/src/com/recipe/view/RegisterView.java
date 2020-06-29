@@ -30,7 +30,6 @@ public class RegisterView {
 		Customer c = addInfoMenu();
 		if (c != null) {
 			try {
-				System.out.println("입력된 값:" + c);
 				// 회원가입
 				dataio.sendMenu(Menu.CUSTOMER_REGISTER);
 				// Customer 정보를 송신
@@ -102,9 +101,15 @@ public class RegisterView {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-
+			
 		}
-		System.out.print("5.핸드폰 번호를 입력해주세요  : ");
+		System.out.print("6.상세주소를 입력해주세요  : ");
+		String customerAddr = sc.nextLine();
+		if (!"".equals(customerAddr)) {
+			c.setCustomerAddr(customerAddr);
+		}
+		
+		System.out.print("7.핸드폰 번호를 입력해주세요  : ");
 		String customerPhone = sc.nextLine();
 		if (!"".equals(customerPhone)) {
 			c.setCustomerPhone(customerPhone);
