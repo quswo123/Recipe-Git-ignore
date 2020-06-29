@@ -71,6 +71,8 @@ public class RecipeInfoView {
 			menu = sc.nextLine();
 			if(menu.equals("1")) {
 				//레시피 후기 목록
+				ReviewListView reviewListView = new ReviewListView(dio);
+				reviewListView.showReviewListByRecipeCodeView(info.getRecipeCode());
 			} else if(menu.equals("2")) {
 				ModifyRecipeView modifyRecipeView = new ModifyRecipeView(dio);
 				modifyRecipeView.showModifyRecipeView(info);
