@@ -30,7 +30,7 @@ public class PurchaseListVIew {
 		List<Purchase> list = null;
 		List<Review> rlist = null;
 		SimpleDateFormat sdf = new SimpleDateFormat("yy-MM-dd");
-		String menu = null;
+		String menu;
 		List<Boolean> blist = new ArrayList<>();
 
 		try {
@@ -76,6 +76,7 @@ public class PurchaseListVIew {
 					}
 				} // for
 				if (size < 5) {
+					sc = new Scanner(System.in);
 					System.out.println("상세페이지번호 : | 0.이전화면");
 					System.out.print("상세내역을 보기원하시면 번호를 입력해주세요 : ");
 					menu = sc.nextLine();
@@ -85,6 +86,7 @@ public class PurchaseListVIew {
 						infoView.searchPurchaseInfoView(list.get(n - 1), blist.get(n - 1));
 					}
 				} else {
+					sc = new Scanner(System.in);
 					System.out.println("-:이전페이지 | +:다음페이지  | 0.이전화면 ");
 					System.out.print("상세내역을 보기원하시면 번호를 입력해주세요 : ");
 					menu = sc.nextLine();

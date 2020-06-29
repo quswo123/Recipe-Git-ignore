@@ -46,7 +46,7 @@ public class CustomerInfoView {
 				System.out.println("비밀번호 : " + receiveCustomer.getCustomerPwd());
 				System.out.println("e-mail :" + receiveCustomer.getCustomerEmail());
 				System.out.println(
-						"주소 :" + receiveCustomer.getPostal().getCity() + receiveCustomer.getPostal().getDoro());
+						"주소 :" + receiveCustomer.getPostal().getCity() + receiveCustomer.getPostal().getDoro() + " "+receiveCustomer.getCustomerAddr());
 				System.out.println("핸드폰 번호 :" + receiveCustomer.getCustomerPhone());
 				customerInfoMenu();
 			} else {
