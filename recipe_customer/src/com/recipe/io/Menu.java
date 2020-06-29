@@ -38,5 +38,5 @@ public class Menu {
 	public static final int RD_ADD = 104; //R&D 계정 추가
 	public static final int RD_MODIFY = 105; //R&D 계정 수정
 	public static final int RD_REMOVE = 106; //R&D 계정 삭제
-	
+	public static final int RD_INFO = 107; //R&D 내 정보 보기
 }

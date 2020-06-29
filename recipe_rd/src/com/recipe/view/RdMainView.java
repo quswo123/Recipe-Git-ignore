@@ -40,6 +40,8 @@ public class RdMainView {
 					recommendedRecipeView.showRecommendedRecipeView();
 					break;
 				case 5:
+					RdInfoView rdInfoView = new RdInfoView(dio);
+					rdInfoView.showRdInfoView();
 					break;
 				case 6:
 					menu = -1;

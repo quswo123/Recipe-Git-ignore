@@ -78,4 +78,8 @@ public class RDAccountService {
 	public void remove(String rdId) throws RemoveException {
 		rdDAO.disableRD(rdId);
 	}
+	
+	public RD findById(String rdId) throws FindException {
+		return rdDAO.selectById(rdId);
+	}
 }
