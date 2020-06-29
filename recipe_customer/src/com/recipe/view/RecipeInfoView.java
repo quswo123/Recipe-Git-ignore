@@ -27,15 +27,6 @@ public class RecipeInfoView {
 	 * @author 최종국
 	 */
 	public void showRecipeInfoView(RecipeInfo info) {
-		System.out.println(info); //레시피 정보 출력
-		try {
-			dio.sendMenu(Menu.RECIPE_PROCESS); //레시피 과정 정보를 서버에 요청
-			dio.send(info.getRecipeProcess()); //레시피 과정 경로를 서버에 전송 (이렇게 하는게 맞을지... recipeCode를 보내면 그에 대한 파일 경로를 검색해서 과정 정보를 보내주도록 하는게 맞는지...)
-			System.out.println(dio.receive()); //레시피 과정 정보 출력
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 		if(CustomerShare.loginedId.equals("")) {
 			basicMenu(info);
 		} else {
@@ -51,6 +42,7 @@ public class RecipeInfoView {
 		String menu = null;
 		try {
 			do {
+				printRecipeInfo(info);
 				System.out.println("1.좋아요 2.싫어요 3.후기목록보기 0.이전화면");
 				menu = sc.nextLine();
 				if (menu.equals("1")) {
@@ -61,7 +53,7 @@ public class RecipeInfoView {
 					ReviewListView rlview = new ReviewListView(dio);
 					rlview.showReviewListByRecipeCodeView(info.getRecipeCode());
 				}
-			} while (!menu.equals("0")); // 초기화면으로 가는 처리는 아직 고민중
+			} while (!menu.equals("0"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -75,6 +67,7 @@ public class RecipeInfoView {
 		String menu = null;
 		try {
 			do {
+				printRecipeInfo(info);
 				System.out.println("1.구매하기 2.후기목록보기 3.즐겨찾기추가 4.좋아요 5.싫어요 0.이전화면");
 				menu = sc.nextLine();
 				if (menu.equals("1")) {
@@ -123,6 +116,7 @@ public class RecipeInfoView {
 			FailView fail = new FailView();
 			fail.likeRecipe(dio.receive());
 		}
+		info.getPoint().setLikeCount(info.getPoint().getLikeCount() + 1);
 	}
 	
 	/**
@@ -139,6 +133,7 @@ public class RecipeInfoView {
 			FailView fail = new FailView();
 			fail.likeRecipe(dio.receive());
 		}
+		info.getPoint().setDisLikeCount(info.getPoint().getDisLikeCount() + 1);
 	}
 	
 	/**
@@ -180,6 +175,22 @@ public class RecipeInfoView {
 		} else {
 			FailView fail = new FailView();
 			fail.purchaseView("구매 오류입니다 다시시도해주세요");
+		}
+	}
+	
+	/**
+	 * 레시피 정보를 출력한다
+	 * @param info 레시피의 정보를 가진 RecipeInfo VO객체
+	 */
+	private void printRecipeInfo(RecipeInfo info) {
+		System.out.println(info); //레시피 정보 출력
+		try {
+			dio.sendMenu(Menu.RECIPE_PROCESS); //레시피 과정 정보를 서버에 요청
+			dio.send(info.getRecipeProcess()); //레시피 과정 경로를 서버에 전송 (이렇게 하는게 맞을지... recipeCode를 보내면 그에 대한 파일 경로를 검색해서 과정 정보를 보내주도록 하는게 맞는지...)
+			System.out.println(dio.receive()); //레시피 과정 정보 출력
+			
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 }

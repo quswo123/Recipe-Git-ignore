@@ -205,7 +205,8 @@ public class RecipeInfoDAO {
 				recipe_InfoVo.setRecipeCode(rs.getInt(1));//setRecipe_code메소드를 이용해서 recipe_InfoVo의 Recipe_code에 넣어준다
 			}
 			recipe_InfoVo.setRecipeProcess("c:/project/recipe_server/resource/recipeProcess/" + recipe_InfoVo.getRecipeCode() + ".txt");		//recipeprocess에 레시피코드를 파일명으로 한 파일생성경로를 넣어준다.
-//			recipe_InfoVo.setRecipeProcess("/Users/elannien/project/recipe_server/resource/recipeProcess/" + recipe_InfoVo.getRecipeCode() + ".txt");		//recipeprocess에 레시피코드를 파일명으로 한 파일생성경로를 넣어준다.
+			//Mac전용 경로
+			//recipe_InfoVo.setRecipeProcess("/Users/elannien/project/recipe_server/resource/recipeProcess/" + recipe_InfoVo.getRecipeCode() + ".txt");		//recipeprocess에 레시피코드를 파일명으로 한 파일생성경로를 넣어준다.
 			rs.close();
 			pstmt.close();
 			quary = "INSERT INTO RECIPE_INFO VALUES(?, ?, ?, ?, ?, ?, ?)";		//RECIPE_INFO 에 값들을 넣어주는 쿼리문

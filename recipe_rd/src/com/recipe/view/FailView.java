@@ -52,4 +52,8 @@ public class FailView {
 	public void viewAllRecipeView(String msg) {
 		System.out.println("레시피 전체 조회 실패 : " + msg);
 	}
+	
+	public void rdInfoView(String msg) {
+		System.out.println("내 정보 보기 실패 : " + msg);
+	}
 }

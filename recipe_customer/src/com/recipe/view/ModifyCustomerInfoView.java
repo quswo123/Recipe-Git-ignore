@@ -90,7 +90,7 @@ public class ModifyCustomerInfoView {
 								+ p.getBuilding());
 					}
 					System.out.println("번호를 선택하세요");
-					int index = Integer.parseInt(sc.nextLine());
+					int index = Integer.parseInt(sc.nextLine()) - 1;
 					if (index < 0 || index >= list.size()) {
 						System.out.println("잘못입력하셨습니다");
 						return null;

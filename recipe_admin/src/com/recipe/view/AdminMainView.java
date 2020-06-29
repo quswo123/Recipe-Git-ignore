@@ -21,7 +21,7 @@ public class AdminMainView {
 		int menu = -1;
 		try {
 			do {
-				System.out.println("1.R&D계정추가 2.R&D계정수정 3.R&D계정삭제 4.R&D계정조회 5.로그아웃 6.시스템종료");
+				System.out.println("1.R&D계정추가 2.R&D계정수정 3.R&D계정삭제 4.R&D계정조회 5.로그아웃 6.프로그램 종료");
 				menu = Integer.parseInt(sc.nextLine());
 				switch (menu) {
 				case 1:

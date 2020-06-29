@@ -70,8 +70,13 @@ public class RD {
 
 	@Override
 	public String toString() {
-		return "RD [rdId=" + rdId + ", rdPwd=" + rdPwd + ", rdManagerName=" + rdManagerName + ", rdTeamName="
-				+ rdTeamName + ", rdPhone=" + rdPhone + "]";
+		String result = "";
+		result += "아이디 : " + rdId + "\n";
+		result += "비밀번호 : " + rdPwd + "\n";
+		result += "관리자 이름 : " + rdManagerName + "\n";
+		result += "부서 이름 : " + rdTeamName + "\n";
+		result += "전화번호 : " + rdPhone + "\n";
+		return result;
 	}
 	
 }
