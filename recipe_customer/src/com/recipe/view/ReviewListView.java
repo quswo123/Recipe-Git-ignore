@@ -30,11 +30,13 @@ public class ReviewListView {
 
 		/*목록 출력*/
         String menu;
+        int start_index = 0;
+        int end_index = 0;
         do {        
         	List<Review> reviewList = searchByRecipeCodeReviewList(recipeCode);
 	        int size = reviewList.size();
-	        int start_index = 0;
-	        int end_index = size <= 5 ? size : 5;
+	        
+	        if (start_index == 0) end_index = size <= 5 ? size : 5;
 	        SimpleDateFormat sdf = new SimpleDateFormat("yy-MM-dd");
 	        
 	        System.out.println("== ["+size+"]건의 후기 목록이 조회되었습니다 ==");
