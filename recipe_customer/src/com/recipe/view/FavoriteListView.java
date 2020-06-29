@@ -20,6 +20,7 @@ public class FavoriteListView {
 	private Scanner sc;
 
 	public FavoriteListView(DataIO dio) {
+		sc = new Scanner(System.in);
 		this.dio = dio;
 	}
 
@@ -52,7 +53,6 @@ public class FavoriteListView {
 	        if(size < 5) {
 	        	System.out.println("0:뒤로가기  D:즐겨찾기해제 : ");
 	            System.out.print("상세레시피를 보기 원하시면 번호를 입력하세요 : ");
-	        	sc = new Scanner(System.in);
 	            menu = sc.nextLine();
 	            if(menu.equalsIgnoreCase("D")) {
 	                try {
@@ -75,7 +75,6 @@ public class FavoriteListView {
 	            System.out.println("---------------------------------------------");
 	            System.out.println("-:이전페이지 +:다음페이지 0:뒤로가기 D:즐겨찾기해제 : ");
 	            System.out.print("상세레시피를 보기 원하시면 번호를 입력하세요 : ");
-	            sc = new Scanner(System.in);
 	            menu = sc.nextLine();
 	            
 	            if(menu.equals("-")) {
@@ -113,7 +112,6 @@ public class FavoriteListView {
 	public void removeFavoriteView() throws IOException {
 		/*삭제할 즐겨찾기 번호 입력*/
 		System.out.print("즐겨찾기 해제를 원하는 번호를 입력해주세요 :");
-		sc = new Scanner(System.in);
 		int selectNum = Integer.parseInt((sc.nextLine()));
 		
 		List<Favorite> fList = searchFavoriteList(CustomerShare.loginedId);
