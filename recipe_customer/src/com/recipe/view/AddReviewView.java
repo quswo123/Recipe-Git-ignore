@@ -46,7 +46,7 @@ public class AddReviewView {
 
 		System.out.println("====레시피 추천하시겠습니까?====");
 		System.out.print("==== 1.좋아요 | 2.싫어요  : ");
-		int select = sc.nextInt();
+		int select = Integer.parseInt(sc.nextLine());
 		switch (select) {
 		case 1:
 			dio.send(Menu.LIKE);
@@ -66,6 +66,9 @@ public class AddReviewView {
 			String msg = dio.receive();
 			fail.reviewInsertView(msg);
 		}
+		/*
+		 * PurchaseListVIew pview = new PurchaseListVIew(dio); pview.purchaseView();
+		 */
 	}
 
 } // end class AddReviewView

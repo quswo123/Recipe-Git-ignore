@@ -155,7 +155,7 @@ public class CustomerFrontThread implements Runnable {
 				case Menu.SEARCH_REVIEW_BY_CUSTOMERID: //로그인한 사용자 즐겨찾기 목록 보기
 					reviewByCustomerIdFront();
 					break;
-				case Menu.SEARCH_REVIEW_BY_RECIPECODE: //로그인한 사용자 즐겨찾기 목록 보기
+				case Menu.SEARCH_REVIEW_BY_RECIPECODE: //사용자 즐겨찾기 목록 보기
 					reviewByRecipeCodeFront();
 					break;
 				case Menu.ADD_FAVORITE: // 즐겨찾기 추가
@@ -404,12 +404,12 @@ public class CustomerFrontThread implements Runnable {
 		}
 	}
 	/**
-	 * customerId에 해당하는 즐겨찾기 목록을 조회한 후 반환한다.
+	 * recipeCode에 해당하는 후기 목록을 조회한 후 반환한다.
 	 * @throws IOException
 	 * @author 고수정
 	 */
 	public void reviewByRecipeCodeFront() throws IOException {
-		int recipeCode = dio.receiveMenu();
+		int recipeCode = dio.receiveInt();
 		List<Review> list = new ArrayList<>();
 		
 		try {
@@ -461,16 +461,13 @@ public class CustomerFrontThread implements Runnable {
 		try {
 			f = dio.receiveFavorite(); 
 			control.addFavorite(f);
-			System.out.println(1);
 			dio.sendSuccess();
 
 		} catch (DuplicatedException e) {
-			System.out.println(2);
 			e.printStackTrace();
 			dio.sendFail(e.getMessage());
 			
 		} catch (AddException e) {
-			System.out.println(3);
 			e.printStackTrace();
 			dio.sendFail(e.getMessage());
 		}

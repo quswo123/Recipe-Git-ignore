@@ -55,8 +55,7 @@ public class FavoriteListView {
 	                
 	        if(size < 5) {
 	        	sc = new Scanner(System.in);
-	        	System.out.println("0:뒤로가기  D:즐겨찾기해제 : ");
-	            System.out.print("상세레시피를 보기 원하시면 번호를 입력하세요 : ");
+	        	System.out.println("0:뒤로가기 ");
 	            menu = sc.nextLine();
 	            if(menu.equalsIgnoreCase("D")) {
 	                try {
@@ -75,7 +74,7 @@ public class FavoriteListView {
 	            }
 	        } else {
 	            System.out.println("---------------------------------------------");
-	            System.out.println("-:이전페이지 +:다음페이지 0:뒤로가기 D:즐겨찾기해제 : ");
+	            System.out.println("-:이전페이지 +:다음페이지 0:뒤로가기 D:즐겨찾기해제 ");
 	            System.out.print("상세레시피를 보기 원하시면 번호를 입력하세요 : ");
 	            menu = sc.nextLine();
 	            
@@ -154,14 +153,18 @@ public class FavoriteListView {
 			dio.sendMenu(Menu.ADD_FAVORITE);
 			dio.send(f);
 			//client측으로 전송할 데이터
+					
 			if (dio.receive().equals("success")) {
 				SuccessView success = new SuccessView();
 	            String msg = "즐겨찾기 등록 성공했습니다.";
 	            success.favoriteInsertView(msg);
+	            System.out.println("------------------------------------");
+	            
 			} else {
 				FailView fail = new FailView();
 				String msg = dio.receive();
 				fail.favoriteInsertView(msg);
+				System.out.println("------------------------------------");
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

@@ -81,7 +81,8 @@ public class RecipeInfoView {
 					ReviewListView rlview = new ReviewListView(dio);
 					rlview.showReviewListByRecipeCodeView(info.getRecipeCode());
 				} else if (menu.equals("3")) {
-					addFavorite(info);
+					FavoriteListView favoriteListView = new FavoriteListView(dio);
+					favoriteListView.insertFavorite(new Favorite(CustomerShare.loginedId, info));
 				} else if (menu.equals("4")) {
 					likeThisRecipe(info);
 				} else if (menu.equals("5")) {
@@ -90,19 +91,6 @@ public class RecipeInfoView {
 			} while (!menu.equals("0"));
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
-	}
-	private void addFavorite(RecipeInfo info) throws IOException {
-		Favorite f = new Favorite();
-		dio.sendMenu(Menu.ADD_FAVORITE);
-		f.setCustomerId(CustomerShare.loginedId);
-		f.setRecipeInfo(info);
-		dio.send(f);
-	
-		if (dio.receive().equals("fail")) {
-			FailView fail = new FailView();
-			String msg = dio.receive();
-			fail.favoriteListView(msg);
 		}
 	}
 	/**
