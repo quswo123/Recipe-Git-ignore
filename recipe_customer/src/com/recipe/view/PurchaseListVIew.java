@@ -22,7 +22,7 @@ public class PurchaseListVIew {
 		sc = new Scanner(System.in);
 		this.dio = dio;
 	}
-
+	
 	/**
 	 * 나의 구매목록 보기 View
 	 */
@@ -47,11 +47,12 @@ public class PurchaseListVIew {
 				// 구매리스트와 후기등록여부를 위해 후기리스트도 가져온다
 				list = dio.receivePurchaseList();
 				rlist = dio.receiveReviews();
-
+				
 				int size = list.size();
 				int start_index = 0; // 화면에 다섯개씩 보여줄때 사용할 시작 인덱스
 				int end_index = size <= 5 ? size : 5;// 화면에 다섯개씩 보여줄때 사용할 끝 인덱스
 				//ListView를 최초로 구성할때, list의 size가 5 이하이면 size만큼 화면에 출력하고, 5를초과하면 5만큼만화면에 출력
+				
 				System.out.println("나의 구매내역");
 				System.out.println("[" + list.size() + "건의 구매내역이 조회되었습니다 ]");
 				System.out.println("레시피상품명/구매일자/후기등록여부");
@@ -62,7 +63,7 @@ public class PurchaseListVIew {
 					System.out.print(sdf.format(list.get(i).getPurchaseDate()) + " / ");
 					int j;
 					for (j = 0; j < rlist.size(); j++) {
-						// 구매날짜와 리뷰등록날짜,각 구매레시피코드와 리뷰레시피코드를 비교
+						// 각 구매레시피코드와 리뷰레시피코드를 비교
 						if (list.get(i).getPurchaseDetail().getRecipeInfo().getRecipeCode() == rlist.get(j)
 								.getRecipeInfo().getRecipeCode()) {
 							System.out.println("Yes");
@@ -76,7 +77,6 @@ public class PurchaseListVIew {
 					}
 				} // for
 				if (size < 5) {
-					sc = new Scanner(System.in);
 					System.out.println("상세페이지번호 : | 0.이전화면");
 					System.out.print("상세내역을 보기원하시면 번호를 입력해주세요 : ");
 					menu = sc.nextLine();
@@ -86,7 +86,6 @@ public class PurchaseListVIew {
 						infoView.searchPurchaseInfoView(list.get(n - 1), blist.get(n - 1));
 					}
 				} else {
-					sc = new Scanner(System.in);
 					System.out.println("-:이전페이지 | +:다음페이지  | 0.이전화면 ");
 					System.out.print("상세내역을 보기원하시면 번호를 입력해주세요 : ");
 					menu = sc.nextLine();
