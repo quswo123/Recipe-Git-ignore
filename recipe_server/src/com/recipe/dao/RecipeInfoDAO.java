@@ -476,14 +476,19 @@ public class RecipeInfoDAO {
 				"    ri.recipe_code = (\r\n" + 
 				"        SELECT\r\n" + 
 				"            recipe_code\r\n" + 
-				"        FROM (\r\n" + 
+				"        FROM\r\n" + 
+				"            (\r\n" + 
 				"                SELECT\r\n" + 
-				"                    recipe_code\r\n" + 
+				"                    p.recipe_code\r\n" + 
 				"                FROM\r\n" + 
 				"                    point p\r\n" + 
+				"                    JOIN recipe_info i ON (p.recipe_code = i.recipe_code)\r\n" + 
+				"                WHERE\r\n" + 
+				"                    i.recipe_status = '1'\r\n" + 
 				"                ORDER BY\r\n" + 
 				"                    like_count DESC,\r\n" + 
-				"                    dislike_count ASC, (\r\n" + 
+				"                    dislike_count ASC,\r\n" + 
+				"                    (\r\n" + 
 				"                        SELECT\r\n" + 
 				"                            COUNT(*)\r\n" + 
 				"                        FROM\r\n" + 
@@ -492,7 +497,9 @@ public class RecipeInfoDAO {
 				"                            recipe_code = p.recipe_code\r\n" + 
 				"                    ) DESC\r\n" + 
 				"            )\r\n" + 
-				"        WHERE ROWNUM = 1)";
+				"        WHERE\r\n" + 
+				"            ROWNUM = 1\r\n" + 
+				"    )";
 
 		try {
 			pstmt = con.prepareStatement(selectByRankSQL);
