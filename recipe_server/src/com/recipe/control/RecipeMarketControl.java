@@ -346,4 +346,8 @@ public class RecipeMarketControl {
 	public List<RecipeInfo> viewAllRecipe() throws FindException{
 		return recipeService.findAll();
 	}
+	
+	public RD viewRdAccount(String rdId) throws FindException {
+		return rdAccountService.findById(rdId);
+	}
 }

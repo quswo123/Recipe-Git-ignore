@@ -48,7 +48,6 @@ public class CustomerInfoView {
 				System.out.println(
 						"주소 :" + receiveCustomer.getPostal().getCity() + receiveCustomer.getPostal().getDoro() + " "+receiveCustomer.getCustomerAddr());
 				System.out.println("핸드폰 번호 :" + receiveCustomer.getCustomerPhone());
-				customerInfoMenu();
 			} else {
 				String failMsg = dataio.receive();
 				System.out.println(failMsg);
@@ -68,6 +67,7 @@ public class CustomerInfoView {
 		
 		try {
 			do {
+				viewMyAccount();
 				System.out.println("1.내 정보 수정하기  2.탈퇴하기 0.이전화면 ");
 				System.out.print("메뉴 번호를 입력하세요 : ");
 				menu = sc.nextLine();
