@@ -9,6 +9,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
+import java.util.List;
 
 import com.recipe.exception.AddException;
 import com.recipe.exception.DuplicatedException;
@@ -75,6 +76,12 @@ public class AdminFrontThread implements Runnable{
 					break;
 				case Menu.DISLIKE: //싫어요
 					disLikeRecipeFront();
+					break;
+				case Menu.SEARCH_RECIPE_INGREDIENTS: // 레시피 코드 검색
+					selectByIngFront();
+					break;
+				case Menu.SEARCH_RECIPE_NAME: // 레시피 제목 검색
+					selectByNameFront();
 					break;
 				default:
 					break;
@@ -252,6 +259,36 @@ public class AdminFrontThread implements Runnable{
 			dio.sendSuccess();
 		} catch (RemoveException e) {
 			e.printStackTrace();
+			dio.sendFail(e.getMessage());
+		}
+	}
+	public void selectByIngFront() throws IOException {
+		List<String> recipeInfo = dio.receiveListString();
+		List<RecipeInfo> searchedRecipeInfo = null;		
+		try {
+			
+			searchedRecipeInfo = control.searchByIngName(recipeInfo);
+			dio.sendSuccess();
+			dio.send(searchedRecipeInfo);
+			
+		} catch (FindException e) {
+			dio.sendFail(e.getMessage());
+		}
+	}
+	/**
+	 * 레시피이름에 해당하는 레시피목록을 클라이언트부터 전달받음
+	 * @throws IOException
+	 */
+	public void selectByNameFront() throws IOException {
+		List<RecipeInfo> recipeInfo = null;
+		String recipeName = dio.receive();
+		try {
+			
+			recipeInfo = control.searchByName(recipeName);
+
+			dio.sendSuccess();
+			dio.send(recipeInfo);
+		} catch (FindException e) {
 			dio.sendFail(e.getMessage());
 		}
 	}
