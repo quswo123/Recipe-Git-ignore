@@ -42,7 +42,7 @@ public class AllRdListView {
 
 		do {			
 			for(int i = start_index; i < end_index; i++) {
-				System.out.println(i + ". " + list.get(i).getRdId() + ", " + list.get(i).getRdPwd());
+				System.out.println((i+1) + ". 아이디 : " + list.get(i).getRdId() + ", 비밀번호 : " + list.get(i).getRdPwd());
 			}
 			if(size < 5) {
 				System.out.println("0.뒤로가기");
@@ -56,7 +56,7 @@ public class AllRdListView {
 					end_index = start_index + 5; //시작 인덱스부터 다섯개를 출력하기 위해 끝 인덱스는 시작 인덱스에서 5 증가한 값을 갖는다
 				} else if(menu.equals("+")) {
 					end_index = (end_index + 5) <= size ? (end_index + 5) : size; //다음 페이지를 누르면 end_index 값을 5 증가시킨다. 이때, list의 size보다 커지면 size와 같은 값으로 설정한다
-					start_index = end_index - 5; //시작 인덱스부터 다섯개를 출력하기 위해 시작 인덱스는 끝 인덱스에서 5 감소한 값을 갖는다
+					start_index = (end_index % 5) == 0 ? end_index - 5 : end_index-(end_index%5); //시작 인덱스부터 다섯개를 출력하기 위해 시작 인덱스는 끝 인덱스에서 5 감소한 값을 갖는다
 				}
 			}
 		} while (!menu.equals("0"));
