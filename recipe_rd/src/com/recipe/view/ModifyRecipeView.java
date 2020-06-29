@@ -78,6 +78,16 @@ public class ModifyRecipeView {
 			if(dio.receiveStatus().equals("success")) {		//rd로 로그인이 잘됬는지?
 				SuccessView success = new SuccessView();
 				success.modifyRecipeView();
+				System.out.println("----------수정결과-----------");
+				System.out.println(recipeInfo);
+				try {
+					dio.sendMenu(Menu.RECIPE_PROCESS); //레시피 과정 정보를 서버에 요청
+					dio.send(recipeInfo.getRecipeProcess()); //레시피 과정 경로를 서버에 전송 (이렇게 하는게 맞을지... recipeCode를 보내면 그에 대한 파일 경로를 검색해서 과정 정보를 보내주도록 하는게 맞는지...)
+					System.out.println(dio.receive()); //레시피 과정 정보 출력
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				System.out.println("------------------------------");
 			}else {
 				FailView fail = new FailView();
 				fail.modifyRecipeView(dio.receive());
