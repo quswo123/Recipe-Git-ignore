@@ -32,8 +32,12 @@ public class ReviewListView {
         int end_index = 0;
         do {        
         	List<Review> reviewList = searchByRecipeCodeReviewList(recipeCode);
-    		/*목록 출력*/
-        	int size = reviewList.size();
+
+        	for (Review r : reviewList) {
+        		System.out.println(r.getCustomerId() +  r.getReviewComment());
+        	}
+	        int size = reviewList.size();
+
 	        if (start_index == 0) end_index = size <= 5 ? size : 5;
 	        
 	        SimpleDateFormat sdf = new SimpleDateFormat("yy-MM-dd");
