@@ -54,7 +54,7 @@ public class FavoriteListView {
 	            System.out.print("상세레시피를 보기 원하시면 번호를 입력하세요 : ");
 	        	sc = new Scanner(System.in);
 	            menu = sc.nextLine();
-	            if(menu.equals("D")) {
+	            if(menu.equalsIgnoreCase("D")) {
 	                try {
 	                    removeFavoriteView();
 	                } catch (IOException e) {
