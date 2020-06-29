@@ -48,7 +48,9 @@ public class RecipeInfoView {
 				} else if (menu.equals("2")) {
 					disLikeThisRecipe(info);
 				} else if (menu.equals("3")) {
-
+					//후기목록보기
+					ReviewListView reviewListView = new ReviewListView(dio);
+					reviewListView.showReviewListByRecipeCodeView(info.getRecipeCode());
 				}
 			} while (!menu.equals("0"));
 		} catch (IOException e) {
