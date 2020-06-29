@@ -32,7 +32,6 @@ public class PurchaseListVIew {
 		List<Review> rlist = null;
 		SimpleDateFormat sdf = new SimpleDateFormat("yy-MM-dd");
 		String menu;
-		List<Boolean> blist = new ArrayList<>();
 
 		int start_index = 0;
 		int end_index = 0;
@@ -69,13 +68,11 @@ public class PurchaseListVIew {
 						if (list.get(i).getPurchaseDetail().getRecipeInfo().getRecipeCode() == rlist.get(j)
 								.getRecipeInfo().getRecipeCode()) {
 							System.out.println("Yes");
-							blist.add(true);
 							break;
 						}
 					}
 					if (j == rlist.size()) {
 						System.out.println("No");
-						blist.add(false);
 					}
 				} // for
 				if (size < 5) {
@@ -85,7 +82,16 @@ public class PurchaseListVIew {
 					int n = Integer.parseInt(menu);
 					if (n != 0) {
 						PurchaseInfoView infoView = new PurchaseInfoView(dio);
-						infoView.searchPurchaseInfoView(list.get(n - 1), blist.get(n - 1));
+						int i;
+						for(i = 0; i < rlist.size(); i++) {
+							if(list.get(n-1).getPurchaseDetail().getRecipeInfo().getRecipeCode()==rlist.get(i).getRecipeInfo().getRecipeCode()) {
+								infoView.searchPurchaseInfoView(list.get(n - 1), true);
+								break;
+							}
+						}
+						if(i == rlist.size()) {
+							infoView.searchPurchaseInfoView(list.get(n - 1), false);
+						}
 					}
 				} else {
 					System.out.println("-:이전페이지 | +:다음페이지  | 0.이전화면 ");
@@ -101,12 +107,21 @@ public class PurchaseListVIew {
 						int n = Integer.parseInt(menu);
 						if (n != 0) {
 							PurchaseInfoView infoView = new PurchaseInfoView(dio);
-							infoView.searchPurchaseInfoView(list.get(n - 1), blist.get(n - 1));
+							int i;
+							for(i = 0; i < rlist.size(); i++) {
+								if(list.get(n-1).getPurchaseDetail().getRecipeInfo().getRecipeCode()==rlist.get(i).getRecipeInfo().getRecipeCode()) {
+									infoView.searchPurchaseInfoView(list.get(n - 1), true);
+									break;
+								}
+							}
+							if(i == rlist.size()) {
+								infoView.searchPurchaseInfoView(list.get(n - 1), false);
+							}
 						}
 					}
 				}
+				
 			} while (!menu.equals("0"));
-
 		} catch (IOException | ParseException e) {
 			e.printStackTrace();
 		}

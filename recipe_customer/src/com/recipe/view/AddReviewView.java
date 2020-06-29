@@ -66,6 +66,9 @@ public class AddReviewView {
 			String msg = dio.receive();
 			fail.reviewInsertView(msg);
 		}
+		/*
+		 * PurchaseListVIew pview = new PurchaseListVIew(dio); pview.purchaseView();
+		 */
 	}
 
 } // end class AddReviewView
