@@ -10,7 +10,6 @@ import com.recipe.vo.Purchase;
 
 public class PurchaseService {
 	PurchaseDAO purchasedao = new PurchaseDAO();
-	ReviewDAO revidao = new ReviewDAO();
 
 	public void buy(Purchase p)  throws AddException{
 		purchasedao.insert(p);
@@ -18,7 +17,6 @@ public class PurchaseService {
 	
 	
 	public List<Purchase> findById(String customerId) throws FindException{
-		
 		return purchasedao.selectById(customerId);
 	}
 

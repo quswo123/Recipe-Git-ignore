@@ -18,7 +18,6 @@ import com.recipe.vo.Review;
 public class MyReviewListView {
 	private DataIO dio;
 	private Scanner sc;
-	private RemoveReviewView removeReviewView;
 	public MyReviewListView(DataIO dio) {
 		this.dio = dio;
 		sc = new Scanner(System.in);
@@ -61,7 +60,7 @@ public class MyReviewListView {
 	            
 	            if(menu.equalsIgnoreCase("D")) {
 	                try {
-	                	removeReviewView = new RemoveReviewView(dio);
+	                	RemoveReviewView removeReviewView = new RemoveReviewView(dio);
 	                	removeReviewView.removeReview(reviewList);
 	                } catch (IOException e) {
 	                    e.printStackTrace();
@@ -83,7 +82,7 @@ public class MyReviewListView {
 					start_index = (end_index % 5) == 0 ? end_index - 5 : end_index-(end_index%5); //시작 인덱스부터 다섯개를 출력하기 위해 시작 인덱스는 끝 인덱스에서 5 감소한 값을 갖는다
 				} else if(menu.equalsIgnoreCase("D")) {
 	                try {
-	                	removeReviewView = new RemoveReviewView(dio);
+	                	RemoveReviewView removeReviewView = new RemoveReviewView(dio);
 	                	removeReviewView.removeReview(reviewList);
 	                	
 	                } catch (IOException e) {
