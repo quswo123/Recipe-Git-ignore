@@ -238,7 +238,6 @@ public class CustomerFrontThread implements Runnable {
 			dio.sendPurchase(list);
 			dio.sendReviews(rlist);
 		} catch (FindException e) {
-			System.out.println("test");
 			dio.sendFail(e.getMessage());
 		}
 	}

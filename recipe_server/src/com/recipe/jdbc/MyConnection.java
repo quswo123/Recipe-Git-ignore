@@ -12,7 +12,7 @@ public class MyConnection {
 		Connection con = null;
 		
 		Class.forName(className);
-		String url = "jdbc:oracle:thin:@localhost:1521:xe";
+		String url = "jdbc:oracle:thin:@15.164.252.152:1521:xe";
 		String user = "recipe";
 		String password = "recipe";
 		con = DriverManager.getConnection(url, user, password);
