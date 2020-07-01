@@ -104,7 +104,12 @@ public class RegisterView {
 			}
 
 		}
-		System.out.print("5.핸드폰 번호를 입력해주세요  : ");
+		System.out.print("6.이메일을 입력해주세요  : ");
+		String customerAddr = sc.nextLine();
+		if(!"".equals(customerAddr)) {
+			c.setCustomerAddr(customerAddr);
+		}
+		System.out.print("7.핸드폰 번호를 입력해주세요  : ");
 		String customerPhone = sc.nextLine();
 		if(!"".equals(customerPhone)) {
 			c.setCustomerPhone(customerPhone);
