@@ -81,10 +81,9 @@ public class RegisterView {
 					for (int i = 0; i < size; i++) {
 						Postal p = dataio.receivePostal();
 						list.add(p);
-						System.out.println((i + 1) + ":" + p.getZipcode() + "," + p.getCity() + "," + p.getDoro() + ","
-								+ p.getBuilding() + ", " + p.getBuildingno());
+						System.out.println((i + 1) + ": " +p.getZipcode() + ", " + p.getCity() + "" + p.getDoro()+ p.getBuilding());
 					}
-					System.out.println("번호를 선택하세요 : ");
+					System.out.print("번호를 선택하세요 : ");
 					int index = Integer.parseInt(sc.nextLine()) - 1;
 					if (index < 0 || index >= list.size()) {
 						System.out.println("잘못입력하셨습니다");
