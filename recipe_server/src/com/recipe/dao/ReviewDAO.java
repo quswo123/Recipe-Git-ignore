@@ -122,8 +122,10 @@ public class ReviewDAO {
 			
 		} catch (SQLException e) {
 			if ( e.getErrorCode() == 1 ) { // SQLException errorCode == 1 )  
+				e.printStackTrace();
 				throw new DuplicatedException("Fail : 이미 후기가 추가되어 있는 레시피 입니다.");
 			} else { 
+				e.printStackTrace();
 				throw new AddException("Fail : 후기 등록에 실패하였습니다.");
 			}
 			
