@@ -33,9 +33,6 @@ public class ReviewListView {
         do {        
         	List<Review> reviewList = searchByRecipeCodeReviewList(recipeCode);
 
-        	for (Review r : reviewList) {
-        		System.out.println(r.getCustomerId() +  r.getReviewComment());
-        	}
 	        int size = reviewList.size();
 
 	        if (start_index == 0) end_index = size <= 5 ? size : 5;
