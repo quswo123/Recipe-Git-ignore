@@ -1,5 +1,6 @@
 package com.recipe.vo;
 
+import java.text.NumberFormat;
 import java.util.List;
 
 public class RecipeInfo {
@@ -86,7 +87,7 @@ public class RecipeInfo {
 		String result = "";
 		result += "레시피 제목 : " + recipeName + "\n";
 		result += "레시피 요약 : " + recipeSumm + "\n";
-		result += "가격 : " + recipePrice + "\n";
+		result += "가격 : " + NumberFormat.getInstance().format(recipePrice) + "원\n";
 		result += point;
 		result += "과정\n";
 		

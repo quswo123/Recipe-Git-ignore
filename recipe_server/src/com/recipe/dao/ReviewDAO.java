@@ -10,6 +10,7 @@ import java.util.List;
 import com.recipe.exception.AddException;
 import com.recipe.exception.DuplicatedException;
 import com.recipe.exception.FindException;
+import com.recipe.exception.RemoveException;
 import com.recipe.jdbc.MyConnection;
 import com.recipe.vo.Point;
 import com.recipe.vo.RecipeInfo;
@@ -23,7 +24,8 @@ public class ReviewDAO {
 	public static void main(String[] args) {
 		//test_review_selectByCode();
 		//test_review_selectById();
-		test_review_insert();
+		//test_review_insert();
+		test_review_remove();
 	}//end method main();
 	
 	/**
@@ -98,13 +100,12 @@ public class ReviewDAO {
 	 * @param Review r
 	 */
 	public void insert(Review r) throws AddException, DuplicatedException {
-		System.out.println("Review ::::" + r);
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		
 		String insertSQL = "INSERT INTO REVIEW(customer_id,recipe_code,review_comment,review_date)"
 				+ " values (?,?,?,sysdate)"; 
-		
+
 		try {
 			con = MyConnection.getConnection();
 			
@@ -120,7 +121,6 @@ public class ReviewDAO {
 			pstmt.executeUpdate();
 			
 		} catch (SQLException e) {
-			//e.printStackTrace();
 			if ( e.getErrorCode() == 1 ) { // SQLException errorCode == 1 )  
 				throw new DuplicatedException("Fail : 이미 후기가 추가되어 있는 레시피 입니다.");
 			} else { 
@@ -133,6 +133,40 @@ public class ReviewDAO {
 		
 	} // end method insert();
 
+	/**
+	 * 나의 후기 등록
+	 * @param Review r
+	 */
+	public void deleteByIdnCode(Review r ) throws RemoveException {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		
+		String deleteSQL = "DELETE FROM REVIEW "
+				+ " WHERE CUSTOMER_ID = ?"
+				+ " AND RECIPE_CODE = ?"; 
+
+		try {
+			con = MyConnection.getConnection();
+			
+		} catch (ClassNotFoundException | SQLException e) {
+			e.getStackTrace();
+		}
+		
+		try {
+			pstmt = con.prepareStatement(deleteSQL);
+			pstmt.setString(1, r.getCustomerId());
+			pstmt.setInt(2, r.getRecipeInfo().getRecipeCode());
+			pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			throw new RemoveException(e.getMessage());
+			
+		} finally {
+			MyConnection.close(pstmt, con);
+		}
+		
+	} // end method ();
+	
 	/**
 	 * 나의 후기 목록 보기
 	 * @param String customerId
@@ -273,6 +307,28 @@ public class ReviewDAO {
 		} catch (DuplicatedException e) { 
 			System.out.println(e.getMessage());
 		} catch (AddException e) { 
+			System.out.println(e.getMessage());
+		}
+	} //end test method 
+	
+	// test_review_selectByCode
+	private static void test_review_remove() {
+		ReviewDAO dao = new ReviewDAO();
+
+		String customerId = "tester";
+		int recipeCode = 2;
+		
+		RecipeInfo info = new RecipeInfo();
+		info.setRecipeCode(recipeCode);
+		
+		Review r = new Review();
+		r.setCustomerId(customerId);
+		r.setRecipeInfo(info);
+		
+		try {
+			dao.deleteByIdnCode(r);
+			System.out.println("Success : 후기삭제 성공");
+		} catch (RemoveException e) { 
 			System.out.println(e.getMessage());
 		}
 	} //end test method 

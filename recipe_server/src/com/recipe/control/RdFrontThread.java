@@ -9,6 +9,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.recipe.exception.DuplicatedException;
@@ -20,6 +21,7 @@ import com.recipe.share.RDShare;
 import com.recipe.vo.Point;
 import com.recipe.vo.Ingredient;
 import com.recipe.vo.RecipeInfo;
+import com.recipe.vo.Review;
 
 public class RdFrontThread implements Runnable{
 	private Socket client;
@@ -49,22 +51,26 @@ public class RdFrontThread implements Runnable{
 				case Menu.RD_LOGIN: // 로그인
 					loginFront();
 					break;
+				case Menu.RD_INFO: //R&D 내 정보 보기
+					viewRdInfo();
+					break;
 				case Menu.ADD_RECIPE: // 레시피 등록
 					addRecipeFront();
 					break;
 				case Menu.MODIFY_RECIPE: // 레시피 등록
 					modifyRecipeFront();
 					break;
-				case Menu.REMOVE_RECIPE: // 레시피 등록
+				case Menu.REMOVE_RECIPE: // 레시피 삭제
 					removeRecipeFront();
 					break;				
-				case Menu.RECIPE_ALL: // 레시피 등록
+				case Menu.RECIPE_ALL: // 레시피 전체조회
 					viewAllRecipeFront();
 					break;
 				case Menu.RECOMMENDED_RECIPE: // 추천 레시피
 					recommendRecipeFront();
 					break;
 				case Menu.SEARCH_RECIPE_CODE: // 레시피 코드 검색
+					selectByRecipeCode();
 					break;
 				case Menu.SEARCH_RECIPE_NAME: // 레시피 제목 검색
 					selectByNameFront();
@@ -83,6 +89,9 @@ public class RdFrontThread implements Runnable{
 					break;
 				case Menu.RD_LOGOUT: //로그아웃
 					logoutFront();
+					break;
+				case Menu.SEARCH_REVIEW_BY_RECIPECODE: //사용자 즐겨찾기 목록 보기
+					reviewByRecipeCodeFront();
 					break;
 				default:
 					break;
@@ -206,9 +215,11 @@ public class RdFrontThread implements Runnable{
 		List<String> recipeInfo = dio.receiveListString();
 		List<RecipeInfo> searchedRecipeInfo = null;		
 		try {
+			
 			searchedRecipeInfo = control.searchByIngName(recipeInfo);
-			dio.send(searchedRecipeInfo);
 			dio.sendSuccess();
+			dio.send(searchedRecipeInfo);
+			
 		} catch (FindException e) {
 			dio.sendFail(e.getMessage());
 		}
@@ -221,9 +232,11 @@ public class RdFrontThread implements Runnable{
 		List<RecipeInfo> recipeInfo = null;
 		String recipeName = dio.receive();
 		try {
+			
 			recipeInfo = control.searchByName(recipeName);
-			dio.send(recipeInfo);
+
 			dio.sendSuccess();
+			dio.send(recipeInfo);
 		} catch (FindException e) {
 			dio.sendFail(e.getMessage());
 		}
@@ -237,11 +250,12 @@ public class RdFrontThread implements Runnable{
 		RecipeInfo recipeInfo = null;
 		int recipeCode = dio.receiveMenu();
 		try {
+			
 			recipeInfo = control.searchByCode(recipeCode);
-			dio.send(recipeInfo);
 			dio.sendSuccess();
+			dio.send(recipeInfo);
 		}catch (FindException e) {
-			e.printStackTrace();
+			dio.sendFail(e.getMessage());
 		}
 	}
 
@@ -295,11 +309,9 @@ public class RdFrontThread implements Runnable{
 			dio.sendFail(e.getMessage());
 		}
 	}
-
-	public void viewAllRecipeFront()throws IOException{
-		List<RecipeInfo> recipeInfoList = dio.receiveRecipeInfos();
+	public void viewAllRecipeFront() throws IOException{
 		try {
-			control.viewAllRecpe(recipeInfoList);
+			dio.send(control.viewAllRecipe());
 			dio.sendSuccess();
 		} catch (FindException e) {
 			e.printStackTrace();
@@ -307,4 +319,31 @@ public class RdFrontThread implements Runnable{
 		}
 	}
 
+	public void viewRdInfo() throws IOException{
+		String rdId = dio.receiveId();
+		try {
+			dio.sendSuccess();
+			dio.send(control.viewRdAccount(rdId));
+		} catch (FindException e) {
+			e.printStackTrace();
+			dio.sendFail(e.getMessage());
+		}
+	}
+	
+	/**
+	 * recipeCode에 해당하는 후기 목록을 조회한 후 반환한다.
+	 * @throws IOException
+	 * @author 고수정
+	 */
+	public void reviewByRecipeCodeFront() throws IOException {
+		int recipeCode = dio.receiveInt();
+		List<Review> list = new ArrayList<>();
+		
+		try {
+			list = control.viewRecipeReview(recipeCode);
+			dio.sendReviews(list);
+		} catch (FindException e) {
+			e.printStackTrace();
+		}
+	}
 }

@@ -48,7 +48,7 @@ public class PurchaseDAO {
 				"from\r\n" + 
 				"    purchase p\r\n" + 
 				"    join purchase_detail pd on ( p.purchase_code = pd.purchase_code)\r\n" + 
-				"    left join review r on ( p.customer_id = r.customer_id and pd.recipe_code = r.recipe_code and p.PURCHASE_DATE = r.REVIEW_DATE)\r\n" + 
+				"    left join review r on ( p.customer_id = r.customer_id and pd.recipe_code = r.recipe_code)\r\n" + 
 				"    join recipe_info i on( pd.recipe_code = i.recipe_code ) \r\n" + 
 				"    join point po on(i.recipe_code= po.recipe_code)\r\n" + 
 				"    where p.customer_id =?";

@@ -7,6 +7,7 @@ import com.recipe.dao.ReviewDAO;
 import com.recipe.exception.AddException;
 import com.recipe.exception.DuplicatedException;
 import com.recipe.exception.FindException;
+import com.recipe.exception.RemoveException;
 import com.recipe.vo.Review;
 
 /**
@@ -28,6 +29,10 @@ public class ReviewService {
 	
 	public void add(Review r ) throws AddException, DuplicatedException {
 		dao.insert(r);
+	}
+	
+	public void remove(Review r ) throws RemoveException {
+		dao.deleteByIdnCode(r);
 	}
 	
 	public List<Review> findById(String customerId) throws FindException {

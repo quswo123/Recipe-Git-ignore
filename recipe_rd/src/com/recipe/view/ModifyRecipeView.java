@@ -25,7 +25,7 @@ public class ModifyRecipeView {
 		List<Ingredient> ingList = new ArrayList<Ingredient>();
 
 		System.out.println("레시피수정");
-		System.out.println("레시피명을 입력해주세요: ");
+		System.out.print("레시피명을 입력해주세요: ");
 		recipeInfo.setRecipeName(sc.nextLine());		//입력받은 레시피명을 setRecipe_name에 넣는다.
 
 		System.out.println("------------------------------");
@@ -33,7 +33,7 @@ public class ModifyRecipeView {
 		while (true) {
 			Ingredient ingredientVo = new Ingredient();				//재료명과, 용량을 넣기위한 VO 선언
 
-			System.out.println("재료를 입력해주세요(종료는 exit입력): ");
+			System.out.print("재료를 입력해주세요(종료는 exit입력): ");
 			String name = sc.nextLine();
 			if("exit".equals(name.toLowerCase())) {		//입력받은 값을 소문자로 변환후 exit라면 break;
 				break;
@@ -42,44 +42,24 @@ public class ModifyRecipeView {
 			ingredientVo.setIngName(name);		//입력받은 값을 setIng_name에 넣는다.
 
 			sc = new Scanner(System.in);
-			System.out.println("재료의 용량을 입력해주세요: ");
+			System.out.print("재료의 용량을 입력해주세요: ");
 			ingInfo += " " +(sc.nextLine()) + " ";		//입력받은 값을 setIng_cpcty에 넣는다.
 
 			ingList.add(ingredientVo);					//입력받은 VO를 ingList에 넣는다.
 		}
 
-		//레시피 용량(ingcpcty) VO 객체를 삭제 --완료
-		//문자열에 재료명, 재료용량 순으로 리스트를 만들고, 스플릿을 이용하여 용량은 파일에만 적는걸로.
-
-		System.out.println("ingList: " + ingList.toString());		//현재 담겨져 있는것을 출력test
 		System.out.println("------------------------------");
-
-		System.out.println("레시피 한줄 소개를 입력해주세요: ");
+		System.out.print("레시피 한줄 소개를 입력해주세요: ");
 		recipeInfo.setRecipeSumm(sc.nextLine());
 
-		//		while (true) {		//여러줄 레시피 요약설명적기
-		//			sc = new Scanner(System.in);
-		//			System.out.println("요리 설명을 입력해주세요(종료는 exit입력): ");
-		//			ing_summ = "\n" + sc.nextLine();
-		//			recipe_InfoVo.setRecipeSumm(ing_summ);			//setRecipe_summ에 입력받은값을 넣는다.
-		//
-		//			if("exit".equals(ing_summ.toLowerCase())) {
-		//				break;
-		//			}
-		//		}
-
 		System.out.println("------------------------------");
-		System.out.println("가격을 입력해주세요.: ");
+		System.out.print("가격을 입력해주세요: ");
 		recipeInfo.setRecipePrice(Integer.parseInt(sc.nextLine()));		//입력받은값을 Integer형식으로 바꿔서 setRecipe_price에 넣는다.
-
-		System.out.println("recipe_InfoVo: " + recipeInfo.toString());
-		System.out.println("ingList: " + ingList.toString());		//현재 담겨져 있는것을 출력test
 		
 		System.out.println("------------------------------");
-
 		String process="";
 		while (true) {
-			System.out.println("과정을 입력해주세요(종료는 exit입력): ");
+			System.out.print("과정을 입력해주세요(종료는 exit입력): ");
 			String temp = sc.nextLine();
 			if("exit".equals(temp.toLowerCase())) {		//입력받은 값을 소문자로 변환후 exit라면 break;
 				break;
@@ -98,6 +78,16 @@ public class ModifyRecipeView {
 			if(dio.receiveStatus().equals("success")) {		//rd로 로그인이 잘됬는지?
 				SuccessView success = new SuccessView();
 				success.modifyRecipeView();
+				System.out.println("----------수정결과-----------");
+				System.out.println(recipeInfo);
+				try {
+					dio.sendMenu(Menu.RECIPE_PROCESS); //레시피 과정 정보를 서버에 요청
+					dio.send(recipeInfo.getRecipeProcess()); //레시피 과정 경로를 서버에 전송 (이렇게 하는게 맞을지... recipeCode를 보내면 그에 대한 파일 경로를 검색해서 과정 정보를 보내주도록 하는게 맞는지...)
+					System.out.println(dio.receive()); //레시피 과정 정보 출력
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				System.out.println("------------------------------");
 			}else {
 				FailView fail = new FailView();
 				fail.modifyRecipeView(dio.receive());

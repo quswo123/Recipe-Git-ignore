@@ -122,9 +122,6 @@ public class CustomerFrontThread implements Runnable {
 				case Menu.RECOMMENDED_RECIPE: // 추천 레시피
 					recommendRecipeFront();
 					break;
-				case Menu.SEARCH_RECIPE_CODE: // 레시피 코드 검색
-					// TO DO
-					break;
 				case Menu.SEARCH_RECIPE_NAME: //레시피 제목 검색
 					selectByNameFront();
 					break;
@@ -158,22 +155,18 @@ public class CustomerFrontThread implements Runnable {
 				case Menu.SEARCH_REVIEW_BY_CUSTOMERID: //로그인한 사용자 즐겨찾기 목록 보기
 					reviewByCustomerIdFront();
 					break;
-				case Menu.SEARCH_REVIEW_BY_RECIPECODE: //로그인한 사용자 즐겨찾기 목록 보기
+				case Menu.SEARCH_REVIEW_BY_RECIPECODE: //사용자 즐겨찾기 목록 보기
 					reviewByRecipeCodeFront();
+					break;
 				case Menu.ADD_FAVORITE: // 즐겨찾기 추가
-					try {
-						insertFavorite();
-					} catch (AddException e) {
-						e.printStackTrace();
-						dio.sendFail(e.getMessage());
-					}
+					insertFavorite();
+					break;
 				case Menu.ADD_REVIEW: //후기 등록 
-					try {
-						insertReview();
-					} catch (AddException e) {
-						e.printStackTrace();
-						dio.sendFail(e.getMessage());
-					}
+					insertReview();
+					break;
+				case Menu.REMOVE_REVIEW: //후기 등록 
+					removeReview();
+					break;
 				default:
 					break;
 				}
@@ -184,8 +177,6 @@ public class CustomerFrontThread implements Runnable {
 		}
 	}
 	
-	
-
 	/**
 	 * 로그인에 필요한 ID, 패스워드를 Client로부터 전달받아 로그인 절차를 수행한다
 	 * 
@@ -242,11 +233,11 @@ public class CustomerFrontThread implements Runnable {
 			list = control.viewMyPurchase(customerId);
 			rlist = control.viewMyReview(customerId);
 			
+			dio.sendSuccess();
+			
 			dio.sendPurchase(list);
 			dio.sendReviews(rlist);
-			
 		} catch (FindException e) {
-			e.printStackTrace();
 			dio.sendFail(e.getMessage());
 		}
 	}
@@ -261,11 +252,9 @@ public class CustomerFrontThread implements Runnable {
 			purchase = dio.receivePurchase();
 			control.buyRecipe(purchase);
 			dio.sendSuccess();
-		} catch (IOException | ParseException e1) {
-			e1.printStackTrace();
-		} catch (AddException e) {
+		} catch (IOException | ParseException | AddException e) {
 			dio.sendFail(e.getMessage());
-		}
+		} 
 		
 	}
 	
@@ -275,11 +264,13 @@ public class CustomerFrontThread implements Runnable {
 	 */
 	public void selectByNameFront() throws IOException {
 		List<RecipeInfo> recipeInfo = null;
+		
 		String recipeName = dio.receive();
 		try {
 			recipeInfo = control.searchByName(recipeName);
-			dio.send(recipeInfo);
 			dio.sendSuccess();
+			dio.send(recipeInfo);
+			
 		} catch (FindException e) {
 			dio.sendFail(e.getMessage());
 		}
@@ -335,10 +326,16 @@ public class CustomerFrontThread implements Runnable {
 		List<String> recipeInfo = dio.receiveListString();
 		List<RecipeInfo> searchedRecipeInfo = null;		
 		try {
+			
 			searchedRecipeInfo = control.searchByIngName(recipeInfo);
-			dio.send(searchedRecipeInfo);
+//			if (searchedRecipeInfo.size() == 0) {
+//				dio.sendFail();
+//			}
 			dio.sendSuccess();
+			dio.send(searchedRecipeInfo);
+			
 		} catch (FindException e) {
+			dio.sendFail(e.getMessage());
 		}
 	}
 	
@@ -385,7 +382,6 @@ public class CustomerFrontThread implements Runnable {
 			control.modifyPoint(p);
 			dio.sendSuccess();
 		} catch (ModifyException e) {
-			e.printStackTrace();
 			dio.sendFail(e.getMessage());
 		}
 	}
@@ -407,12 +403,12 @@ public class CustomerFrontThread implements Runnable {
 		}
 	}
 	/**
-	 * customerId에 해당하는 즐겨찾기 목록을 조회한 후 반환한다.
+	 * recipeCode에 해당하는 후기 목록을 조회한 후 반환한다.
 	 * @throws IOException
 	 * @author 고수정
 	 */
 	public void reviewByRecipeCodeFront() throws IOException {
-		int recipeCode = dio.receiveMenu();
+		int recipeCode = dio.receiveInt();
 		List<Review> list = new ArrayList<>();
 		
 		try {
@@ -427,31 +423,30 @@ public class CustomerFrontThread implements Runnable {
 	 * @throws IOException
 	 * @author 고수정
 	 */
-	public void insertReview() throws IOException, AddException, DuplicatedException {
+	public void insertReview() throws IOException {
 		Review r;
 		try {
 			r = dio.receiveReview();
-			System.out.println( r );
 			control.addReview(r);
-			
-			int select = dio.receiveInt();
-			if ( select == Menu.LIKE ) {
-				likeRecipeFront();
-			} else  {
-				disLikeRecipeFront();
-			} 
 			dio.sendSuccess();
+			int select = dio.receiveInt();
+			switch (select) {
+			case Menu.LIKE:
+				likeRecipeFront();
+				break;
+			case Menu.DISLIKE:
+				disLikeRecipeFront();
+				break;
+			}
+
 			
 		} catch (IOException | ParseException e) {
-			e.printStackTrace();
 			dio.sendFail(e.getMessage());
 		
 		} catch (DuplicatedException e) {
-			e.printStackTrace();
 			dio.sendFail(e.getMessage());
 		
 		} catch (AddException e) {
-			e.printStackTrace();
 			dio.sendFail(e.getMessage());
 		}
 	}
@@ -460,12 +455,12 @@ public class CustomerFrontThread implements Runnable {
 	 * @throws IOException
 	 * @author 고수정
 	 */
-	public void insertFavorite() throws IOException, AddException, DuplicatedException {
+	public void insertFavorite() throws IOException {
 		Favorite f;
 		try {
 			f = dio.receiveFavorite(); 
 			control.addFavorite(f);
-			dio.sendSuccess("즐겨찾기추가성공!");
+			dio.sendSuccess();
 
 		} catch (DuplicatedException e) {
 			e.printStackTrace();
@@ -476,5 +471,26 @@ public class CustomerFrontThread implements Runnable {
 			dio.sendFail(e.getMessage());
 		}
 	}
+	
+	/**
+	 * review 삭제
+	 * @throws IOException
+	 * @author 고수정
+	 */
+	public void removeReview() throws IOException {
+		Review r = new Review();
+		try {
+			r = dio.receiveReview();
+			control.remove(r);
+			dio.sendSuccess();
+		
+		} catch (IOException | ParseException e) {
+			e.printStackTrace();
+			dio.sendFail(e.getMessage());
 
+		} catch (RemoveException e) {
+			e.printStackTrace();
+			dio.sendFail(e.getMessage());
+		}
+	}
 } //end class CustomerFrontThread

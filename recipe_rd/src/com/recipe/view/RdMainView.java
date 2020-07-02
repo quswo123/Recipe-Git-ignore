@@ -20,7 +20,7 @@ public class RdMainView {
 		int menu = -1;
 		try {
 			do {
-				System.out.println("1.레시피등록 2.레시피검색 3.레시피전체보기 4.추천레시피 5.내정보보기 6.로그아웃 7.시스템종료");
+				System.out.println("1.레시피등록 2.레시피검색 3.레시피전체보기 4.추천레시피 5.내정보보기 6.로그아웃 7.프로그램 종료");
 				menu = Integer.parseInt(sc.nextLine());
 				switch (menu) {
 				case 1:
@@ -28,14 +28,20 @@ public class RdMainView {
 					addRecipeView.AddRecipeFormView();
 					break;
 				case 2:
+					RecipeSearchView recipeSearchView = new RecipeSearchView(dio);
+					recipeSearchView.showRecipeInfoView();
 					break;
 				case 3:
+					AllRecipeListView allRecipeListVew = new AllRecipeListView(dio);
+					allRecipeListVew.showAllRecipeListView();
 					break;
 				case 4:
 					RecommendedRecipeView recommendedRecipeView = new RecommendedRecipeView(dio);
 					recommendedRecipeView.showRecommendedRecipeView();
 					break;
 				case 5:
+					RdInfoView rdInfoView = new RdInfoView(dio);
+					rdInfoView.showRdInfoView();
 					break;
 				case 6:
 					menu = -1;

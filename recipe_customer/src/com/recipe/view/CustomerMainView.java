@@ -20,7 +20,7 @@ public class CustomerMainView {
 		int menu = -1;
 		try {
 			do {
-				System.out.println("1.레시피검색 2.추천레시피 3.구매내역 4.즐겨찾기보기 5.나의후기목록 6.내 정보보기 7.로그아웃 8.시스템종료");
+				System.out.println("1.레시피검색 2.추천레시피 3.구매내역 4.즐겨찾기보기 5.나의후기목록 6.내 정보보기 7.로그아웃 8.프로그램 종료");
 				menu = Integer.parseInt(sc.nextLine());
 				switch (menu) {
 				case 1:
@@ -39,13 +39,15 @@ public class CustomerMainView {
 					FavoriteListView favoriteListView = new FavoriteListView(dio);
 					favoriteListView.showFavoriteListView(CustomerShare.loginedId);
 					break;
+
 				case 5:
-					ReviewListView reviewListView = new ReviewListView(dio);
-					reviewListView.showReviewListView(CustomerShare.loginedId);
+					MyReviewListView myReviewListView = new MyReviewListView(dio);
+		             myReviewListView.showMyReviewListView(CustomerShare.loginedId);
 					break;
+
 				case 6:
 					CustomerInfoView customerInfoView = new CustomerInfoView(dio);
-					customerInfoView.viewMyAccount();
+					customerInfoView.customerInfoMenu();
 					break;
 				case 7:
 					menu = -1;
@@ -55,7 +57,7 @@ public class CustomerMainView {
 					System.exit(0);
 					break;
 				}
-			} while (menu != -1);
+			} while (menu != -1 && !CustomerShare.loginedId.equals(""));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

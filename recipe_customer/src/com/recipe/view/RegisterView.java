@@ -30,7 +30,6 @@ public class RegisterView {
 		Customer c = addInfoMenu();
 		if (c != null) {
 			try {
-				System.out.println("입력된 값:" + c);
 				// 회원가입
 				dataio.sendMenu(Menu.CUSTOMER_REGISTER);
 				// Customer 정보를 송신
@@ -52,22 +51,22 @@ public class RegisterView {
 		System.out.println("회원가입");
 		System.out.print("1.아이디를 입력해주세요  : ");
 		String customerId = sc.nextLine();
-		if(!"".equals(customerId)) {
+		if (!"".equals(customerId)) {
 			c.setCustomerId(customerId);
 		}
 		System.out.print("2.이름을 입력해주세요  : ");
 		String customerName = sc.nextLine();
-		if(!"".equals(customerName)) {
+		if (!"".equals(customerName)) {
 			c.setCustomerName(customerName);
 		}
 		System.out.print("3.비밀번호를 입력해주세요  : ");
 		String customerPwd = sc.nextLine();
-		if(!"".equals(customerPwd)) {
+		if (!"".equals(customerPwd)) {
 			c.setCustomerPwd(customerPwd);
 		}
 		System.out.print("4.이메일을 입력해주세요  : ");
 		String customerEmail = sc.nextLine();
-		if(!"".equals(customerEmail)) {
+		if (!"".equals(customerEmail)) {
 			c.setCustomerEmail(customerEmail);
 		}
 		System.out.print("5. 도로명을 입력해주세요 : ");
@@ -82,11 +81,10 @@ public class RegisterView {
 					for (int i = 0; i < size; i++) {
 						Postal p = dataio.receivePostal();
 						list.add(p);
-						System.out.println((i + 1) + ":" + p.getZipcode() + "," + p.getCity() + "," + p.getDoro() + ","
-								+ p.getBuilding() + ", " + p.getBuildingno());
+						System.out.println((i + 1) + ": " +p.getZipcode() + ", " + p.getCity() + "" + p.getDoro()+ p.getBuilding());
 					}
-					System.out.println("번호를 선택하세요 : ");
-					int index = Integer.parseInt(sc.nextLine())-1;
+					System.out.print("번호를 선택하세요 : ");
+					int index = Integer.parseInt(sc.nextLine()) - 1;
 					if (index < 0 || index >= list.size()) {
 						System.out.println("잘못입력하셨습니다");
 						return null;
@@ -98,46 +96,24 @@ public class RegisterView {
 					System.out.println(failMsg);
 					return null;
 				}
-            
+
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-
+			
 		}
-		System.out.print("6.이메일을 입력해주세요  : ");
+		System.out.print("6.상세주소를 입력해주세요  : ");
 		String customerAddr = sc.nextLine();
-		if(!"".equals(customerAddr)) {
+		if (!"".equals(customerAddr)) {
 			c.setCustomerAddr(customerAddr);
 		}
+
 		System.out.print("7.핸드폰 번호를 입력해주세요  : ");
 		String customerPhone = sc.nextLine();
-		if(!"".equals(customerPhone)) {
+		if (!"".equals(customerPhone)) {
 			c.setCustomerPhone(customerPhone);
 		}
-		
+
 		return c;
 	}
-	
-//	public static void main(String[] args) {
-//		RegisterView view2 = null;
-//		try {
-//			view2 = new RegisterView();
-//			view2.addMyAccount();
-//		} catch (UnknownHostException e) {
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		} finally {
-//			if (view2 != null)
-//				try {
-//					view2.s.close();
-//				} catch (IOException e) {
-//					e.printStackTrace();
-//				}
-//		}
-//
-//	}
-
 }
-
-

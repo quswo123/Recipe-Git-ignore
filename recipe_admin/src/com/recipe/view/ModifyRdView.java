@@ -26,11 +26,13 @@ public class ModifyRdView {
 		
 		try {
 			dio.sendMenu(Menu.RD_MODIFY);
-			dio.send(new RD(rdId, rdPwd, rdManagerName, rdTeamName, rdPhone));
+			RD r = new RD(rdId, rdPwd, rdManagerName, rdTeamName, rdPhone);
+			dio.send(r);
 			
 			if(dio.receiveStatus().equals("success")) {
 				SuccessView success = new SuccessView();
 				success.modifyRdView(rdId);
+				System.out.println(r);
 			} else {
 				FailView fail = new FailView();
 				fail.modifyRdView(dio.receive());

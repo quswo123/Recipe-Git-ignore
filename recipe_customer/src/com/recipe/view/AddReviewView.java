@@ -1,8 +1,6 @@
 package com.recipe.view;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Scanner;
 
 import com.recipe.io.DataIO;
@@ -32,32 +30,45 @@ public class AddReviewView {
 		sc = new Scanner(System.in);
 		String comment = sc.nextLine();
 
-		dio.sendMenu(Menu.ADD_REVIEW);
-		
 		Review review = new Review();
 		review.setCustomerId(CustomerShare.loginedId);
 		review.setReviewComment(comment);
 		review.setRecipeInfo(info);
-		review.setReviewDate(new Date());
+
+		dio.sendMenu(Menu.ADD_REVIEW);
 		dio.send(review);
 
-		System.out.print("==== 1.좋아요 | 2.싫어요  : ");
-		int select = sc.nextInt();
-		if (select == 1) {
-			dio.send(Menu.LIKE);
-		} else {
-			dio.send(Menu.DISLIKE);
+		if (dio.receive().equals("fail")) {
+			FailView fail = new FailView();
+			String msg = dio.receive();
+			fail.reviewInsertView(msg);
 		}
 
-		String msg = dio.receiveStatus();
-		if (msg.equals("success")) {
-			SuccessView success = new SuccessView();
-			success.reviewInsertView(msg);
+		System.out.println("====레시피 추천하시겠습니까?====");
+		System.out.print("==== 1.좋아요 | 2.싫어요  : ");
+		int select = Integer.parseInt(sc.nextLine());
+		switch (select) {
+		case 1:
+			dio.send(Menu.LIKE);
+			break;
+		case 2:
+			dio.send(Menu.DISLIKE);
+			break;
+		}
+		dio.send(review.getRecipeInfo().getPoint());
 
+		if (dio.receive().equals("success")) {
+			SuccessView success = new SuccessView();
+            String msg = "후기를 작성해주셔서 감사합니다.";
+            success.reviewInsertView(msg);
 		} else {
 			FailView fail = new FailView();
-			System.out.println(msg);
+			String msg = dio.receive();
+			fail.reviewInsertView(msg);
 		}
+		/*
+		 * PurchaseListVIew pview = new PurchaseListVIew(dio); pview.purchaseView();
+		 */
 	}
 
 } // end class AddReviewView

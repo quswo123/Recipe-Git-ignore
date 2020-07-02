@@ -49,6 +49,8 @@ public class RDDAO {
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			if(e.getErrorCode() == 1)
+				throw new AddException("해당 아이디로 계정을 생성할 수 없습니다");
 		} finally {
 			MyConnection.close(pstmt, con);
 		}
@@ -101,7 +103,7 @@ public class RDDAO {
 			e.printStackTrace();
 		}
 		
-		String selectByIdSQL = "SELECT rd_pwd, rd_manager_name, rd_team_name, rd_phone FROM rd WHERE rd_id = ?";
+		String selectByIdSQL = "SELECT rd_pwd, rd_manager_name, rd_team_name, rd_phone FROM rd WHERE rd_id = ? and rd_status = '1'";
 		try {
 			pstmt = con.prepareStatement(selectByIdSQL);
 			pstmt.setString(1, rdId);

@@ -131,7 +131,6 @@ public class RecipeMarketControl {
 	public List<Favorite> viewFavorite(String customerId) throws FindException {
 		List<Favorite> list = new ArrayList<>();
 		list = favoriteService.findById(customerId);
-		System.out.println("viewFavorite : " + list.size());
 		return list;
 	}
 
@@ -178,6 +177,15 @@ public class RecipeMarketControl {
 		List<Review> list = new ArrayList<>();
 		list = reviewService.findById(customerId);
 		return list;
+	}
+	/**
+	 * 
+	 * @param Review
+	 * @throws RemoveException
+	 * @author 고수정
+	 */
+	public void remove(Review review) throws RemoveException {
+		reviewService.remove(review);
 	}
 
 	/**
@@ -335,7 +343,11 @@ public class RecipeMarketControl {
 	public void removeRecipe(String rdId, RecipeInfo recipeInfo) throws ModifyException {
 		recipeService.removeRecipe(rdId, recipeInfo);
 	}
-	public List<RecipeInfo> viewAllRecpe(List<RecipeInfo> recipeInfoList) throws FindException{
-		return recipeService.findAll(recipeInfoList);
+	public List<RecipeInfo> viewAllRecipe() throws FindException{
+		return recipeService.findAll();
+	}
+	
+	public RD viewRdAccount(String rdId) throws FindException {
+		return rdAccountService.findById(rdId);
 	}
 }
