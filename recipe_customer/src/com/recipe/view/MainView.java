@@ -13,17 +13,17 @@ public class MainView {
 	private Scanner sc;
 	private Socket s;
 	private DataIO dio;
-	
+
 	public MainView() {
 		sc = new Scanner(System.in);
 		try {
-			s = new Socket("127.0.0.1", CUSTOMER_PORT);
+			s = new Socket("192.168.0.114", CUSTOMER_PORT);
 			dio = new DataIO(new DataOutputStream(s.getOutputStream()), new DataInputStream(s.getInputStream()));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void mainMenu() {
 		int menu = -1;
 		try {
@@ -59,8 +59,7 @@ public class MainView {
 			e.printStackTrace();
 		}
 	}
-	
-	
+
 	public static void main(String[] args) {
 		MainView mainView = new MainView();
 		mainView.mainMenu();
