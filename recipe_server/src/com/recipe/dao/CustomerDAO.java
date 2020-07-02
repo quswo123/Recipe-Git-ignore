@@ -166,6 +166,7 @@ public class CustomerDAO {
 				updateSQL += "SET ";
 			}
 			updateSQL += " buildingno = '" + c.getPostal().getBuildingno() + "' ";
+			isModified = true;
 		}
 		
 		if (!c.getCustomerAddr() .equals("")) {
