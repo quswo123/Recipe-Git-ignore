@@ -158,7 +158,17 @@ public class CustomerDAO {
 			updateSQL += " customer_email = '" + c.getCustomerEmail() + "' ";
 			isModified = true;
 		}
-
+		
+		if(!c.getPostal().getBuildingno().equals("")) {
+			if(isModified) {
+				updateSQL += ",";
+			} else {
+				updateSQL += "SET ";
+			}
+			updateSQL += " buildingno = '" + c.getPostal().getBuildingno() + "' ";
+			isModified = true;
+		}
+		
 		if (!c.getCustomerAddr() .equals("")) {
 			if (isModified) {
 				updateSQL += ",";
