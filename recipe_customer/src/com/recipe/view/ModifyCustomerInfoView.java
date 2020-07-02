@@ -108,7 +108,10 @@ public class ModifyCustomerInfoView {
 			}
 
 		}
-		System.out.print("5.핸드폰 번호를 입력해주세요  : ");
+		System.out.print("5.상세주소를 입력해주세요 : ");
+		String customerAddr = sc.nextLine();
+		c.setCustomerAddr(customerAddr);
+		System.out.print("6.핸드폰 번호를 입력해주세요  : ");
 		String customerPhone = sc.nextLine();
 		if (!"".equals(customerPhone)) {
 			c.setCustomerPhone(customerPhone);
