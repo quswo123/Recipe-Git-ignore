@@ -17,11 +17,7 @@ public class MainView {
 	public MainView() {
 		sc = new Scanner(System.in);
 		try {
-<<<<<<< HEAD
-			s = new Socket("192.168.0.141", CUSTOMER_PORT);
-=======
-			s = new Socket("192.168.0.114", CUSTOMER_PORT);
->>>>>>> 692c7b23df82d643743059f88a9d524963d033c7
+			s = new Socket("127.0.0.1", CUSTOMER_PORT);
 			dio = new DataIO(new DataOutputStream(s.getOutputStream()), new DataInputStream(s.getInputStream()));
 		} catch (IOException e) {
 			e.printStackTrace();
